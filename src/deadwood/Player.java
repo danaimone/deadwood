@@ -11,6 +11,7 @@ public class Player {
     private Room getCurrentRoom() {
         //find where player currently is
         //do we want to store this as its own variable?
+        //or is it easier for Room class to store players in room?
         return null;
     }
 

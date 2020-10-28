@@ -7,6 +7,16 @@ public class Gamemaster {
     private int maxGameDays; //how many days the game lasts
     public static int currentDay; //what day the game is on
 
+    /*
+    main method that starts the game
+    */
+    public static void main(String[] args){
+        /*
+        ask about board layout, number of players
+        select who goes first then run Player.playersTurn()
+        */
+    }
+
     private int calculateScore(Player player) {
         return 0;
     }
