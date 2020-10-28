@@ -2,7 +2,8 @@ package deadwood;
 
 public class Board {
     private int totalPlayers;
-    private int currentDay;
+    private int sceneCardsLeft;
+    //current day moved to gamemaster
 
     public Board() {
     }
@@ -25,6 +26,31 @@ public class Board {
     }
 
     private void advanceDay() {
-        currentDay++;
+        Gamemaster.currentDay++;
+    }
+
+
+    private void wrapScene(Room sceneName){
+        sceneCardsLeft--;
+        /*
+        if day is over, run endDay. if last day,
+        run gamemaster.endGame()
+        */
+        return;
+    }
+    
+    //resets board and prepares game for next day
+    private void endDay(){
+
+    }
+
+    //checks if day is over
+    private boolean isDayOver(){
+        return false;   
+    }
+
+    //checks if game is over
+    private boolean isGameOver(){
+        return false;
     }
 }

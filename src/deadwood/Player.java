@@ -9,26 +9,59 @@ public class Player {
     private boolean onRole;
 
     private Room getCurrentRoom() {
+        //find where player currently is
+        //do we want to store this as its own variable?
         return null;
     }
 
+    private void playersTurn(){
+        /*
+        moveTo()
+        upgradeRank()
+        rehearse()
+        chooseRole()
+        act()
+        
+        make it so player can continue turn if applicable
+        ex. player moves, they can upgrade OR take role then work
+        */
+    }
+
     private void moveTo(Room destRoom) {
+        /*
+        this will need to check for valid rooms user can move into
+        will also probably trigger stuff for undiscovered scenes
+        */
         return;
     }
 
     private void upgradeRank() {
+        /*
+        needs to store ranks and their prices
+        ask player how they want to pay, what rank they want
+        change rank
+        */
         return;
     }
 
     private void rehearse() {
+        //give player rehearse counter
+        //force to act if rehearse counters are max
         return;
     }
 
     private void act() {
+        /*
+        this will need to check if scene is wrapped after acting
+        since Board class seems to contain board/scene info,
+        wrapScene method is in there
+        */
         return;
     }
 
     private void chooseRole() {
+        //will need to make sure player can take role
+        //will also let player work on role if they take it
         return;
     }
 
