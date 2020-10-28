@@ -3,6 +3,7 @@ package deadwood;
 public class Room {
     private String roomType;
     private Player[] playersIn;
+    private Scene currentScene; //what scene card does the room have?
 
     private String getRoomType() {
         return roomType;
@@ -26,5 +27,9 @@ public class Room {
 
     private boolean checkInRoom(Player player) {
         return false;
+    }
+
+    private void getScene(){
+        //get data from the scene card in the room
     }
 }
