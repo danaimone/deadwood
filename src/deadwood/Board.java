@@ -1,8 +1,8 @@
 package deadwood;
 
 public class Board {
-    private int totalPlayers;
-    private int sceneCardsLeft;
+    protected int totalPlayers;
+    protected int sceneCardsLeft;
     //current day moved to gamemaster
 
     public Board() {
@@ -40,6 +40,7 @@ public class Board {
     }
     
     //resets board and prepares game for next day
+    // could be part of Gamemaster class
     private void endDay(){
 
     }

@@ -1,27 +1,31 @@
 package deadwood;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 public class Room {
-    private String roomType;
-    private Player[] playersIn;
-    private Scene currentScene; //what scene card does the room have?
+    protected String name;
+    protected Collection<Player> playersInRoom = new ArrayList<Player>();
+    protected Collection<Room> adjacentRooms = new ArrayList<Room>();
+    protected Scene currentScene; //what scene card does the room have?
 
-    private String getRoomType() {
-        return roomType;
+    public Room(String name) {
+        this.name = name;
     }
 
-    private Player[] getPlayersInRoom() {
-        return playersIn;
+    private Collection<Player> getPlayersInRoom() {
+        return playersInRoom;
     }
 
-    private Room getAdjacentRoom() {
-        return null;
+    private Collection<Room> getAdjacentRoom() {
+        return adjacentRooms;
     }
 
-    private void addPlayerToRoom(Player playerToAdd) {
+    private void addPlayer(Player playerToAdd) {
         return;
     }
 
-    private void removePlayerFromRoom(Player playerToAdd) {
+    private void removePlayer(Player playerToAdd) {
         return;
     }
 

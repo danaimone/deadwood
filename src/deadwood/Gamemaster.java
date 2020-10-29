@@ -1,11 +1,11 @@
 package deadwood;
 
 public class Gamemaster {
-    private Board board;
-    private Player currentPlayer;
-    private boolean boardRandom; //false is default layout, true is randomized layout
-    private int maxGameDays; //how many days the game lasts
-    public static int currentDay; //what day the game is on
+    protected Board board;
+    protected Player currentPlayer;
+    protected boolean boardRandom; //false is default layout, true is randomized layout
+    protected int maxGameDays; //how many days the game lasts
+    protected static int currentDay; //what day the game is on
 
     /*
     main method that starts the game

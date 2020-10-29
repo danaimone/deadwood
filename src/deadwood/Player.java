@@ -1,12 +1,12 @@
 package deadwood;
 
 public class Player {
-    private String name;
-    private int dollars;
-    private int credits;
-    private int rank;
-    private int rehearsalTokens;
-    private boolean onRole;
+    protected String name;
+    protected int dollars;
+    protected int credits;
+    protected int rehearsalTokens;
+    protected int rank;
+    protected boolean onRole;
 
     private Room getCurrentRoom() {
         //find where player currently is

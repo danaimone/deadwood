@@ -1,10 +1,10 @@
 package deadwood;
 
 public class Role {
-    public boolean onCard;
-    public int level;
-    public boolean taken;
-    public boolean visible;
+    protected boolean onCard;
+    protected int level;
+    protected boolean taken;
+    protected boolean visible;
 
     private int getLevel() {
         return 0;
