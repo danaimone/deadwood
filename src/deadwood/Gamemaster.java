@@ -1,5 +1,7 @@
 package deadwood;
 
+import org.w3c.dom.Document;
+
 public class Gamemaster {
     protected Board board;
     protected Player currentPlayer;
@@ -12,9 +14,20 @@ public class Gamemaster {
     */
     public static void main(String[] args){
         /*
-        ask about board layout, number of players
+        setup board
+        ask about number of players
         select who goes first then run Player.playersTurn()
         */
+        Document doc = null;
+        boardxmlParser test = new boardxmlParser();
+        try{
+            doc = test.getDocFromFile("src/xml/board.xml");
+            test.readBoardData(doc);
+        }
+        catch (Exception e){
+            System.out.println("Error = "+e);
+        }
+        
     }
 
     private int calculateScore(Player player) {

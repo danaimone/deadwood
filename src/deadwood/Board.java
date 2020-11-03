@@ -21,7 +21,7 @@ public class Board {
     }
 
     // TODO: not sure what intention with this function was
-    private Room[] getRoom(){
+    private Set[] getRoom(){
         return null;
     }
 
@@ -30,7 +30,7 @@ public class Board {
     }
 
 
-    private void wrapScene(Room sceneName){
+    private void wrapScene(Set sceneName){
         sceneCardsLeft--;
         /*
         if day is over, run endDay. if last day,

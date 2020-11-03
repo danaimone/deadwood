@@ -3,22 +3,35 @@ package deadwood;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class Room {
-    protected String name;
+public class Set {
+    protected String setName;
+    protected Collection<Set> adjacentSets = new ArrayList<Set>();
+    protected int takes;
+
+    protected class parts{
+        protected String partName;
+        protected int partLevel;
+        protected String partLine;
+    }
+
+    public Set(String setName, int takes){
+        this.setName = setName;
+        this.takes = takes;
+    }
+
     protected Collection<Player> playersInRoom = new ArrayList<Player>();
-    protected Collection<Room> adjacentRooms = new ArrayList<Room>();
     protected Scene currentScene; //what scene card does the room have?
 
-    public Room(String name) {
-        this.name = name;
+    public Set(String name) {
+        this.setName = name;
     }
 
     private Collection<Player> getPlayersInRoom() {
         return playersInRoom;
     }
 
-    private Collection<Room> getAdjacentRoom() {
-        return adjacentRooms;
+    private Collection<Set> getAdjacentRoom() {
+        return adjacentSets;
     }
 
     private void addPlayer(Player playerToAdd) {
