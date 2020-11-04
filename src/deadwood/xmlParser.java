@@ -4,7 +4,7 @@ import org.w3c.dom.*;
 import javax.xml.parsers.*;
 import java.io.*;
 
-public class boardxmlParser{
+public class xmlParser{
     public Document getDocFromFile(String filename)
     throws ParserConfigurationException{
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -19,6 +19,57 @@ public class boardxmlParser{
             ex.printStackTrace();
         }
         return doc;
+    }
+
+    public void readCardData(Document doc){
+        Element root = doc.getDocumentElement();
+        NodeList cards = root.getElementsByTagName("card");
+
+        //for each 'card'
+        for(int i = 0; i < cards.getLength(); i++){
+            Node card = cards.item(i);
+
+            //get the name of the card, budget, and image
+            //instead of printing create card object?
+            String cardName = card.getAttributes().getNamedItem("name").getNodeValue();
+            String cardImg = card.getAttributes().getNamedItem("img").getNodeValue();
+            String cardBudget = card.getAttributes().getNamedItem("budget").getNodeValue();
+            System.out.printf("Card: %s, Budget: %s, Img: %s%n", cardName, cardBudget, cardImg);
+
+            NodeList cardChildren = card.getChildNodes();
+            for(int j = 0; j < cardChildren.getLength(); j++){
+                Node sub = cardChildren.item(j);
+
+                //get scene data
+                if("scene".equals(sub.getNodeName())){
+                    String sceneNumber = sub.getAttributes().getNamedItem("number").getNodeValue();
+                    String sceneDescription = sub.getTextContent();
+                    System.out.printf("    Scene #%s, Desc: %s%n", sceneNumber, sceneDescription);
+                }
+                else if("part".equals(sub.getNodeName())){
+                    String partName = sub.getAttributes().getNamedItem("name").getNodeValue();
+                    String partLevel = sub.getAttributes().getNamedItem("level").getNodeValue();
+                    System.out.printf("    Part: %s, Difficulty: %s%n", partName, partLevel);
+                    
+                    NodeList partData = sub.getChildNodes();
+                    for(int x = 0; x < partData.getLength(); x++){
+                        Node partDataNode = partData.item(x);
+                        if("area".equals(partDataNode.getNodeName())){
+                            String pX = partDataNode.getAttributes().getNamedItem("x").getNodeValue();
+                                String pY = partDataNode.getAttributes().getNamedItem("y").getNodeValue();
+                                String pH = partDataNode.getAttributes().getNamedItem("w").getNodeValue();
+                                String pW = partDataNode.getAttributes().getNamedItem("h").getNodeValue();
+                                System.out.printf("        Part area; x: %s, y: %s, h: %s, w: %s%n", pX, pY, pH, pW);
+                        }
+                        if("line".equals(partDataNode.getNodeName())){
+                            String line = partDataNode.getTextContent();
+                            System.out.println("        Line: " + line);
+                        }
+                    }
+
+                }
+            }
+        }
     }
 
     //reads the board.xml file

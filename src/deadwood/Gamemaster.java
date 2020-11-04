@@ -18,15 +18,32 @@ public class Gamemaster {
         ask about number of players
         select who goes first then run Player.playersTurn()
         */
-        Document doc = null;
-        boardxmlParser test = new boardxmlParser();
+        
+        xmlParser test = new xmlParser();
+
+        /*
+        //read board data
+        Document boardDoc = null;
         try{
-            doc = test.getDocFromFile("src/xml/board.xml");
-            test.readBoardData(doc);
+            boardDoc = test.getDocFromFile("src/xml/board.xml");
+            test.readBoardData(boardDoc);
         }
         catch (Exception e){
             System.out.println("Error = "+e);
         }
+        */
+
+        /*
+        //read card data
+        Document cardDoc = null;
+        try{
+            cardDoc = test.getDocFromFile("src/xml/cards.xml");
+            test.readCardData(cardDoc);
+        }
+        catch (Exception e){
+            System.out.println("Error"+e);
+        }
+        */
         
     }
 
