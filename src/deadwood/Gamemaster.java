@@ -8,7 +8,7 @@ public class Gamemaster {
     protected static int currentDay; //what day the game is on
 
     /*
-    main method that starts the game
+        main method that starts the game
     */
     public static void main(String[] args){
         /*
@@ -46,25 +46,32 @@ public class Gamemaster {
     }
 
     private int calculateScore(Player player) {
+        // TODO: implement calculateScore
         return 0;
     }
 
     private void endGame() {
+        // TODO: implement endGame
     }
 
     private Player calculateWinner() {
+        // TODO: implement calculateWinner
         return null;
     }
 
     private void displayWinner(Player winner) {
+        // TODO: implement displayWinner
     }
 
     private void setBoardLayout(){
+        // TODO: implement setBoardLayout()
         //ask user if board should be default or randomized
         //create board layout, default or random
     }
 
+
     private void createPlayers(){
+        // TODO: implement createPlayers()
         //ask user for how many players
         //adjust game length accordingly
         //give player bonus stats accordingly
