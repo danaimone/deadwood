@@ -4,7 +4,7 @@ import org.w3c.dom.*;
 import javax.xml.parsers.*;
 import java.io.*;
 
-public class xmlParser{
+public class XMLParser {
     public Document getDocFromFile(String filename)
     throws ParserConfigurationException{
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();

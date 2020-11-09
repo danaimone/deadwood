@@ -33,7 +33,6 @@ public class Player {
         this will need to check for valid rooms user can move into
         will also probably trigger stuff for undiscovered scenes
         */
-        return;
     }
 
     private void upgradeRank() {
@@ -42,13 +41,11 @@ public class Player {
         ask player how they want to pay, what rank they want
         change rank
         */
-        return;
     }
 
     private void rehearse() {
         //give player rehearse counter
         //force to act if rehearse counters are max
-        return;
     }
 
     private void act() {
@@ -57,13 +54,11 @@ public class Player {
         since Board class seems to contain board/scene info,
         wrapScene method is in there
         */
-        return;
     }
 
     private void chooseRole() {
         //will need to make sure player can take role
         //will also let player work on role if they take it
-        return;
     }
 
     public boolean isOnRole() {
@@ -71,11 +66,10 @@ public class Player {
     }
 
     private void setDollars(int amount) {
-        return;
+        this.dollars = amount;
     }
 
     private void setCredits(int amount) {
-        return;
     }
 
     public int getDollars() {

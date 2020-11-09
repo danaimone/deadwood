@@ -1,7 +1,5 @@
 package deadwood;
 
-import org.w3c.dom.Document;
-
 public class Gamemaster {
     protected Board board;
     protected Player currentPlayer;
@@ -19,7 +17,7 @@ public class Gamemaster {
         select who goes first then run Player.playersTurn()
         */
         
-        xmlParser test = new xmlParser();
+        XMLParser test = new XMLParser();
 
         /*
         //read board data
@@ -52,7 +50,6 @@ public class Gamemaster {
     }
 
     private void endGame() {
-        return;
     }
 
     private Player calculateWinner() {
@@ -60,7 +57,6 @@ public class Gamemaster {
     }
 
     private void displayWinner(Player winner) {
-        return;
     }
 
     private void setBoardLayout(){
