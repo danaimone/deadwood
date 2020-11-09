@@ -5,10 +5,16 @@ import java.util.Collection;
 
 public class Room extends Board{
     public static String name;
+    protected String type;
     protected Collection<Player> playersInRoom = new ArrayList<>();
+
 
     public Room(String name) {
         Room.name = name;
+    }
+
+    public String getType() {
+        return type;
     }
 
     /**
@@ -23,5 +29,9 @@ public class Room extends Board{
             throw new RuntimeException("Player is already in " + Room.name + ".");
         }
         playersInRoom.add(player);
+    }
+
+    private Player[] getPlayersInRoom(){
+        return null;
     }
 }

@@ -5,10 +5,14 @@ import java.util.Collection;
 
 public class Set {
     protected String setName;
-    protected Collection<Set> adjacentSets = new ArrayList<Set>();
+    protected Collection<Set> adjacentSets = new ArrayList<>();
     protected int takes;
 
-    protected class parts{
+    public Set() {
+
+    }
+
+    protected class parts {
         protected String partName;
         protected int partLevel;
         protected String partLine;
@@ -19,7 +23,7 @@ public class Set {
         this.takes = takes;
     }
 
-    protected Collection<Player> playersInRoom = new ArrayList<Player>();
+    protected Collection<Player> playersInRoom = new ArrayList<>();
     protected Scene currentScene; //what scene card does the room have?
 
     public Set(String name) {
@@ -35,11 +39,9 @@ public class Set {
     }
 
     private void addPlayer(Player playerToAdd) {
-        return;
     }
 
     private void removePlayer(Player playerToAdd) {
-        return;
     }
 
     private boolean checkInRoom(Player player) {

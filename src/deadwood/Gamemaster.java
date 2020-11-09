@@ -5,7 +5,6 @@ public class Gamemaster {
     protected Player currentPlayer;
     protected boolean boardRandom; //false is default layout, true is randomized layout
     protected int maxGameDays; //how many days the game lasts
-    protected static int currentDay; //what day the game is on
 
     /*
         main method that starts the game

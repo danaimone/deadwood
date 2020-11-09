@@ -1,6 +1,6 @@
 package deadwood;
 
-public class Scene {
+public class Scene extends Set{
     protected String name;
     protected int budget;
     protected int shotsRemaining;

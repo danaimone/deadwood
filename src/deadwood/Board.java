@@ -3,6 +3,7 @@ package deadwood;
 public class Board extends Gamemaster{
     protected int totalPlayers;
     protected int sceneCardsLeft;
+    protected static int currentDay; //what day the game is on
 
     /**
      * Default Constructor
@@ -24,32 +25,34 @@ public class Board extends Gamemaster{
 //        return null;
 //    }
 
-    private String getRoomType() {
-        return null;
-    }
+    // TODO: scrap?
+//    private Set[] getRoom(){
+//        return null;
+//    }
 
-    private Player[] getPlayersInRoom(){
-        return null;
-    }
-
-    // TODO: not sure what intention with this function was
-    private Set[] getRoom(){
-        return null;
-    }
-
+    /**
+     * advanceDay
+     *
+     * Advances the current day.
+     */
     private void advanceDay() {
-        Gamemaster.currentDay++;
+        currentDay++;
     }
 
-
-    private void wrapScene(Set sceneName){
+    /**
+     * wrapScene
+     *
+     * TODO: descriptive description for wrapScene
+     * @param scene scene object to wrap
+     */
+    private void wrapScene(Scene scene){
         sceneCardsLeft--;
         /*
         if day is over, run endDay. if last day,
         run gamemaster.endGame()
         */
     }
-    
+
     //resets board and prepares game for next day
     // could be part of Gamemaster class
     private void endDay(){
