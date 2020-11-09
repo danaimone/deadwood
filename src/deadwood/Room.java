@@ -3,7 +3,7 @@ package deadwood;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class Room {
+public class Room extends Board{
     public static String name;
     protected Collection<Player> playersInRoom = new ArrayList<>();
 

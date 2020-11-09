@@ -5,13 +5,18 @@ public class Board extends Gamemaster{
     protected int sceneCardsLeft;
 
     /**
+     * Default Constructor
+     */
+    public Board() {
+    }
+
+    /**
      * Constructor for Board class
      * @param totalPlayers total players playing the game
      */
     public Board(int totalPlayers) {
         this.totalPlayers = totalPlayers;
     }
-
 
     // TODO: find out if this is necessary. Currently, Gamemaster has currentPlayer information, which Board
     // should be able to call. Is Board an extension of Gamemaster?
