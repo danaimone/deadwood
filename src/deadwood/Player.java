@@ -25,7 +25,7 @@ public class Player {
         return null;
     }
 
-    public void playersTurn(Scanner playerInput){
+    public String playersTurn(Scanner playerInput){
         /*
         moveTo()
         upgradeRank()
@@ -37,28 +37,107 @@ public class Player {
         ex. player moves, they can upgrade OR take role then work
         */
         boolean continueTurn = true;
+        boolean moved = false;
+        boolean upgraded = false;
         while(continueTurn){
+            //if player is currently working
             if(onRole){
-                playerInput.nextLine(); //clear scanner
                 while(true){
-                    System.out.println("Would you like to [act] or [rehearse]?");
+                    System.out.println("Would you like to [act] or [rehearse]? Or player [info]");
                     String input = playerInput.nextLine();
                     if(input.equals("act")){
                         System.out.println("ACT ROLE");
+                        continueTurn = false;
                         break;
                     } else if(input.equals("rehearse")){
                         System.out.println("REHEARSE ROLE");
+                        continueTurn = false;
                         break;
+                    } else if(input.equals("info")){
+                        System.out.println(printPlayerData());
+                    } else{
+                        System.out.println("Invalid input, try again");
+                    }
+                }
+                //if player isn't working and hasn't done anything
+            } else if(!moved && !upgraded){
+                while(true){
+                    System.out.println("Would you like to [move], [upgrade], [work]? Or player [info]");
+                    String input = playerInput.nextLine();
+                    if(input.equals("move")){
+                        System.out.println("MOVE PLAYER");
+                        moved = true;
+                        break;
+                    } else if(input.equals("upgrade")){
+                        System.out.println("UPGRADE RANK");
+                        upgraded = true;
+                        break;
+                    } else if(input.equals("work")){
+                        System.out.println("START WORK ON ROLE");
+                        onRole = true;
+                        break;
+                    } else if(input.equals("info")){
+                        System.out.println(printPlayerData());
+                    } else{
+                        System.out.println("Invalid input, try again");
+                    }
+                }
+                //if player isn't working but moved already
+            } else if(moved && !upgraded){
+                while(true){
+                    System.out.println("Would you like to [upgrade], [work]? Or player [info]");
+                    String input = playerInput.nextLine();
+                    if(input.equals("upgrade")){
+                        System.out.println("UPGRADE RANK");
+                        continueTurn = false;
+                        break;
+                    } else if(input.equals("work")){
+                        System.out.println("START WORK ON ROLE");
+                        onRole = true;
+                        break;
+                    } else if(input.equals("info")){
+                        System.out.println(printPlayerData());
+                    } else{
+                        System.out.println("Invalid input, try again");
+                    }
+                }
+                //if player isn't working but upgraded already
+            } else if(!moved && upgraded){
+                while(true){
+                    System.out.println("Would you like to [move], [work]? Or player [info]");
+                    String input = playerInput.nextLine();
+                    if(input.equals("move")){
+                      System.out.println("MOVE PLAYER");
+                        moved = true;
+                        break;
+                    } else if(input.equals("work")){
+                        System.out.println("START WORK ON ROLE");
+                        onRole = true;
+                        break;
+                    } else if(input.equals("info")){
+                        System.out.println(printPlayerData());
+                    } else{
+                        System.out.println("Invalid input, try again");
+                    }
+                }
+                //if player upgraded, then moved
+            } else if(moved && upgraded){
+                while(true){
+                    System.out.println("Would you like to [work]? Or player [info]");
+                    String input = playerInput.nextLine();
+                    if(input.equals("work")){
+                        System.out.println("START WORK ON ROLE");
+                        onRole = true;
+                        break;
+                    } else if(input.equals("info")){
+                        System.out.println(printPlayerData());
                     } else{
                         System.out.println("Invalid input, try again");
                     }
                 }
             }
-            else{
-                playerInput.nextLine(); //clear scanner
-                System.out.println("Would you like to [move], [upgrade], [work]");
-            }
         }
+        return "next";
     }
 
     private void moveTo(Set destRoom) {
@@ -126,7 +205,9 @@ public class Player {
         return "Player "+playerNumber+
                 " - Credits: "+credits+
                 ", Dollars: "+dollars+
-                ", Rank: "+rank;
+                ", Rank: "+rank+
+                ", Rehearsal Tokens: "+rehearsalTokens+
+                ", Location: NOT IMPLEMENTED";
                 //print player location too
     }
 }

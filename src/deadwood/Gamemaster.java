@@ -62,11 +62,23 @@ public class Gamemaster {
 
         
         game.createPlayers();
-        
-        Player current = new Player(0, 0, 0, 0);
-        
-        current.playersTurn(input);
-        
+        input.nextLine(); //clear scanner
+        //while board has more than one scene card
+        while(true){
+            Player current = game.currentPlayer;
+            String turnResult = current.playersTurn(input);
+            if(turnResult.equals("next")){
+                int playerId = current.playerNumber;
+                if(playerId == game.numberOfPlayers){
+                    game.currentPlayer = game.players.get(0);
+                    System.out.println("It is Player "+game.currentPlayer.playerNumber+"'s turn");
+                }
+                else{
+                    game.currentPlayer = game.players.get(playerId);
+                    System.out.println("It is Player "+game.currentPlayer.playerNumber+"'s turn");
+                }
+            }
+        }
         
     }
 
