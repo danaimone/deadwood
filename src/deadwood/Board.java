@@ -1,7 +1,6 @@
 package deadwood;
 
 public class Board extends Gamemaster{
-    protected int totalPlayers;
     protected int sceneCardsLeft;
     protected static int currentDay; //what day the game is on
 
@@ -11,13 +10,6 @@ public class Board extends Gamemaster{
     public Board() {
     }
 
-    /**
-     * Constructor for Board class
-     * @param totalPlayers total players playing the game
-     */
-    public Board(int totalPlayers) {
-        this.totalPlayers = totalPlayers;
-    }
 
     // TODO: find out if this is necessary. Currently, Gamemaster has currentPlayer information, which Board
     // should be able to call. Is Board an extension of Gamemaster?

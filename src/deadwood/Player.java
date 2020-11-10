@@ -1,12 +1,22 @@
 package deadwood;
 
+import java.util.*;
+
 public class Player {
-    protected String name;
+    protected int playerNumber;
     protected int dollars;
     protected int credits;
     protected int rehearsalTokens;
     protected int rank;
-    protected boolean onRole;
+    protected boolean onRole = false; //false by default
+
+    //player constructor
+    public Player(int playerNum, int dol, int cred, int ran){
+        playerNumber = playerNum;
+        dollars = dol;
+        credits = cred;
+        rank = ran;
+    }
 
     private Set getCurrentRoom() {
         //find where player currently is
@@ -15,7 +25,7 @@ public class Player {
         return null;
     }
 
-    private void playersTurn(){
+    public void playersTurn(Scanner playerInput){
         /*
         moveTo()
         upgradeRank()
@@ -26,6 +36,29 @@ public class Player {
         make it so player can continue turn if applicable
         ex. player moves, they can upgrade OR take role then work
         */
+        boolean continueTurn = true;
+        while(continueTurn){
+            if(onRole){
+                playerInput.nextLine(); //clear scanner
+                while(true){
+                    System.out.println("Would you like to [act] or [rehearse]?");
+                    String input = playerInput.nextLine();
+                    if(input.equals("act")){
+                        System.out.println("ACT ROLE");
+                        break;
+                    } else if(input.equals("rehearse")){
+                        System.out.println("REHEARSE ROLE");
+                        break;
+                    } else{
+                        System.out.println("Invalid input, try again");
+                    }
+                }
+            }
+            else{
+                playerInput.nextLine(); //clear scanner
+                System.out.println("Would you like to [move], [upgrade], [work]");
+            }
+        }
     }
 
     private void moveTo(Set destRoom) {
@@ -70,6 +103,11 @@ public class Player {
     }
 
     private void setCredits(int amount) {
+        this.credits = amount;
+    }
+
+    private void setRank(int amount){
+        this.rank = amount;
     }
 
     public int getDollars() {
@@ -78,5 +116,17 @@ public class Player {
 
     public int getCredits() {
         return credits;
+    }
+
+    public int getRank(){
+        return rank;
+    }
+
+    public String printPlayerData(){
+        return "Player "+playerNumber+
+                " - Credits: "+credits+
+                ", Dollars: "+dollars+
+                ", Rank: "+rank;
+                //print player location too
     }
 }

@@ -1,19 +1,25 @@
 package deadwood;
 
+import java.util.*;
+
 public class Gamemaster {
     protected Board board;
     protected Player currentPlayer;
     protected boolean boardRandom; //false is default layout, true is randomized layout
     protected int maxGameDays; //how many days the game lasts
+    protected int numberOfPlayers;
+    protected ArrayList<Player> players = new ArrayList<Player>(); //stores all the players and their data
 
     /*
         main method that starts the game
     */
     public static void main(String[] args){
+        Gamemaster game = new Gamemaster(); //create the game!
+        Scanner input = new Scanner(System.in); //global scanner for user inputed
+
         /*
         setup board
-        ask about number of players
-        select who goes first then run Player.playersTurn()
+        make a while loop to cycle through players turns until 1 scene card is left
         */
         
         XMLParser test = new XMLParser();
@@ -41,6 +47,26 @@ public class Gamemaster {
             System.out.println("Error"+e);
         }
         */
+
+        
+        //ask for amount of players (maybe more error tests?)
+        game.numberOfPlayers = 0;
+        while(game.numberOfPlayers < 2 || game.numberOfPlayers > 8){
+            System.out.println("How many players? (2-8)");
+            game.numberOfPlayers = input.nextInt();
+            if(game.numberOfPlayers < 2 || game.numberOfPlayers > 8){
+                System.out.println("Please enter a valid number of players");
+            }
+        }
+        
+
+        
+        game.createPlayers();
+        
+        Player current = new Player(0, 0, 0, 0);
+        
+        current.playersTurn(input);
+        
         
     }
 
@@ -68,13 +94,36 @@ public class Gamemaster {
         //create board layout, default or random
     }
 
-
     private void createPlayers(){
-        // TODO: implement createPlayers()
-        //ask user for how many players
-        //adjust game length accordingly
-        //give player bonus stats accordingly
-        //create x unique players
-        //select who goes first?
+        
+        //create players with stats accordingly
+        int startingCredits = 0;
+        int startingRank = 0;
+        if(numberOfPlayers <= 3){
+            maxGameDays = 3;
+        } else if(numberOfPlayers == 4){
+            maxGameDays = 4;
+        } else if(numberOfPlayers == 5){
+            maxGameDays = 4;
+            startingCredits = 2;
+        } else if(numberOfPlayers == 6){
+            maxGameDays = 4;
+            startingCredits = 4;
+        } else{
+            maxGameDays = 4;
+            startingRank = 2;
+        }
+        for(int i = 1; i <= numberOfPlayers; i++){
+            Player newPlayer = new Player(i, 0, startingCredits, startingRank);
+            players.add(newPlayer);
+        }
+        for(int i = 0; i < numberOfPlayers; i++){
+            Player current = players.get(i);
+            String print = current.printPlayerData();
+            System.out.println(print);
+        }
+
+        //player 1 goes first cause that's easiest
+        currentPlayer = players.get(0);
     }
 }
