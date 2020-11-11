@@ -25,7 +25,7 @@ public class Player {
         return null;
     }
 
-    public String playersTurn(Scanner playerInput){
+    public String playersTurn(Scanner playerInput, DeadwoodPrinter printer){
         /*
         moveTo()
         upgradeRank()
@@ -43,7 +43,7 @@ public class Player {
             //if player is currently working
             if(onRole){
                 while(true){
-                    System.out.println("Would you like to [act] or [rehearse]? Or player [info]");
+                    printer.working();
                     String input = playerInput.nextLine();
                     if(input.equals("act")){
                         System.out.println("ACT ROLE");
@@ -62,7 +62,7 @@ public class Player {
                 //if player isn't working and hasn't done anything
             } else if(!moved && !upgraded){
                 while(true){
-                    System.out.println("Would you like to [move], [upgrade], [work]? Or player [info]");
+                    printer.notMoveNotUpgrade();
                     String input = playerInput.nextLine();
                     if(input.equals("move")){
                         System.out.println("MOVE PLAYER");
@@ -85,7 +85,7 @@ public class Player {
                 //if player isn't working but moved already
             } else if(moved && !upgraded){
                 while(true){
-                    System.out.println("Would you like to [upgrade], [work]? Or player [info]");
+                    printer.moveNotUpgrade();
                     String input = playerInput.nextLine();
                     if(input.equals("upgrade")){
                         System.out.println("UPGRADE RANK");
@@ -104,7 +104,7 @@ public class Player {
                 //if player isn't working but upgraded already
             } else if(!moved && upgraded){
                 while(true){
-                    System.out.println("Would you like to [move], [work]? Or player [info]");
+                    printer.notMoveUpgrade();
                     String input = playerInput.nextLine();
                     if(input.equals("move")){
                       System.out.println("MOVE PLAYER");
@@ -123,7 +123,7 @@ public class Player {
                 //if player upgraded, then moved
             } else if(moved && upgraded){
                 while(true){
-                    System.out.println("Would you like to [work]? Or player [info]");
+                    printer.moveUpgrade();
                     String input = playerInput.nextLine();
                     if(input.equals("work")){
                         System.out.println("START WORK ON ROLE");

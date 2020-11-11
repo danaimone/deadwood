@@ -15,6 +15,7 @@ public class Gamemaster {
     */
     public static void main(String[] args){
         Gamemaster game = new Gamemaster(); //create the game!
+        DeadwoodPrinter printer = new DeadwoodPrinter(); //create the printer
         Scanner input = new Scanner(System.in); //global scanner for user inputed
 
         /*
@@ -52,30 +53,29 @@ public class Gamemaster {
         //ask for amount of players (maybe more error tests?)
         game.numberOfPlayers = 0;
         while(game.numberOfPlayers < 2 || game.numberOfPlayers > 8){
-            System.out.println("How many players? (2-8)");
+            printer.askPlayers();
             game.numberOfPlayers = input.nextInt();
             if(game.numberOfPlayers < 2 || game.numberOfPlayers > 8){
-                System.out.println("Please enter a valid number of players");
+                printer.invalidPlayers();
             }
         }
-        
-
         
         game.createPlayers();
         input.nextLine(); //clear scanner
         //while board has more than one scene card
         while(true){
             Player current = game.currentPlayer;
-            String turnResult = current.playersTurn(input);
+            printer.whoseTurn(game.currentPlayer);
+            String turnResult = current.playersTurn(input, printer);
             if(turnResult.equals("next")){
                 int playerId = current.playerNumber;
                 if(playerId == game.numberOfPlayers){
                     game.currentPlayer = game.players.get(0);
-                    System.out.println("It is Player "+game.currentPlayer.playerNumber+"'s turn");
+                    //printer.whoseTurn(game.currentPlayer);
                 }
                 else{
                     game.currentPlayer = game.players.get(playerId);
-                    System.out.println("It is Player "+game.currentPlayer.playerNumber+"'s turn");
+                    //printer.whoseTurn(game.currentPlayer);
                 }
             }
         }
