@@ -66,11 +66,11 @@ public class Player {
                     String input = playerInput.nextLine();
                     if(input.equals("move")){
                         System.out.println("MOVE PLAYER");
-                        moved = true;
+                        moved = true; //MOVE THIS INTO MOVE METHOD INCASE PLAYER CHANGES MIND
                         break;
                     } else if(input.equals("upgrade")){
                         System.out.println("UPGRADE RANK");
-                        upgraded = true;
+                        upgraded = upgradeRank(playerInput, printer);
                         break;
                     } else if(input.equals("work")){
                         System.out.println("START WORK ON ROLE");
@@ -89,7 +89,8 @@ public class Player {
                     String input = playerInput.nextLine();
                     if(input.equals("upgrade")){
                         System.out.println("UPGRADE RANK");
-                        continueTurn = false;
+                        upgraded = upgradeRank(playerInput, printer);
+                        continueTurn = !upgraded;
                         break;
                     } else if(input.equals("work")){
                         System.out.println("START WORK ON ROLE");
@@ -97,6 +98,7 @@ public class Player {
                         break;
                     } else if(input.equals("info")){
                         System.out.println(printPlayerData());
+                        break;
                     } else{
                         System.out.println("Invalid input, try again");
                     }
@@ -108,7 +110,7 @@ public class Player {
                     String input = playerInput.nextLine();
                     if(input.equals("move")){
                       System.out.println("MOVE PLAYER");
-                        moved = true;
+                        moved = true; //MOVE THIS INTO MOVE METHOD INCASE PLAYER CHANGES MIND
                         break;
                     } else if(input.equals("work")){
                         System.out.println("START WORK ON ROLE");
@@ -147,12 +149,71 @@ public class Player {
         */
     }
 
-    private void upgradeRank() {
-        /*
-        needs to store ranks and their prices
-        ask player how they want to pay, what rank they want
-        change rank
-        */
+    private boolean upgradeRank(Scanner playerInput, DeadwoodPrinter printer) {
+        //THIS NEEDS TO CHECK IF PLAYER IS IN UPGRADE ROOM STILL
+        //REPLACE IF STATEMENT
+        if(true){
+            while(true){
+                printer.ranksList();
+                printer.askRank();
+                String input = playerInput.nextLine();
+                if(input.equals(Integer.toString(rank))){
+                    printer.invalidRank(input);
+                    continue;
+                }
+                switch(input){
+                    case "back":
+                        return false;
+                    case "2":
+                        return upgradeP2(playerInput, printer, input, 4, 5);
+                    case "3":
+                        return upgradeP2(playerInput, printer, input, 10, 10);
+                    case "4":
+                        return upgradeP2(playerInput, printer, input, 18, 15);
+                    case "5":
+                        return upgradeP2(playerInput, printer, input, 28, 20);
+                    case "6":
+                        return upgradeP2(playerInput, printer, input, 40, 25);
+                    default:
+                        printer.invalid();
+                        continue;
+                }
+            }
+        }
+        return false; //base case???
+    }
+
+    private boolean upgradeP2(Scanner playerInput, DeadwoodPrinter printer, String input, int dolPrice, int credPrice){
+        while(true){
+            printer.payment();
+            String payment = playerInput.nextLine();
+            switch(payment){
+                case "credits":
+                    if(credits >= Integer.valueOf(input)){
+                        credits -= credPrice;
+                        rank = Integer.valueOf(input);
+                        printer.rankSuccess(input);
+                        return true;
+                    } else {
+                        printer.rankFail(payment);
+                        return false;
+                    }
+                case "dollars":
+                    if(dollars >= Integer.valueOf(input)){
+                        dollars -= dolPrice;
+                        rank = Integer.valueOf(input);
+                        printer.rankSuccess(input);
+                        return true;
+                    } else {
+                        printer.rankFail(payment);
+                        return false;
+                }
+                default:
+                    printer.invalid();
+                    continue;
+            }
+        }
+        //remove this
     }
 
     private void rehearse() {

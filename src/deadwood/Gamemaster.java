@@ -71,20 +71,20 @@ public class Gamemaster {
                 int playerId = current.playerNumber;
                 if(playerId == game.numberOfPlayers){
                     game.currentPlayer = game.players.get(0);
-                    //printer.whoseTurn(game.currentPlayer);
                 }
                 else{
                     game.currentPlayer = game.players.get(playerId);
-                    //printer.whoseTurn(game.currentPlayer);
                 }
             }
         }
-        
     }
 
     private int calculateScore(Player player) {
-        // TODO: implement calculateScore
-        return 0;
+        int score = 0;
+        score += player.getDollars();
+        score += player.getCredits();
+        score += (player.getRank() * 5);
+        return score;
     }
 
     private void endGame() {
@@ -107,10 +107,9 @@ public class Gamemaster {
     }
 
     private void createPlayers(){
-        
         //create players with stats accordingly
         int startingCredits = 0;
-        int startingRank = 0;
+        int startingRank = 1;
         if(numberOfPlayers <= 3){
             maxGameDays = 3;
         } else if(numberOfPlayers == 4){
@@ -126,7 +125,7 @@ public class Gamemaster {
             startingRank = 2;
         }
         for(int i = 1; i <= numberOfPlayers; i++){
-            Player newPlayer = new Player(i, 0, startingCredits, startingRank);
+            Player newPlayer = new Player(i, 100, startingCredits, startingRank);
             players.add(newPlayer);
         }
         for(int i = 0; i < numberOfPlayers; i++){
