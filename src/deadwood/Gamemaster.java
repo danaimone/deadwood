@@ -25,7 +25,7 @@ public class Gamemaster {
         make a while loop to cycle through players turns until 1 scene card is left
         */
         
-        XMLParser test = new XMLParser();
+        XMLParser parseXML = new XMLParser();
 
         /*
         //read board data
@@ -39,20 +39,31 @@ public class Gamemaster {
         }
         */
 
-        //read card data
+        //read and store scene card data
         Document cardDoc = null;
         try{
-            cardDoc = test.getDocFromFile("src/xml/cards.xml");
-            game.sceneCards = test.readCardData(cardDoc);
+            cardDoc = parseXML.getDocFromFile("src/xml/cards.xml");
+            game.sceneCards = parseXML.readCardData(cardDoc);
         }
         catch (Exception e){
             System.out.println("Error"+e);
         }
-        Scene scenetest = game.sceneCards.get(0);
-        scenetest.printSceneInfo();
+        Collections.shuffle(game.sceneCards); //shuffles the scene cards
 
-        
         /*
+        This reads data out from each scene card and its roles
+        for(int i = 0; i < game.sceneCards.size(); i++){
+            Scene sceneTest = game.sceneCards.get(i);
+            sceneTest.printSceneInfo();
+            for(int j = 0; j < sceneTest.roles.size(); j++){
+                Role roleTest = sceneTest.roles.get(j);
+                roleTest.printRoleData();
+            }
+        }
+        */
+        
+
+        //actual game!
         //ask for amount of players (maybe more error tests?)
         game.numberOfPlayers = 0;
         while(game.numberOfPlayers < 2 || game.numberOfPlayers > 8){
@@ -80,7 +91,6 @@ public class Gamemaster {
                 }
             }
         }
-        */
     }
 
     private int calculateScore(Player player) {

@@ -47,6 +47,6 @@ public class Scene extends Gamemaster{
     }
     
     public void printSceneInfo(){
-        System.out.printf("Scene name: %s, Scene Budget: %d, Scene Img: %s%n Scene Number: %s, Scene Desc: %s%n Total Roles: %d%n", sceneName, sceneBudget, sceneImage, sceneNumber, sceneDescription, totalRoles);
+        System.out.printf("Scene name: %s, Scene Budget: %d, Scene Img: %s%n    Scene Number: %s, Scene Desc: %s%n    Total Roles: %d%n", sceneName, sceneBudget, sceneImage, sceneNumber, sceneDescription, totalRoles);
     }
 }

@@ -46,7 +46,6 @@ public class XMLParser{
             cardName = card.getAttributes().getNamedItem("name").getNodeValue();
             cardImg = card.getAttributes().getNamedItem("img").getNodeValue();
             cardBudget = card.getAttributes().getNamedItem("budget").getNodeValue();
-            System.out.printf("Card: %s, Budget: %s, Img: %s%n", cardName, cardBudget, cardImg);
 
             NodeList cardChildren = card.getChildNodes();
             for(int j = 0; j < cardChildren.getLength(); j++){
@@ -56,15 +55,16 @@ public class XMLParser{
                 if("scene".equals(sub.getNodeName())){
                     sceneNumber = sub.getAttributes().getNamedItem("number").getNodeValue();
                     sceneDescription = sub.getTextContent();
-                    System.out.printf("    Scene #%s, Desc: %s%n", sceneNumber, sceneDescription);
                 }
                 else if("part".equals(sub.getNodeName())){
                     Role tempRole = new Role();
 
                     String partName = sub.getAttributes().getNamedItem("name").getNodeValue();
                     String partLevel = sub.getAttributes().getNamedItem("level").getNodeValue();
-                    System.out.printf("    Part: %s, Difficulty: %s%n", partName, partLevel);
                     
+                    tempRole.roleName = partName;
+                    tempRole.roleDifficulty = Integer.parseInt(partLevel);
+
                     totalRoles++;
 
                     NodeList partData = sub.getChildNodes();
@@ -73,20 +73,27 @@ public class XMLParser{
                         Node partDataNode = partData.item(x);
                         if("area".equals(partDataNode.getNodeName())){
                             String pX = partDataNode.getAttributes().getNamedItem("x").getNodeValue();
-                                String pY = partDataNode.getAttributes().getNamedItem("y").getNodeValue();
-                                String pH = partDataNode.getAttributes().getNamedItem("w").getNodeValue();
-                                String pW = partDataNode.getAttributes().getNamedItem("h").getNodeValue();
-                                System.out.printf("        Part area; x: %s, y: %s, h: %s, w: %s%n", pX, pY, pH, pW);
+                            String pY = partDataNode.getAttributes().getNamedItem("y").getNodeValue();
+                            String pW = partDataNode.getAttributes().getNamedItem("w").getNodeValue();
+                            String pH = partDataNode.getAttributes().getNamedItem("h").getNodeValue();
+
+                            tempRole.x = pX;
+                            tempRole.y = pY;
+                            tempRole.w = pW;
+                            tempRole.h = pH;
+
                         }
                         if("line".equals(partDataNode.getNodeName())){
                             String line = partDataNode.getTextContent();
-                            System.out.println("        Line: " + line);
+
+                            tempRole.roleDescription = line;
+
                         }
                     }
                     roles.add(tempRole);
                 }
             }
-            Scene newScene = new Scene(cardName, cardImg, Integer.parseInt(cardBudget), sceneNumber, sceneDescription, totalRoles);
+            Scene newScene = new Scene(cardName, cardImg, Integer.parseInt(cardBudget), sceneNumber, sceneDescription, totalRoles, roles);
             allCards.add(newScene);
         }
         return allCards;
