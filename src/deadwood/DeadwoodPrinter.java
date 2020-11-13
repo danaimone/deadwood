@@ -14,16 +14,16 @@ public class DeadwoodPrinter extends Gamemaster{
         System.out.println("Would you like to [act] or [rehearse]? Or player [info]");
     }
     protected void notMoveNotUpgrade(){
-        System.out.println("Would you like to [move], [upgrade], [work]? Or player [info]");
+        System.out.println("Would you like to [move], [upgrade], [work], [skip]? Or player [info]");
     }
     protected void moveNotUpgrade(){
-        System.out.println("Would you like to [upgrade], [work]? Or player [info]");
+        System.out.println("Would you like to [upgrade], [work], [skip]? Or player [info]");
     }
     protected void notMoveUpgrade(){
-        System.out.println("Would you like to [move], [work]? Or player [info]");
+        System.out.println("Would you like to [move], [work], [skip]? Or player [info]");
     }
     protected void moveUpgrade(){
-        System.out.println("Would you like to [work]? Or player [info]");
+        System.out.println("Would you like to [work], [skip]? Or player [info]");
     }
     protected void ranksList(){
         System.out.printf("%nRank 2: 4 Dollars OR 5 Credits%nRank 3: 10 Dollars OR 10 Credits%nRank 4: 18 Dollars OR 15 Credits%nRank 5: 28 Dollars OR 20 Credits%nRank 6: 40 Dollars OR 25 Credits%n");

@@ -76,6 +76,9 @@ public class Player {
                         System.out.println("START WORK ON ROLE");
                         onRole = true;
                         break;
+                    } else if(input.equals("skip")){
+                        continueTurn = false;
+                        break;
                     } else if(input.equals("info")){
                         System.out.println(printPlayerData());
                     } else{
@@ -95,6 +98,9 @@ public class Player {
                     } else if(input.equals("work")){
                         System.out.println("START WORK ON ROLE");
                         onRole = true;
+                        break;
+                    } else if(input.equals("skip")){
+                        continueTurn = false;
                         break;
                     } else if(input.equals("info")){
                         System.out.println(printPlayerData());
@@ -116,6 +122,9 @@ public class Player {
                         System.out.println("START WORK ON ROLE");
                         onRole = true;
                         break;
+                    } else if(input.equals("skip")){
+                        continueTurn = false;
+                        break;
                     } else if(input.equals("info")){
                         System.out.println(printPlayerData());
                     } else{
@@ -130,6 +139,9 @@ public class Player {
                     if(input.equals("work")){
                         System.out.println("START WORK ON ROLE");
                         onRole = true;
+                        break;
+                    } else if(input.equals("skip")){
+                        continueTurn = false;
                         break;
                     } else if(input.equals("info")){
                         System.out.println(printPlayerData());
@@ -157,22 +169,39 @@ public class Player {
                 printer.ranksList();
                 printer.askRank();
                 String input = playerInput.nextLine();
-                if(input.equals(Integer.toString(rank))){
-                    printer.invalidRank(input);
-                    continue;
-                }
                 switch(input){
                     case "back":
                         return false;
                     case "2":
+                        if(Integer.parseInt(input) <= rank){
+                            printer.invalidRank(input);
+                            continue;
+                        }
                         return upgradeP2(playerInput, printer, input, 4, 5);
                     case "3":
+                        if(Integer.parseInt(input) <= rank){
+                            printer.invalidRank(input);
+                            continue;
+                        }
                         return upgradeP2(playerInput, printer, input, 10, 10);
                     case "4":
+                        if(Integer.parseInt(input) <= rank){
+                            printer.invalidRank(input);
+                            continue;
+                        }
                         return upgradeP2(playerInput, printer, input, 18, 15);
+                        
                     case "5":
+                        if(Integer.parseInt(input) <= rank){
+                            printer.invalidRank(input);
+                            continue;
+                        }
                         return upgradeP2(playerInput, printer, input, 28, 20);
                     case "6":
+                        if(Integer.parseInt(input) <= rank){
+                            printer.invalidRank(input);
+                            continue;
+                        }
                         return upgradeP2(playerInput, printer, input, 40, 25);
                     default:
                         printer.invalid();
