@@ -3,6 +3,7 @@ package deadwood;
 import org.w3c.dom.*;
 import javax.xml.parsers.*;
 import java.io.*;
+import java.util.*;
 
 public class XMLParser {
     public Document getDocFromFile(String filename)
@@ -21,19 +22,30 @@ public class XMLParser {
         return doc;
     }
 
-    public void readCardData(Document doc){
+    public ArrayList<Scene> readCardData(Document doc){
+        ArrayList<Scene> allCards = new ArrayList<Scene>(); //arraylist of cards to return;
+
         Element root = doc.getDocumentElement();
         NodeList cards = root.getElementsByTagName("card");
 
         //for each 'card'
         for(int i = 0; i < cards.getLength(); i++){
             Node card = cards.item(i);
+            String cardName;
+            String cardImg;
+            String cardBudget;
+            String sceneNumber;
+            String sceneDescription;
+            int totalRoles;
+            Role[] rolesInScene;
+
+
 
             //get the name of the card, budget, and image
             //instead of printing create card object?
-            String cardName = card.getAttributes().getNamedItem("name").getNodeValue();
-            String cardImg = card.getAttributes().getNamedItem("img").getNodeValue();
-            String cardBudget = card.getAttributes().getNamedItem("budget").getNodeValue();
+            cardName = card.getAttributes().getNamedItem("name").getNodeValue();
+            cardImg = card.getAttributes().getNamedItem("img").getNodeValue();
+            cardBudget = card.getAttributes().getNamedItem("budget").getNodeValue();
             System.out.printf("Card: %s, Budget: %s, Img: %s%n", cardName, cardBudget, cardImg);
 
             NodeList cardChildren = card.getChildNodes();
@@ -42,8 +54,8 @@ public class XMLParser {
 
                 //get scene data
                 if("scene".equals(sub.getNodeName())){
-                    String sceneNumber = sub.getAttributes().getNamedItem("number").getNodeValue();
-                    String sceneDescription = sub.getTextContent();
+                    sceneNumber = sub.getAttributes().getNamedItem("number").getNodeValue();
+                    sceneDescription = sub.getTextContent();
                     System.out.printf("    Scene #%s, Desc: %s%n", sceneNumber, sceneDescription);
                 }
                 else if("part".equals(sub.getNodeName())){
@@ -70,6 +82,7 @@ public class XMLParser {
                 }
             }
         }
+        return allCards;
     }
 
     //reads the board.xml file

@@ -1,23 +1,22 @@
 package deadwood;
 
 public class Scene extends Set{
-    protected String name;
+    protected String sceneName;
+    protected String sceneImage;
     protected int budget;
-    protected int shotsRemaining;
+    protected String sceneNumber;
+    protected String sceneDescription;
     protected int difficulty;
     protected Role[] rolesInScene;
+    protected int totalRoles;
+    protected boolean isVisible;
 
-
-    public Scene(String name, int budget, int shotsRemaining, int difficulty, Role[] rolesInScene) {
-        this.name = name;
+    public Scene(String name, String image, int budget, String number, String description){
+        this.sceneName = name;
+        this.sceneImage = image;
         this.budget = budget;
-        this.shotsRemaining = shotsRemaining;
-        this.difficulty = difficulty;
-        this.rolesInScene = rolesInScene;
-    }
-
-    private void performShot() {
-        shotsRemaining--;
+        this.sceneNumber = number;
+        this.sceneDescription = description;
     }
 
     /*
@@ -42,10 +41,4 @@ public class Scene extends Set{
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
     }
-    private int getShotsRemaining() {
-        return shotsRemaining;
-    }
-
-
-
 }

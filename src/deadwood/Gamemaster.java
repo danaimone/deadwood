@@ -1,6 +1,7 @@
 package deadwood;
 
 import java.util.*;
+import org.w3c.dom.Document;
 
 public class Gamemaster {
     protected Board board;
@@ -9,6 +10,7 @@ public class Gamemaster {
     protected int maxGameDays; //how many days the game lasts
     protected int numberOfPlayers;
     protected ArrayList<Player> players = new ArrayList<Player>(); //stores all the players and their data
+    protected ArrayList<Scene> sceneCards = new ArrayList<Scene>(); //stores all the scene cards and their data
 
     /*
         main method that starts the game
@@ -37,19 +39,19 @@ public class Gamemaster {
         }
         */
 
-        /*
+        
         //read card data
         Document cardDoc = null;
         try{
             cardDoc = test.getDocFromFile("src/xml/cards.xml");
-            test.readCardData(cardDoc);
+            game.sceneCards = test.readCardData(cardDoc);
         }
         catch (Exception e){
             System.out.println("Error"+e);
         }
-        */
 
         
+        /*
         //ask for amount of players (maybe more error tests?)
         game.numberOfPlayers = 0;
         while(game.numberOfPlayers < 2 || game.numberOfPlayers > 8){
@@ -77,6 +79,7 @@ public class Gamemaster {
                 }
             }
         }
+        */
     }
 
     private int calculateScore(Player player) {

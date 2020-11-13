@@ -1,25 +1,35 @@
 package deadwood;
 
+
 public class Role {
-    protected boolean onCard;
-    protected int level;
-    protected boolean taken;
-    protected boolean visible;
+    protected String roleName;
+    protected int roleDifficulty;
+    protected String roleArea;
+    protected String roleDescription;
+    protected boolean starring;
 
-    private int getLevel() {
-        return 0;
+    public Role(String name, int difficulty, String area, String description,
+    Boolean starring){
+        this.roleName = name;
+        this.roleDifficulty = difficulty;
+        this.roleArea = area;
+        this.roleDescription = description;
+        this.starring = starring;
     }
 
-    private boolean isVisible(){
-        return visible;
+    private String getName(){
+        return roleName;
     }
 
-    private boolean isTaken() {
-        return taken;
+    private int getDifficulty(){
+        return roleDifficulty;
     }
 
-    private boolean isOnCard() {
-        return onCard;
+    private String getArea(){
+        return roleArea;
     }
 
+    private String getDescription(){
+        return roleDescription;
+    }
 }
