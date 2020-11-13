@@ -4,17 +4,15 @@ package deadwood;
 public class Role {
     protected String roleName;
     protected int roleDifficulty;
-    protected String roleArea;
+    protected String x;
+    protected String y;
+    protected String w;
+    protected String h;
     protected String roleDescription;
     protected boolean starring;
 
-    public Role(String name, int difficulty, String area, String description,
-    Boolean starring){
-        this.roleName = name;
-        this.roleDifficulty = difficulty;
-        this.roleArea = area;
-        this.roleDescription = description;
-        this.starring = starring;
+    public Role(){
+
     }
 
     private String getName(){
@@ -24,9 +22,9 @@ public class Role {
     private int getDifficulty(){
         return roleDifficulty;
     }
-
+    //probably wanna change this
     private String getArea(){
-        return roleArea;
+        return x+y+w+h;
     }
 
     private String getDescription(){

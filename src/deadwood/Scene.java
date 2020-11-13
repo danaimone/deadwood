@@ -1,37 +1,41 @@
 package deadwood;
 
-public class Scene extends Set{
+import java.util.*;
+
+public class Scene extends Gamemaster{
     protected String sceneName;
     protected String sceneImage;
-    protected int budget;
+    protected int sceneBudget;
     protected String sceneNumber;
     protected String sceneDescription;
     protected int difficulty;
-    protected Role[] rolesInScene;
+    protected ArrayList<Role> roles = new ArrayList<Role>();
     protected int totalRoles;
     protected boolean isVisible;
 
-    public Scene(String name, String image, int budget, String number, String description){
-        this.sceneName = name;
-        this.sceneImage = image;
-        this.budget = budget;
-        this.sceneNumber = number;
-        this.sceneDescription = description;
+    public Scene(String name, String image, int budget, String number, String description, int roleTotal, ArrayList<Role> roleList){
+        sceneName = name;
+        sceneImage = image;
+        sceneBudget = budget;
+        sceneNumber = number;
+        sceneDescription = description;
+        totalRoles = roleTotal;
+        roles = roleList;
     }
 
     /*
         Getters and Setters
          */
-    private Role[] getRoles() {
-        return rolesInScene;
+    private ArrayList<Role> getRoles() {
+        return roles;
     }
 
     public int getBudget() {
-        return budget;
+        return sceneBudget;
     }
 
     public void setBudget(int budget) {
-        this.budget = budget;
+        this.sceneBudget = budget;
     }
 
     public int getDifficulty() {
@@ -40,5 +44,9 @@ public class Scene extends Set{
 
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
+    }
+    
+    public void printSceneInfo(){
+        System.out.printf("Scene name: %s, Scene Budget: %d, Scene Img: %s%n Scene Number: %s, Scene Desc: %s%n Total Roles: %d%n", sceneName, sceneBudget, sceneImage, sceneNumber, sceneDescription, totalRoles);
     }
 }

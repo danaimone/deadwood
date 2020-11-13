@@ -39,7 +39,6 @@ public class Gamemaster {
         }
         */
 
-        
         //read card data
         Document cardDoc = null;
         try{
@@ -49,6 +48,8 @@ public class Gamemaster {
         catch (Exception e){
             System.out.println("Error"+e);
         }
+        Scene scenetest = game.sceneCards.get(0);
+        scenetest.printSceneInfo();
 
         
         /*

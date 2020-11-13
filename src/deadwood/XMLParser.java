@@ -5,7 +5,7 @@ import javax.xml.parsers.*;
 import java.io.*;
 import java.util.*;
 
-public class XMLParser {
+public class XMLParser{
     public Document getDocFromFile(String filename)
     throws ParserConfigurationException{
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -34,10 +34,10 @@ public class XMLParser {
             String cardName;
             String cardImg;
             String cardBudget;
-            String sceneNumber;
-            String sceneDescription;
-            int totalRoles;
-            Role[] rolesInScene;
+            String sceneNumber = "";
+            String sceneDescription = "";
+            int totalRoles = 0;
+            ArrayList<Role> roles = new ArrayList<Role>();
 
 
 
@@ -59,11 +59,16 @@ public class XMLParser {
                     System.out.printf("    Scene #%s, Desc: %s%n", sceneNumber, sceneDescription);
                 }
                 else if("part".equals(sub.getNodeName())){
+                    Role tempRole = new Role();
+
                     String partName = sub.getAttributes().getNamedItem("name").getNodeValue();
                     String partLevel = sub.getAttributes().getNamedItem("level").getNodeValue();
                     System.out.printf("    Part: %s, Difficulty: %s%n", partName, partLevel);
                     
+                    totalRoles++;
+
                     NodeList partData = sub.getChildNodes();
+
                     for(int x = 0; x < partData.getLength(); x++){
                         Node partDataNode = partData.item(x);
                         if("area".equals(partDataNode.getNodeName())){
@@ -78,9 +83,11 @@ public class XMLParser {
                             System.out.println("        Line: " + line);
                         }
                     }
-
+                    roles.add(tempRole);
                 }
             }
+            Scene newScene = new Scene(cardName, cardImg, Integer.parseInt(cardBudget), sceneNumber, sceneDescription, totalRoles);
+            allCards.add(newScene);
         }
         return allCards;
     }
