@@ -1,15 +1,17 @@
 package deadwood;
 
-public class Board {
-    protected int sceneCardsLeft;
-    protected static int currentDay; //what day the game is on
+/**
+ * Board is a singleton class that should exist in one instance of a game of Deadwood.
+ * It contains all Board related actions
+ */
+public class BoardController {
+    private BoardData boardData;
 
     /**
-     * Default Constructor
+     * Constructor singleton
      */
-    public Board() {
+    public BoardController() {
     }
-
 
     // TODO: find out if this is necessary. Currently, Gamemaster has currentPlayer information, which Board
     // should be able to call. Is Board an extension of Gamemaster?

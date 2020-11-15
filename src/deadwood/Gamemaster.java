@@ -5,7 +5,7 @@ import org.w3c.dom.Document;
 import
 
 public class Gamemaster {
-    private Board board;
+    private BoardController boardController;
     private PlayerController currentPlayerController;
     private boolean boardRandom; //false is default layout, true is randomized layout
     private int maxGameDays; //how many days the game lasts
