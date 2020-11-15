@@ -2,64 +2,51 @@ package deadwood;
 
 /**
  * Board is a singleton class that should exist in one instance of a game of Deadwood.
- * It contains all Board related actions
+ * It contains all Board related actions. One BoardController should be created to drive
+ * the program, along with an instance of boardData
  */
 public class BoardController {
     private BoardData boardData;
 
-    /**
-     * Constructor singleton
-     */
-    public BoardController() {
-    }
-
-    // TODO: find out if this is necessary. Currently, Gamemaster has currentPlayer information, which Board
-    // should be able to call. Is Board an extension of Gamemaster?
-//    private Player getActivePlayer() {
-//        return null;
-//    }
-
-    // TODO: scrap?
-//    private Set[] getRoom(){
-//        return null;
-//    }
+    private boolean dayIsOver = false;
+    private boolean gameIsOver = false;
 
     /**
-     * advanceDay
+     * Singleton constructor
      *
-     * Advances the current day.
+     * At the creation of a Board Controller, the corresponding
+     * game length should also be set.
      */
-    private void advanceDay() {
-        currentDay++;
-    }
-
-    /**
-     * wrapScene
-     *
-     * TODO: descriptive description for wrapScene
-     * @param scene scene object to wrap
-     */
-    private void wrapScene(Scene scene){
-        sceneCardsLeft--;
-        /*
-        if day is over, run endDay. if last day,
-        run gamemaster.endGame()
-        */
+    public BoardController(int gameLength) {
+        boardData = new BoardData(gameLength);
     }
 
     //resets board and prepares game for next day
     // could be part of Gamemaster class
-    private void endDay(){
+    private void endDay() {
 
     }
 
-    //checks if day is over
-    private boolean isDayOver(){
-        return false;   
+    /**
+     *  is day over
+     *
+     *  Checks whether the day is over
+      * @return whether day is over
+     */
+    private boolean isDayOver() {
+        return dayIsOver;
     }
 
-    //checks if game is over
-    private boolean isGameOver(){
-        return false;
+    /**
+     * Is Game Over
+     *
+     * Does the functional checking of whether game is over, and sets game is over accordingly
+     * checks whether game is over
+     * @return game is over
+     */
+    private boolean isGameOver() {
+        // TODO:
+        if
+        return gameIsOver;
     }
 }

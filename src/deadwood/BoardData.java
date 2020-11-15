@@ -4,11 +4,25 @@ package deadwood;
  * Board data contains any data relating to the Board
  */
 public class BoardData {
-    private int sceneCardsLeft;
-    private int currentDay; //what day the game is on
 
-    public BoardData(int sceneCardsLeft) {
-        this.sceneCardsLeft = sceneCardsLeft;
+    static int daysLeft; //how many days the game lasts
+    private int sceneCardsInPlay;
+    private int sceneCardsLeft;
+    private int currentDay;
+
+
+    /*
+            Constructor for BoardData
+         */
+    public BoardData(int gameLength) {
+        this.sceneCardsLeft = 40;
+        this.sceneCardsInPlay = 40;
+        this.currentDay = 0;
+        BoardData.daysLeft = gameLength;
+    }
+
+    public int getSceneCardsInPlay() {
+        return sceneCardsInPlay;
     }
 
     public int getSceneCardsLeft() {
@@ -19,11 +33,23 @@ public class BoardData {
         return currentDay;
     }
 
+    public static void setDaysLeft(int daysLeft) {
+        BoardData.daysLeft = daysLeft;
+    }
+
     public void setCurrentDay(int currentDay) {
         this.currentDay = currentDay;
     }
 
+    public void setSceneCardsInPlay(int sceneCardsInPlay) {
+        this.sceneCardsInPlay = sceneCardsInPlay;
+    }
+
     public void setSceneCardsLeft(int sceneCardsLeft) {
         this.sceneCardsLeft = sceneCardsLeft;
+    }
+
+    public void advanceDay() {
+        this.currentDay++;
     }
 }

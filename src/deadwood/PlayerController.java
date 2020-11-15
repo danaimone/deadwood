@@ -27,7 +27,7 @@ public class PlayerController {
     }
 
     /**
-     * Update Current Player
+     * Update Player
      * <p>
      * Update a new Player for Player Controller
      * setCurrentPlayer is called after every person has a turn
@@ -35,7 +35,7 @@ public class PlayerController {
      *
      * @param player PlayerData object to setup
      */
-    public void updateCurrentPlayer(PlayerData player) {
+    public void updatePlayer(PlayerData player) {
         this.playerData = player;
         this.endTurn = false;
         setCanAct();

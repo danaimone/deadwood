@@ -8,7 +8,6 @@ public class Gamemaster {
     private BoardController boardController;
     private PlayerController currentPlayerController;
     private boolean boardRandom; //false is default layout, true is randomized layout
-    private int maxGameDays; //how many days the game lasts
     private int numberOfPlayers;
     private ArrayList<PlayerController> playerControllers = new ArrayList<PlayerController>(); //stores all the players and their data
     // TODO: arguable, sceneCards
@@ -134,17 +133,17 @@ public class Gamemaster {
         int startingCredits = 0;
         int startingRank = 1;
         if(numberOfPlayers <= 3){
-            maxGameDays = 3;
+            BoardData.gameLength = 3;
         } else if(numberOfPlayers == 4){
-            maxGameDays = 4;
+            BoardData.gameLength = 4;
         } else if(numberOfPlayers == 5){
-            maxGameDays = 4;
+            BoardData.gameLength = 4;
             startingCredits = 2;
         } else if(numberOfPlayers == 6){
-            maxGameDays = 4;
+            BoardData.gameLength = 4;
             startingCredits = 4;
         } else{
-            maxGameDays = 4;
+            BoardData.gameLength = 4;
             startingRank = 2;
         }
         for(int i = 1; i <= numberOfPlayers; i++){
