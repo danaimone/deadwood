@@ -1,6 +1,6 @@
 package deadwood;
 
-public class Board extends Gamemaster{
+public class Board {
     protected int sceneCardsLeft;
     protected static int currentDay; //what day the game is on
 

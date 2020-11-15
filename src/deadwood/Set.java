@@ -23,14 +23,14 @@ public class Set {
         this.takes = takes;
     }
 
-    protected Collection<Player> playersInRoom = new ArrayList<>();
+    protected Collection<PlayerController> playersInRoom = new ArrayList<>();
     protected Scene currentScene; //what scene card does the room have?
 
     public Set(String name) {
         this.setName = name;
     }
 
-    private Collection<Player> getPlayersInRoom() {
+    private Collection<PlayerController> getPlayersInRoom() {
         return playersInRoom;
     }
 
@@ -38,13 +38,13 @@ public class Set {
         return adjacentSets;
     }
 
-    private void addPlayer(Player playerToAdd) {
+    private void addPlayer(PlayerController playerControllerToAdd) {
     }
 
-    private void removePlayer(Player playerToAdd) {
+    private void removePlayer(PlayerController playerControllerToAdd) {
     }
 
-    private boolean checkInRoom(Player player) {
+    private boolean checkInRoom(PlayerController playerController) {
         return false;
     }
 

@@ -2,16 +2,25 @@ package deadwood;
 
 import java.util.*;
 
-public class Scene extends Gamemaster{
-    protected String sceneName;
-    protected String sceneImage;
-    protected int sceneBudget;
-    protected String sceneNumber;
-    protected String sceneDescription;
-    protected int difficulty;
-    protected ArrayList<Role> roles = new ArrayList<Role>();
-    protected int totalRoles;
-    protected boolean isVisible;
+public class Scene {
+    /* TODO: scene controller:
+        every time someone wants to start a scene (only one player does it at a time)
+        that's when we do all the work
+        rolling dice, pass/fail, checking the budget, removing the card from the room? (maybe?)
+        takes player, card for data and will tell you if you passed blah blah blah
+        player and player data coupled tightly, which is not good. Need model controller separation.
+        Scene and cards is coupled tightly together right now as well.
+     */
+
+    private String sceneName;
+    private String sceneImage;
+    private int sceneBudget;
+    private String sceneNumber;
+    private String sceneDescription;
+    private int difficulty;
+    private ArrayList<Role> roles = new ArrayList<Role>();
+    private int totalRoles;
+    private boolean isVisible;
 
     public Scene(String name, String image, int budget, String number, String description, int roleTotal, ArrayList<Role> roleList){
         sceneName = name;
@@ -20,7 +29,6 @@ public class Scene extends Gamemaster{
         sceneNumber = number;
         sceneDescription = description;
         totalRoles = roleTotal;
-        roles = roleList;
     }
 
     /*

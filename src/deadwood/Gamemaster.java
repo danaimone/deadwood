@@ -2,15 +2,24 @@ package deadwood;
 
 import java.util.*;
 import org.w3c.dom.Document;
+import
 
 public class Gamemaster {
-    protected Board board;
-    protected Player currentPlayer;
-    protected boolean boardRandom; //false is default layout, true is randomized layout
-    protected int maxGameDays; //how many days the game lasts
-    protected int numberOfPlayers;
-    protected ArrayList<Player> players = new ArrayList<Player>(); //stores all the players and their data
-    protected ArrayList<Scene> sceneCards = new ArrayList<Scene>(); //stores all the scene cards and their data
+    private Board board;
+    private PlayerController currentPlayerController;
+    private boolean boardRandom; //false is default layout, true is randomized layout
+    private int maxGameDays; //how many days the game lasts
+    private int numberOfPlayers;
+    private ArrayList<PlayerController> playerControllers = new ArrayList<PlayerController>(); //stores all the players and their data
+    // TODO: arguable, sceneCards
+    // need some sort of Scene controller
+    private ArrayList<Scene> sceneCards = new ArrayList<Scene>(); //stores all the scene cards and their data
+    private Scanner scanner;
+
+    /* Constructor Singleton */
+    public Gamemaster() {
+
+    }
 
     /*
         main method that starts the game
@@ -18,7 +27,7 @@ public class Gamemaster {
     public static void main(String[] args){
         Gamemaster game = new Gamemaster(); //create the game!
         DeadwoodPrinter printer = new DeadwoodPrinter(); //create the printer
-        Scanner input = new Scanner(System.in); //global scanner for user inputed
+        scanner = new Scanner(System.in); //global scanner for user inputed
 
         /*
         setup board
@@ -78,26 +87,26 @@ public class Gamemaster {
         input.nextLine(); //clear scanner
         //while board has more than one scene card
         while(true){
-            Player current = game.currentPlayer;
-            printer.whoseTurn(game.currentPlayer);
-            String turnResult = current.playersTurn(input, printer);
+            PlayerController current = game.currentPlayerController;
+            printer.whoseTurn(game.currentPlayerController);
+            String turnResult = current.performTurn(input, printer);
             if(turnResult.equals("next")){
-                int playerId = current.playerNumber;
+                int playerId = current.getPlayerNumber();
                 if(playerId == game.numberOfPlayers){
-                    game.currentPlayer = game.players.get(0);
+                    game.currentPlayerController = game.playerControllers.get(0);
                 }
                 else{
-                    game.currentPlayer = game.players.get(playerId);
+                    game.currentPlayerController = game.playerControllers.get(playerId);
                 }
             }
         }
     }
 
-    private int calculateScore(Player player) {
+    private int calculateScore(PlayerController playerController) {
         int score = 0;
-        score += player.getDollars();
-        score += player.getCredits();
-        score += (player.getRank() * 5);
+        score += playerController.getDollars();
+        score += playerController.getCredits();
+        score += (playerController.getRank() * 5);
         return score;
     }
 
@@ -105,12 +114,12 @@ public class Gamemaster {
         // TODO: implement endGame
     }
 
-    private Player calculateWinner() {
+    private PlayerController calculateWinner() {
         // TODO: implement calculateWinner
         return null;
     }
 
-    private void displayWinner(Player winner) {
+    private void displayWinner(PlayerController winner) {
         // TODO: implement displayWinner
     }
 
@@ -139,16 +148,16 @@ public class Gamemaster {
             startingRank = 2;
         }
         for(int i = 1; i <= numberOfPlayers; i++){
-            Player newPlayer = new Player(i, 100, startingCredits, startingRank);
-            players.add(newPlayer);
+            PlayerController newPlayerController = new PlayerController(i, 100, startingCredits, rehearsalTokens, startingRank);
+            playerControllers.add(newPlayerController);
         }
         for(int i = 0; i < numberOfPlayers; i++){
-            Player current = players.get(i);
+            PlayerController current = playerControllers.get(i);
             String print = current.printPlayerData();
             System.out.println(print);
         }
 
         //player 1 goes first cause that's easiest
-        currentPlayer = players.get(0);
+        currentPlayerController = playerControllers.get(0);
     }
 }

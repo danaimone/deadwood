@@ -1,14 +1,14 @@
 package deadwood;
 
-public class DeadwoodPrinter extends Gamemaster{
+public class DeadwoodPrinter {
     protected void askPlayers(){
         System.out.println("How many players? (2-8)");
     }
     protected void invalidPlayers(){
         System.out.println("Please enter a valid number of players");
     }
-    protected void whoseTurn(Player player){
-        System.out.println("It is Player "+player.playerNumber+"'s turn");
+    protected void whoseTurn(PlayerController playerController){
+        System.out.println("It is Player "+ playerController.getPlayerNumber() +"'s turn");
     }
     protected void working(){
         System.out.println("Would you like to [act] or [rehearse]? Or player [info]");
