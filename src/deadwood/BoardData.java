@@ -5,20 +5,23 @@ package deadwood;
  */
 public class BoardData {
 
-    static int daysLeft; //how many days the game lasts
+
+    private int daysLeft; //how many days the game lasts
     private int sceneCardsInPlay;
     private int sceneCardsLeft;
     private int currentDay;
 
 
-    /*
-            Constructor for BoardData
-         */
+    /* Constructor for BoardData */
     public BoardData(int gameLength) {
         this.sceneCardsLeft = 40;
         this.sceneCardsInPlay = 40;
         this.currentDay = 0;
         BoardData.daysLeft = gameLength;
+    }
+
+    public int getDaysLeft() {
+        return daysLeft;
     }
 
     public int getSceneCardsInPlay() {

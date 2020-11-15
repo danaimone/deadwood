@@ -13,7 +13,7 @@ public class BoardController {
 
     /**
      * Singleton constructor
-     *
+     * <p>
      * At the creation of a Board Controller, the corresponding
      * game length should also be set.
      */
@@ -21,17 +21,30 @@ public class BoardController {
         boardData = new BoardData(gameLength);
     }
 
-    //resets board and prepares game for next day
-    // could be part of Gamemaster class
+    /**
+     * endDay()
+     * maybe this is more so the functional ending of a day on the board
+     * <p>
+     * Pre-condition:
+     * - Board data is not null
+     * - game is active
+     * <p>
+     * Post-condition:
+     * - day is ended
+     * - no more turns can be made
+     * - currentDay is progressed
+     */
     private void endDay() {
-
+        assert boardData != null;
+        // TODO: finish endDay()
     }
 
     /**
-     *  is day over
+     * Is Day Over
+     * <p>
+     * Checks whether the day is over
      *
-     *  Checks whether the day is over
-      * @return whether day is over
+     * @return whether day is over
      */
     private boolean isDayOver() {
         return dayIsOver;
@@ -39,14 +52,20 @@ public class BoardController {
 
     /**
      * Is Game Over
-     *
-     * Does the functional checking of whether game is over, and sets game is over accordingly
-     * checks whether game is over
-     * @return game is over
+     * <p>
+     * Sets game over
+     * Pre-condition:
+     * - board data is not null
+     * <p>
+     * Post-condition:
+     * - gameIsOver is set to correct gameOver condition
      */
-    private boolean isGameOver() {
-        // TODO:
-        if
-        return gameIsOver;
+    private void isGameOver() {
+        assert this.boardData != null
+        if (this.boardData.getDaysLeft() == 0) {
+            gameIsOver = true;
+        } else {
+            gameIsOver = false;
+        }
     }
 }
