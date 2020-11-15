@@ -142,10 +142,6 @@ public class PlayerController {
 
     /**
      * Perform Turn
-     *
-     * @param playerInput
-     * @param scanner
-     * @return
      */
     public void performTurn() {
         // here's the deal:
