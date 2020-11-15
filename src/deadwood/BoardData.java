@@ -13,11 +13,11 @@ public class BoardData {
 
 
     /* Constructor for BoardData */
-    public BoardData(int gameLength) {
+    public BoardData() {
         this.sceneCardsLeft = 40;
         this.sceneCardsInPlay = 40;
         this.currentDay = 0;
-        BoardData.daysLeft = gameLength;
+        this.daysLeft = 4;
     }
 
     public int getDaysLeft() {

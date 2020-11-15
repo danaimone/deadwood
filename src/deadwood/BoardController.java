@@ -6,10 +6,10 @@ package deadwood;
  * the program, along with an instance of boardData
  */
 public class BoardController {
-    private BoardData boardData;
+    private BoardData boardData = new BoardData();
 
-    private boolean dayIsOver = false;
-    private boolean gameIsOver = false;
+    private boolean dayIsOver;
+    private boolean gameIsOver;
 
     /**
      * Singleton constructor
@@ -17,8 +17,8 @@ public class BoardController {
      * At the creation of a Board Controller, the corresponding
      * game length should also be set.
      */
-    public BoardController(int gameLength) {
-        boardData = new BoardData(gameLength);
+    public BoardController() {
+
     }
 
     /**
