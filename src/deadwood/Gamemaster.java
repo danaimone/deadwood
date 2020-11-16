@@ -107,7 +107,7 @@ public class Gamemaster {
                 playerController.playerInput.getPlayerOptionInput(currentPlayerController);
                 playerController.handleDecision();
                 playerController.determinePlayerTurnOptions();
-//                playerController.updatePlayerOptions(currentPlayer);
+                playerController.updatePlayer();
             }
         }
 
