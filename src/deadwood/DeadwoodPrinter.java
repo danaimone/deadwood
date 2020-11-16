@@ -47,10 +47,11 @@ public class DeadwoodPrinter {
 
     void askPlayers() {
         System.out.println("How many players? (2-8)");
+        System.out.println("> ");
     }
 
     void invalidPlayers() {
-        System.out.println("Please enter a valid number of players");
+        System.out.println("Please enter a valid number of players.");
     }
 
     void whoseTurn(PlayerController playerController) {
@@ -90,7 +91,7 @@ public class DeadwoodPrinter {
     }
 
     protected void invalid() {
-        System.out.println("Invalid entry, try again");
+        System.out.println("Invalid entry, try again.");
     }
 
     protected void payment() {
