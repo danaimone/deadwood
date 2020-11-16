@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * This is represented by a stack for now, since we don't necessarily
  * care about any of the middle elements
  */
-public class Deck {
+public class Deck<Card> {
     private final ArrayList<Card> deck;
     private int currentCard; // deal THIS card in the deck!
 
