@@ -16,6 +16,16 @@ public class Player {
     private int rank;
     public ArrayList<String> turnOptions;
 
+    public Decision getPlayerDecision() {
+        return playerDecision;
+    }
+
+    public void setPlayerDecision(Decision playerDecision) {
+        this.playerDecision = playerDecision;
+    }
+
+    private Decision playerDecision;
+
     private Role role;
     private Room currentRoom;
 
@@ -44,7 +54,7 @@ public class Player {
         this.rehearsalTokens = 0;
         setInitialRank(numberOfPlayers);
         setInitialCredits(numberOfPlayers);
-        this.turnOptions = new ArrayList<String>;
+        this.turnOptions = new ArrayList<String>();
         this.currentRoom = room;
     }
 

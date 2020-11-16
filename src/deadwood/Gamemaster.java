@@ -56,7 +56,8 @@ public class Gamemaster {
             printer.printCurrentPlayer(currentPlayer);
             printer.printPlayerData(currentPlayer);
             printer.printPlayerOptions(currentPlayer);
-            // TODO: printTurnOptions function that takes in an Array of options a player can make
+            // TODO: get input from player as to what they would like to do
+
 
         }
 

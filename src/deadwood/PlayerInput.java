@@ -32,6 +32,18 @@ public class PlayerInput {
         return numberOfPlayersPlaying;
     }
 
+    public void getPlayerInput(Player currentPlayer) {
+        System.out.println("What would you like to do given the options above?");
+        String decision = scanner.nextLine();
+        while (!currentPlayer.turnOptions.contains(decision)) {
+            System.out.println("That was an invalid option. Please try again.");
+            decision = scanner.nextLine();
+        }
+
+        Decision turnDecision = new Decision(decision);
+        currentPlayer.setPlayerDecision(turnDecision);
+    }
+
     /**
      * Setter for setNumberOfPlayers
      * <p>
@@ -43,5 +55,6 @@ public class PlayerInput {
     private void setNumberOfPlayers(int numberOfPlayers) {
         this.numberOfPlayers = numberOfPlayers;
     }
+
 
 }

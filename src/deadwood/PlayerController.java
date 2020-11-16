@@ -189,6 +189,7 @@ public class PlayerController {
                 canTakeARole = true;
                 canAct = false;
                 canRehearse = false;
+                move();
             } else if (canAct && chooseAct) {
                 canAct = true;
                 canTakeARole = false;
