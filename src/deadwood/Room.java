@@ -24,8 +24,15 @@ public abstract class Room {
     public Collection<Player> playersInRoom = new ArrayList<>();
     public Collection<Role> roles = new ArrayList<>();
 
+
+    Deck<SceneCard> sceneCardDeck = new Deck<>(4);
+
     public Room() {
 
+    }
+
+    public Deck<SceneCard> getSceneCardDeck() {
+        return sceneCardDeck;
     }
 
     public void addPlayer(Player player) {

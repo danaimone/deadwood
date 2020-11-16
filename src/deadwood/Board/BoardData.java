@@ -1,6 +1,7 @@
 package deadwood.Board;
 
 import deadwood.Room;
+import deadwood.SceneCard;
 
 import java.util.ArrayList;
 
@@ -89,8 +90,16 @@ public class BoardData {
      * @param roomsToAdd an ArrayList of Rooms to add
      */
     public void addRoomsToBoard(ArrayList<Room> roomsToAdd) {
+        roomsOnBoard.addAll(roomsToAdd);
+    }
 
-
+    public void addScenesToEachRoom(ArrayList<SceneCard> scenesToAdd) {
+        int i = 0;
+        for (Room room : this.roomsOnBoard) {
+            for (SceneCard card : scenesToAdd) {
+                room.getSceneCardDeck().addCard(card);
+            }
+        }
     }
 
     /**

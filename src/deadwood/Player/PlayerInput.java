@@ -20,12 +20,12 @@ public class PlayerInput {
      * @return The number of players playing this game of Deadwood
      */
     public int getNumberOfPlayers() {
-        int numberOfPlayersPlaying = 20;
+        int numberOfPlayersPlaying = 8;
         System.out.println("How many players are playing?");
         System.out.println("> ");
         try {
             int numberOfPlayersEntered = scanner.nextInt();
-            while (numberOfPlayersEntered > 20 || numberOfPlayersEntered < 0) {
+            while (numberOfPlayersEntered > 8 || numberOfPlayersEntered < 2) {
                 System.out.println("Sorry, we've gotta cap you at 20.");
                 System.out.println("Try again!");
                 numberOfPlayersEntered = scanner.nextInt();

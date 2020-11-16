@@ -63,7 +63,7 @@ public class Gamemaster {
         int numberOfPlayers = currentPlayerController.playerInput.getNumberOfPlayers();
         Room trailer = new Trailer();
         for (int i = 0; i < numberOfPlayers; i++) {
-            Player player = new Player(i, trailer, numberOfPlayers, rankController.getAvailableRanks());
+            Player player = new Player(i + 1, trailer, numberOfPlayers, rankController.getAvailableRanks());
             playersOnBoard.add(player);
         }
         boardController.boardData.setDaysLeft(numberOfPlayers);
@@ -94,6 +94,7 @@ public class Gamemaster {
             ArrayList<Room> roomsToAdd = boardParser.parseBoardXML(boardXML);
             ArrayList<SceneCard> scenesToAdd = sceneParser.parseCardXML(cardXML);
             boardController.boardData.addRoomsToBoard(roomsToAdd);
+            boardController.boardData.addScenesToEachRoom(scenesToAdd);
         } catch (Exception e) {
             e.printStackTrace();
         }
