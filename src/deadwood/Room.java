@@ -15,11 +15,12 @@ import java.util.Collection;
  */
 public abstract class Room {
     // to set up adjacent rooms for a given Room, look at the XML!
-    private final Collection<Room> adjacentRooms = new ArrayList<>();
-    private final Collection<Player> playersInRoom = new ArrayList<>();
-    private final Collection<Role> offcardRoles = new ArrayList<>();
     public String name;
     public boolean isActive;
+
+    final Collection<Room> adjacentRooms = new ArrayList<>();
+    final Collection<Player> playersInRoom = new ArrayList<>();
+    final Collection<Role> roles = new ArrayList<>();
 
     public Room() {
 
@@ -31,5 +32,13 @@ public abstract class Room {
         } else {
             this.playersInRoom.add(player);
         }
+    }
+
+    public void addRoles(Collection<Role> rolesToAdd) {
+        roles.addAll(rolesToAdd);
+    }
+
+    public void addAdjacentRooms(Collection<Room> adjacentRoomsToAdd) {
+        this.adjacentRooms.addAll(adjacentRoomsToAdd);
     }
 }

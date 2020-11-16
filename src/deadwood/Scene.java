@@ -64,13 +64,10 @@ public class Scene extends Room {
     /**
      * wrapScene
      * <p>
-     * move to scene
+     * move to scene, sceneCardLeft--?
      */
     private void wrapScene() {
-        sceneCardsLeft--;
-        /*
-        if day is over, run endDay. if last day,
-        run gamemaster.endGame()
-        */
+//        if day is over, run endDay. if last day,
+//        run gamemaster.endGame()
     }
 }

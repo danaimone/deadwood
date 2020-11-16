@@ -1,7 +1,9 @@
 package deadwood;
 
 public class PlayableRoom extends Room {
+    private final String name;
+
     public PlayableRoom(String name) {
-        super(name);
+        this.name = name;
     }
 }

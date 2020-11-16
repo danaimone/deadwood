@@ -27,7 +27,7 @@ public class Deadwood {
 //        make a while loop to cycle through players turns until 1 scene card is left
 //        */
 //
-//        XMLParser parseXML = new XMLParser();
+//        BoardXMLParser parseXML = new BoardXMLParser();
 //
 //        /*
 //        //read board data

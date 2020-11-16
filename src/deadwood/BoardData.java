@@ -1,5 +1,7 @@
 package deadwood;
 
+import java.util.ArrayList;
+
 /**
  * BoardController data contains any data relating to the BoardController
  */
@@ -9,6 +11,7 @@ public class BoardData {
     private int sceneCardsInPlay;
     private int sceneCardsLeft;
     private int currentDay;
+    private ArrayList<Room> roomsOnBoard;
 
 
     /* Constructor for BoardData */
@@ -77,13 +80,26 @@ public class BoardData {
     }
 
     /**
+     * Add Rooms to Board
+     *
+     * Given an array of Rooms, add them to the BoardData's
+     * roomsOnBoard array.
+     * @param roomsToAdd an ArrayList of Rooms to add
+     */
+    public void addRoomsToBoard(ArrayList<Room> roomsToAdd) {
+
+
+    }
+
+    /**
      * Set initial current player in play on board.
      * Arguably, current player could be part of Gamemaster, but a given player active
      * on board has a higher cohesion with the BoardController itself.
      *
      */
-
     public void advanceDay() {
         this.currentDay++;
     }
+
+
 }
