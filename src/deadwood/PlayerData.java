@@ -29,6 +29,9 @@ public class PlayerData {
         // this.currentRoom = new Room();
     }
 
+    /*
+        Getters
+     */
     public String getName() {
         return name;
     }
@@ -61,10 +64,12 @@ public class PlayerData {
         return currentRoom;
     }
 
+    /*
+        Setters
+     */
     public void setName(String name) {
         this.name = name;
     }
-
 
     public void setDollars(int dollars) {
         this.dollars = dollars;
@@ -89,6 +94,10 @@ public class PlayerData {
     public void setCurrentRoom(Room currentRoom) {
         this.currentRoom = currentRoom;
     }
+
+    /*
+        Helper Functions for Player Data
+     */
 }
 
 
