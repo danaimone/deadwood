@@ -5,6 +5,11 @@ package deadwood;
  */
 public class Decision {
     private static Decision decisionInstance;
+
+    public String getDecision() {
+        return decision;
+    }
+
     private String decision;
 
     public Decision() {

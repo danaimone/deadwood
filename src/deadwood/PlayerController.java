@@ -18,12 +18,29 @@ public class PlayerController {
     private boolean canMove;
     private boolean canAct;
     private boolean canRehearse;
+    private boolean canUpgrade;
+
+    /**
+     * Set can upgrade
+     * Determine whether the player can upgrade, given
+     * their current room. Essentially, this is checking that
+     * their currentRoom is CastingOffice.
+     * @param canUpgrade
+     */
+    public void setCanUpgrade(boolean canUpgrade) {
+        this.canUpgrade = (player.getCurrentRoom() instanceof CastingOffice);
+    }
 
     /* Constructor 'singleton'
      * TODO: might want to updatePlayer when the constructor is called, just to get everything set up
      * */
     PlayerController() {
         playerInput = new PlayerInput();
+        setCanMove();
+        setCanAct();
+        setCanRehearse();
+        setCanTakeRole();
+        player.setWantsToEndTurn(false);
     }
 
     /**
@@ -31,18 +48,18 @@ public class PlayerController {
      * <p>
      * Update a new Player for Player Controller
      * setCurrentPlayer is called after every person has a turn
-     * TODO: consider the order of setting booleans
      * consider whether you want to reset player wanting to end turn
+     * This is essentially also ensuring that our Player Controller
+     * has the current player at any given time.
      *
      * @param player PlayerData object to setup
      */
     void updatePlayer(Player player) {
         this.player = player;
-        setCanAct();
         setCanMove();
+        setCanAct();
         setCanRehearse();
         setCanTakeRole();
-        player.setWantsToEndTurn(false);
     }
 
     /**
@@ -82,7 +99,7 @@ public class PlayerController {
      */
     private void setCanMove() {
         // doesn't have role
-        this.canMove = player.getRole() == null;
+        this.canMove = !player.isWorking();
     }
 
     /**
@@ -149,6 +166,33 @@ public class PlayerController {
             }
         }
     }
+
+    private void handleDecision(Player player) {
+        Decision playerDecision = player.getPlayerDecision();
+        String decision = playerDecision.getDecision();
+        if (!player.isWorking()) {
+            if (decision.contains("Move") && canMove) {
+                if (decision.contains("Upgrade") && canUpgrade) {
+                    // upgrade();
+                    // TODO: how do we make the consideration of upgrading before
+                    //       or after a move?
+                    //
+                }
+                // move();
+            }
+
+            if (decision.contains("Role") && canTakeARole) {
+                // takeARole();
+            }
+        } else {
+            if (decision.contains("Act") && canAct) {
+                // act();
+            } else if (decision.contains("Rehearse") && canRehearse){
+                // rehearse();
+            }
+        }
+    }
+
 
     /**
      * Perform Turn
