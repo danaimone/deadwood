@@ -265,15 +265,12 @@ public class PlayerController {
             if (!isWorking()) {
                 if (playerDecision.contains("Upgrade") && canUpgrade) {
                     upgrade();
-                    // TODO: how do we make the consideration of upgrading before
-                    //       or after a move?
-                    //
                 }
                 if (playerDecision.contains("Move") && canMove) {
                     canAct = false;
                     canTakeARole = false;
                     canRehearse = false;
-                    // move();
+//                    move()
                 }
 
                 if (playerDecision.contains("Role") && canTakeARole) {
@@ -326,7 +323,7 @@ public class PlayerController {
             // provides too much, but this is easier for now
         }
 
-
+        canUpgrade = false;
     }
 
     public void setRank(Rank rank, int dollar, int credit) {
