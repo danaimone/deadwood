@@ -3,23 +3,12 @@ package deadwood;
 import java.util.Scanner;
 
 public class PlayerInput {
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
     private int numberOfPlayers;
 
     /**
-     * Setter for setNumberOfPlayers
-     *
-     * Private, as the number of players doesn't need to be changed afterwards.
-     * Only needs to be used by getNumberOfPlayers
-     * @param numberOfPlayers the number of players that are playing
-     */
-    private void setNumberOfPlayers(int numberOfPlayers) {
-        this.numberOfPlayers = numberOfPlayers;
-    }
-
-    /**
      * Gets command line input for the number of players.
-     *
+     * <p>
      * Theoretically, we can have an infinite amount of people playing..
      * although we should probably say there's a hard max of 20.
      *
@@ -41,6 +30,18 @@ public class PlayerInput {
             System.out.println("Please enter a valid number.");
         }
         return numberOfPlayersPlaying;
+    }
+
+    /**
+     * Setter for setNumberOfPlayers
+     * <p>
+     * Private, as the number of players doesn't need to be changed afterwards.
+     * Only needs to be used by getNumberOfPlayers
+     *
+     * @param numberOfPlayers the number of players that are playing
+     */
+    private void setNumberOfPlayers(int numberOfPlayers) {
+        this.numberOfPlayers = numberOfPlayers;
     }
 
 }

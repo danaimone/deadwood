@@ -7,7 +7,7 @@ package deadwood;
  * There exists multiple PlayerDatas for the set of Players in Deadwood.
  */
 public class Player {
-    private int ID;
+    private final int ID;
     //    private int playerNumber;
     private int dollars;
     private int credits;
@@ -63,6 +63,10 @@ public class Player {
         return this.dollars;
     }
 
+    public void setDollars(int dollars) {
+        this.dollars = dollars;
+    }
+
     /**
      * getCredits
      * Retrieves this players credits
@@ -73,6 +77,10 @@ public class Player {
         return this.credits;
     }
 
+    public void setCredits(int credits) {
+        this.credits = credits;
+    }
+
     /**
      * getRank
      * Retrieves this players current rank
@@ -81,6 +89,17 @@ public class Player {
      */
     public int getRank() {
         return this.rank;
+    }
+
+    /**
+     * Set Rank
+     * <p>
+     * Setter for rank
+     *
+     * @param rank rank to set to
+     */
+    private void setRank(int rank) {
+        this.rank = rank;
     }
 
     /**
@@ -97,6 +116,10 @@ public class Player {
         }
     }
 
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     /**
      * getRehearsalTokens
      * Retrieves this players current rehearsal tokens.
@@ -105,6 +128,10 @@ public class Player {
      */
     public int getRehearsalTokens() {
         return this.rehearsalTokens;
+    }
+
+    public void setRehearsalTokens(int rehearsalTokens) {
+        this.rehearsalTokens = rehearsalTokens;
     }
 
     /**
@@ -117,20 +144,15 @@ public class Player {
         return this.currentRoom;
     }
 
+    public void setCurrentRoom(Room currentRoom) {
+        this.currentRoom = currentRoom;
+    }
+
     /*
         Setters
      */
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setDollars(int dollars) {
-        this.dollars = dollars;
-    }
-
-
-    public void setCredits(int credits) {
-        this.credits = credits;
     }
 
     /**
@@ -150,14 +172,6 @@ public class Player {
         }
     }
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public void setRehearsalTokens(int rehearsalTokens) {
-        this.rehearsalTokens = rehearsalTokens;
-    }
-
     /**
      * Sets a player's initial rank
      * <p>
@@ -170,21 +184,6 @@ public class Player {
         } else {
             setRank(1);
         }
-    }
-
-    /**
-     * Set Rank
-     * <p>
-     * Setter for rank
-     *
-     * @param rank rank to set to
-     */
-    private void setRank(int rank) {
-        this.rank = rank;
-    }
-
-    public void setCurrentRoom(Room currentRoom) {
-        this.currentRoom = currentRoom;
     }
 
     /*

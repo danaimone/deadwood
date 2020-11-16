@@ -1,7 +1,5 @@
 package deadwood;
 
-import java.util.*;
-
 /**
  * Player
  * <p>
@@ -11,15 +9,14 @@ import java.util.*;
  * This class makes all manipulation relating to a Player's turn
  */
 public class PlayerController {
+    Player player;
+    PlayerInput playerInput;
     /* Actions (while my turn has not ended)*/
     private boolean canTakeARole; // can I move? can I act?
     private boolean canMove;
     private boolean canAct;
     private boolean canRehearse;
     private boolean endTurn;
-
-    Player player;
-    PlayerInput playerInput;
 
     /* Constructor 'singleton' */
     PlayerController() {
@@ -80,11 +77,8 @@ public class PlayerController {
      * Post-condition: player can no longer move?
      */
     private void setCanMove() {
-        if (player.getRole() == null) { // doesn't have role
-            this.canMove = true;
-        } else {
-            this.canMove = false;
-        }
+        // doesn't have role
+        this.canMove = player.getRole() == null;
     }
 
     /**
@@ -100,11 +94,7 @@ public class PlayerController {
      * - player can either act or not act
      */
     private void setCanAct() {
-        if (this.player.getRole() != null) {
-            this.canAct = true;
-        } else {
-            this.canAct = false;
-        }
+        this.canAct = this.player.getRole() != null;
     }
 
     /**
@@ -122,12 +112,8 @@ public class PlayerController {
      * - player can either take a role or not take a role
      */
     private void setCanTakeRole() {
-        if (this.player.getRole() == null &&
-                player.getCurrentRoom().isActive) {
-            canTakeARole = true;
-        } else {
-            canTakeARole = false;
-        }
+        canTakeARole = this.player.getRole() == null &&
+                player.getCurrentRoom().isActive;
     }
 
     /**

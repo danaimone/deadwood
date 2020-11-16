@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * care about any of the middle elements
  */
 public class Deck {
-    private ArrayList<Card> deck;
+    private final ArrayList<Card> deck;
     private int currentCard; // deal THIS card in the deck!
 
     public Deck() {
@@ -20,12 +20,12 @@ public class Deck {
 
     /**
      * Draw Card
-     *
+     * <p>
      * Draws a card from the deck.
-     *
+     * <p>
      * Pre-condition:
      * - currentCard does not exceed the deck size.
-     *
+     * <p>
      * Post-condition:
      * - The currentCard value index card is returned, and currentCard is incremented.
      * - Note that the use of post-incrementation allows us to evaluate deck.get() at the correct position
@@ -40,8 +40,9 @@ public class Deck {
 
     /**
      * Fill Deck
-     *
+     * <p>
      * Fills deck with given cards
+     *
      * @param cardsToInsert An Array filled with the Cards to be inserted.
      */
     public void fillDeck(ArrayList<Card> cardsToInsert) {

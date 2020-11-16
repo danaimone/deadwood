@@ -7,6 +7,7 @@ public class DeadwoodPrinter {
 
     /**
      * Prints current player
+     *
      * @param currentPlayer current player on Board
      */
     void printCurrentPlayer(String currentPlayer) {

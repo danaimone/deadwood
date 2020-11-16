@@ -11,27 +11,28 @@ public class Role {
     protected String roleDescription;
     protected boolean starring;
 
-    public Role(){
+    public Role() {
 
     }
 
-    private String getName(){
+    private String getName() {
         return roleName;
     }
 
-    private int getDifficulty(){
+    private int getDifficulty() {
         return roleDifficulty;
     }
+
     //probably wanna change this
-    private String getArea(){
-        return x+y+w+h;
+    private String getArea() {
+        return x + y + w + h;
     }
 
-    private String getDescription(){
+    private String getDescription() {
         return roleDescription;
     }
 
-    public void printRoleData(){
+    public void printRoleData() {
         System.out.printf("    Role name: %s, Difficulty: %d%n        Area(x, y, w, h): %s %s %s %s%n        Line: %s%n", roleName, roleDifficulty, x, y, w, h, roleDescription);
     }
 }

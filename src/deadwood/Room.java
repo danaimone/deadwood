@@ -15,13 +15,11 @@ import java.util.Collection;
  */
 public abstract class Room {
     public String name;
-
-
-    // to set up adjacent rooms for a given Room, look at the XML!
-    private Collection<Room> adjacentRooms = new ArrayList<>();
-    private Collection<Player> playersInRoom = new ArrayList<>();
     public boolean isActive;
-    private Collection<Role> offcardRoles = new ArrayList<>();
+    // to set up adjacent rooms for a given Room, look at the XML!
+    private final Collection<Room> adjacentRooms = new ArrayList<>();
+    private final Collection<Player> playersInRoom = new ArrayList<>();
+    private final Collection<Role> offcardRoles = new ArrayList<>();
 
     public Room() {
 

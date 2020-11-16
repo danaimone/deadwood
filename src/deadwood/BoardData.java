@@ -6,15 +6,12 @@ package deadwood;
 public class BoardData {
 
 
+    public Player[] playersOnBoard;
+    public Player currentPlayer;
     private int daysLeft; //how many days the game lasts
     private int sceneCardsInPlay;
     private int sceneCardsLeft;
     private int currentDay;
-
-    public Player[] playersOnBoard;
-
-
-    public Player currentPlayer;
 
 
     /* Constructor for BoardData */
@@ -42,30 +39,13 @@ public class BoardData {
         return daysLeft;
     }
 
-    public int getSceneCardsInPlay() {
-        return sceneCardsInPlay;
-    }
-
-    public int getSceneCardsLeft() {
-        return sceneCardsLeft;
-    }
-
-    public int getCurrentDay() {
-        return currentDay;
-    }
-
-
-    /*
-     * Setters
-     */
-
     /**
      * Set Days Left
      * <p>
      * Essentially, days left is the same as how many days
      * there are to play. Initially, this is based off how
      * many players are playing.
-     *
+     * <p>
      * If there are 2 or 3 players, we only play 3 days.
      * If there are 4 players, there are no changes.
      *
@@ -79,16 +59,33 @@ public class BoardData {
         }
     }
 
-    public void setCurrentDay(int currentDay) {
-        this.currentDay = currentDay;
+    public int getSceneCardsInPlay() {
+        return sceneCardsInPlay;
     }
 
     public void setSceneCardsInPlay(int sceneCardsInPlay) {
         this.sceneCardsInPlay = sceneCardsInPlay;
     }
 
+
+    /*
+     * Setters
+     */
+
+    public int getSceneCardsLeft() {
+        return sceneCardsLeft;
+    }
+
     public void setSceneCardsLeft(int sceneCardsLeft) {
         this.sceneCardsLeft = sceneCardsLeft;
+    }
+
+    public int getCurrentDay() {
+        return currentDay;
+    }
+
+    public void setCurrentDay(int currentDay) {
+        this.currentDay = currentDay;
     }
 
     /**

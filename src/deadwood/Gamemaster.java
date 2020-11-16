@@ -1,16 +1,16 @@
 package deadwood;
 
-import java.util.*;
+import java.util.ArrayList;
 
 public class Gamemaster {
     private Board board;
-    private DeadwoodPrinter printer;
+    private final DeadwoodPrinter printer;
 
     private PlayerController playerController;
 
     // TODO: arguable, sceneCards
     // need some sort of Scene controller
-    private ArrayList<Scene> sceneCards = new ArrayList<Scene>(); //stores all the scene cards and their data
+    private final ArrayList<Scene> sceneCards = new ArrayList<Scene>(); //stores all the scene cards and their data
 
     /**
      * In the case that a printer is not passed, a new one will be created instead.
@@ -21,6 +21,7 @@ public class Gamemaster {
 
     /**
      * Constructor for Gamemaster, in the case that you would like to pass a printer.
+     *
      * @param printer the DeadwoodPrinter to be used among the package
      */
     public Gamemaster(DeadwoodPrinter printer) {

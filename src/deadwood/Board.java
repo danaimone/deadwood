@@ -23,7 +23,7 @@ public class Board {
 
     /**
      * Add Players to Board
-     *
+     * <p>
      * Adds player to the board's data. Number of players is required
      * for the rank construction.
      */
@@ -76,11 +76,7 @@ public class Board {
      */
     private void isGameOver() {
         assert this.boardData != null;
-        if (this.boardData.getDaysLeft() == 0) {
-            gameIsOver = true;
-        } else {
-            gameIsOver = false;
-        }
+        gameIsOver = this.boardData.getDaysLeft() == 0;
     }
 
 }

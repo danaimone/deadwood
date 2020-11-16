@@ -1,10 +1,5 @@
 package deadwood;
 
-import org.w3c.dom.Document;
-
-import java.util.Collections;
-import java.util.Scanner;
-
 /**
  * This is the main driving class for the entire game of Deadwood.
  */
