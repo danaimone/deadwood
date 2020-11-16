@@ -1,5 +1,7 @@
 package deadwood;
 
+import deadwood.Printer.DeadwoodPrinter;
+
 /**
  * This is the main driving class for the entire game of Deadwood.
  */
@@ -11,10 +13,10 @@ public class Deadwood {
      * @param args
      */
     public static void main(String[] args) {
-        DeadwoodPrinter printer = new DeadwoodPrinter();
-        Gamemaster game = new Gamemaster(printer);
+        DeadwoodPrinter deadwoodPrinter = new DeadwoodPrinter();
+        Gamemaster game = new Gamemaster(deadwoodPrinter);
         String gameWinner = game.playDeadwood();
-        printer.printWinner(gameWinner);
+        deadwoodPrinter.printWinner(gameWinner);
     }
 }
 //    public static void alt_main(String[] args) {
@@ -54,7 +56,7 @@ public class Deadwood {
 //        /*
 //        This reads data out from each scene card and its roles
 //        for(int i = 0; i < game.sceneCards.size(); i++){
-//            Scene sceneTest = game.sceneCards.get(i);
+//            SceneCard sceneTest = game.sceneCards.get(i);
 //            sceneTest.printSceneInfo();
 //            for(int j = 0; j < sceneTest.roles.size(); j++){
 //                Role roleTest = sceneTest.roles.get(j);

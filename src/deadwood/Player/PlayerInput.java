@@ -1,10 +1,13 @@
-package deadwood;
+package deadwood.Player;
+
+import deadwood.RankController;
 
 import java.util.Scanner;
 
 public class PlayerInput {
     private static final Scanner scanner = new Scanner(System.in);
     private int numberOfPlayers;
+    Decision inputDecision;
 
     /**
      * Gets command line input for the number of players.
@@ -62,7 +65,7 @@ public class PlayerInput {
         }
 
         Decision turnDecision = new Decision(decision);
-        playerController.player.setPlayerDecision(turnDecision);
+        setInputDecision(turnDecision);
     }
 
     /**
@@ -91,10 +94,40 @@ public class PlayerInput {
     }
 
     /**
+     * Get input decision
      *
+     * Gets the current player input decision
+     * @return
      */
-    void getPlayerCurrencyChoice(Player player) {
+    Decision getInputDecision() {
+        return this.inputDecision;
 
     }
 
+    public void setInputDecision(Decision decision) {
+        inputDecision = decision;
+    }
+
+    /*
+            Helper Functions for Player decisions
+         */
+    public static class Decision {
+        public String decision;
+
+        public Decision() {
+            this.decision = "";
+        }
+
+        public Decision(String decision) {
+            this.decision = decision;
+        }
+
+        String getDecision() {
+            return decision;
+        }
+
+        public void setDecision(String decision) {
+            this.decision = decision;
+        }
+    }
 }

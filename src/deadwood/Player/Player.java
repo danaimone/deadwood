@@ -1,4 +1,9 @@
-package deadwood;
+package deadwood.Player;
+
+import deadwood.Rank;
+import deadwood.Role;
+import deadwood.Room;
+import deadwood.SceneCard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,10 +24,10 @@ public class Player {
     private Rank rank;
 
     private int rehearsalTokens;
-    private Decision playerDecision;
     private Role role;
     private Room currentRoom;
-    private Scene currentScene;
+    private SceneCard currentSceneCard;
+    private PlayerInput.Decision currentPlayerDecision;
 
     /**
      * Player Constructor
@@ -66,14 +71,6 @@ public class Player {
             Rank rank = availableRanks.get(1);
             setRank(rank);
         }
-    }
-
-    public Decision getPlayerDecision() {
-        return playerDecision;
-    }
-
-    public void setPlayerDecision(Decision playerDecision) {
-        this.playerDecision = playerDecision;
     }
 
     /*
@@ -208,19 +205,24 @@ public class Player {
         }
     }
 
-    public Scene getCurrentScene() {
-        assert currentScene != null;
-        return currentScene;
+    public SceneCard getCurrentScene() {
+        assert currentSceneCard != null;
+        return currentSceneCard;
     }
 
-    public void setCurrentScene(Scene currentScene) {
-        this.currentScene = currentScene;
+    public void setCurrentScene(SceneCard currentSceneCard) {
+        this.currentSceneCard = currentSceneCard;
+    }
+
+    public String getCurrentPlayerDecision() {
+         return currentPlayerDecision.getDecision();
+    }
+
+    public void setCurrentPlayerDecision(PlayerInput.Decision decision) {
+        this.currentPlayerDecision = decision;
     }
 
 
-    /*
-        Helper Functions for Player Data
-     */
 }
 
 

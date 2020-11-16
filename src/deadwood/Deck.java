@@ -10,12 +10,28 @@ import java.util.ArrayList;
  * care about any of the middle elements
  */
 public class Deck<Card> {
-    private final ArrayList<Card> deck;
+    private ArrayList<Card> deck;
     private int currentCard; // deal THIS card in the deck!
 
-    public Deck() {
-        this.deck = new ArrayList<>();
+    public Deck(int size) {
+        this.deck = new ArrayList<>(size);
         this.currentCard = 0;
+    }
+
+    public ArrayList<Card> getDeck() {
+        return deck;
+    }
+
+    public void setDeck(ArrayList<Card> deck) {
+        this.deck = deck;
+    }
+
+    public int getCurrentCard() {
+        return currentCard;
+    }
+
+    public void setCurrentCard(int currentCard) {
+        this.currentCard = currentCard;
     }
 
     /**

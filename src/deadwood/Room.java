@@ -1,5 +1,7 @@
 package deadwood;
 
+import deadwood.Player.Player;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -11,16 +13,16 @@ import java.util.Collection;
  * each Room having a specific name.
  * <p>
  * Rooms has off-card roles
- * Each room holds a Scene, a Scene holds a card, and a Scene also knows the off-card roles
+ * Each room holds a SceneCard, a SceneCard holds a card, and a SceneCard also knows the off-card roles
  */
 public abstract class Room {
     // to set up adjacent rooms for a given Room, look at the XML!
     public String name;
     public boolean isActive;
 
-    final Collection<Room> adjacentRooms = new ArrayList<>();
-    final Collection<Player> playersInRoom = new ArrayList<>();
-    final Collection<Role> roles = new ArrayList<>();
+    public Collection<Room> adjacentRooms = new ArrayList<>();
+    public Collection<Player> playersInRoom = new ArrayList<>();
+    public Collection<Role> roles = new ArrayList<>();
 
     public Room() {
 

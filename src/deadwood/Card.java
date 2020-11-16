@@ -3,18 +3,19 @@ package deadwood;
 import java.util.ArrayList;
 import java.util.Collection;
 
-/**
- * TODO: define whether Card is an abstract class
- * We could consider SceneCards to be an extension of the abstract class Card
- * but is that necessary?
- */
-public class Card {
+public abstract class Card {
     private final String name;
+    private int number;
+    private String img;
     private final String description;
     private final int budget;
     private Collection<Role> rolesOnCard = new ArrayList<Role>();
 
-    private boolean flipped;
+    public Card () {
+        this.name = null;
+        this.description = null;
+        this.budget = 0;
+    }
 
     /**
      * Card
@@ -31,6 +32,46 @@ public class Card {
         this.rolesOnCard = rolesOnCard;
         this.flipped = false;
     }
+
+    public Card(String name, String description, int budget) {
+        this.name = name;
+        this.description = description;
+        this.budget = budget;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getBudget() {
+        return budget;
+    }
+
+    public Collection<Role> getRolesOnCard() {
+        return rolesOnCard;
+    }
+
+    public void setRolesOnCard(Collection<Role> rolesOnCard) {
+        this.rolesOnCard = rolesOnCard;
+    }
+
+    public int getTotalRoles() {
+        return totalRoles;
+    }
+
+    public void setTotalRoles(int totalRoles) {
+        this.totalRoles = totalRoles;
+    }
+
+    private int totalRoles;
+
+    private boolean flipped;
+
+
 
     /**
      * Flip the card

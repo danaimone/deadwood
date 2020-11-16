@@ -1,35 +1,48 @@
 package deadwood;
 
+import deadwood.Board.BoardController;
+import deadwood.Board.BoardData;
+import deadwood.Player.Player;
+import deadwood.Player.PlayerController;
+import deadwood.Printer.DeadwoodPrinter;
+import deadwood.XML.BoardParser;
+import deadwood.XML.SceneParser;
+
 import java.io.File;
 import java.util.ArrayList;
 
 public class Gamemaster {
+    /* Board */
     public static ArrayList<Player> playersOnBoard = new ArrayList<>();
-    private static BoardController boardController;
+    private static BoardController boardController = new BoardController();
     private final BoardData boardData;
-    private final DeadwoodPrinter printer;
 
-    PlayerController currentPlayer;
-    private final Deck<Card> sceneCards = new Deck<>();
+    /* Printers */
+    private DeadwoodPrinter deadwoodPrinter;
+
+    /* Player */
+    public static PlayerController currentPlayerController = new PlayerController();
+
+    /* Cards */
+    private final Deck<SceneCard> sceneCards = new Deck<>(40);
 
     /**
      * In the case that a printer is not passed, a new one will be created instead.
      */
     public Gamemaster() {
-        this.printer = new DeadwoodPrinter();
-        currentPlayer = new PlayerController();
+        currentPlayerController = new PlayerController();
         this.boardData = boardController.boardData;
     }
 
     /**
      * Constructor for Gamemaster, in the case that you would like to pass a printer.
      *
-     * @param printer the DeadwoodPrinter to be used among the package
+     * @param deadwoodPrinter the DeadwoodPrinter to be used among the package
      */
-    public Gamemaster(DeadwoodPrinter printer) {
-        currentPlayer = new PlayerController();
+    public Gamemaster(DeadwoodPrinter deadwoodPrinter) {
         this.boardData = boardController.boardData;
-        this.printer = printer;
+        this.deadwoodPrinter = deadwoodPrinter;
+        deadwoodPrinter.setPlayerController(currentPlayerController);
     }
 
     /**
@@ -43,11 +56,11 @@ public class Gamemaster {
      * This function also sets up the boardController a bit more.
      * The boardController setting up could be separated specifically into
      * class related functions, so this function could use some work.
-     * @param gamemaster
+     *
      */
-    static void setupPlayers(Gamemaster gamemaster) {
+    static void setupPlayers() {
         RankController rankController = new RankController();
-        int numberOfPlayers = gamemaster.currentPlayer.playerInput.getNumberOfPlayers();
+        int numberOfPlayers = currentPlayerController.playerInput.getNumberOfPlayers();
         Room trailer = new Trailer();
         for (int i = 0; i < numberOfPlayers; i++) {
             Player player = new Player(i, trailer, numberOfPlayers, rankController.getAvailableRanks());
@@ -71,23 +84,27 @@ public class Gamemaster {
         PlayerController playerController = new PlayerController();
         BoardController boardController = new BoardController();
         System.out.println("Welcome to Deadwood!");
-        setupPlayers(this);
+        setupPlayers();
 
-        BoardXMLParser boardParser = new BoardXMLParser();
-        File XMLBoard = new File("xml/board.xml");
+        BoardParser boardParser = new BoardParser();
+        SceneParser sceneParser = new SceneParser();
+        File boardXML = new File("xml/board.xml");
+        File cardXML = new File("xml/cards.xml");
         try {
-            boardData.addRoomsToBoard(boardParser.parseBoardXML(XMLBoard));
+            ArrayList<Room> roomsToAdd = boardParser.parseBoardXML(boardXML);
+            ArrayList<SceneCard> scenesToAdd = sceneParser.parseCardXML(cardXML);
+            boardController.boardData.addRoomsToBoard(roomsToAdd);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        printer.setPlayerController(currentPlayer);
+        deadwoodPrinter.setPlayerController(currentPlayerController);
 
         while (boardController.boardData.getDaysLeft() > 0) {
-            printer.printCurrentPlayer();
-            printer.printPlayerData();
-            printer.printPlayerOptions();
-            while (!currentPlayer.wantsToEndTurn()) {
-                playerController.playerInput.getPlayerOptionInput(currentPlayer);
+            deadwoodPrinter.printCurrentPlayer();
+            deadwoodPrinter.printPlayerData(playerController);
+            deadwoodPrinter.printPlayerOptions();
+            while (!currentPlayerController.wantsToEndTurn()) {
+                playerController.playerInput.getPlayerOptionInput(currentPlayerController);
                 playerController.handleDecision();
                 playerController.determinePlayerTurnOptions();
 //                playerController.updatePlayerOptions(currentPlayer);

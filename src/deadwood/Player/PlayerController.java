@@ -1,4 +1,6 @@
-package deadwood;
+package deadwood.Player;
+
+import deadwood.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,8 +14,8 @@ import java.util.Map;
  * This class makes all manipulation relating to a Player's turn
  */
 public class PlayerController {
-    Player player;
-    PlayerInput playerInput = new PlayerInput();
+    public Player player;
+    public PlayerInput playerInput = new PlayerInput();
 
     RankController rankController = new RankController();
     HashMap<Integer, Rank> availableRanks = rankController.getAvailableRanks();
@@ -58,7 +60,7 @@ public class PlayerController {
      * starts out at the Trailers.
      *
      */
-    PlayerController() {
+    public PlayerController() {
         canMove = true;
         canAct = true;
         canTakeARole = true;
@@ -193,7 +195,7 @@ public class PlayerController {
      */
     public void determinePlayerTurnOptions() {
         player.turnOptions.add("End Turn");
-        Scene playersCurrentScene = player.getCurrentScene();
+        SceneCard playersCurrentSceneCard = player.getCurrentScene();
         if (player.getCurrentRoom() instanceof CastingOffice) {
             player.turnOptions.add("Upgrade Rank");
         }
@@ -203,7 +205,7 @@ public class PlayerController {
             player.turnOptions.add("Take a role (opt.)");
         } else {
             player.turnOptions.add("Act");
-            if (player.getRehearsalTokens() < playersCurrentScene.getBudget()) {
+            if (player.getRehearsalTokens() < playersCurrentSceneCard.getBudget()) {
                 player.turnOptions.add("Rehearse");
             }
         }
@@ -236,6 +238,7 @@ public class PlayerController {
         }
     }
 
+
     /**
      * Handle Decision
      * <p>
@@ -252,32 +255,30 @@ public class PlayerController {
      * to do any move they are not allowed to.
      *
      */
-    void handleDecision() {
-        Decision playerDecision = player.getPlayerDecision();
-        String decision = playerDecision.getDecision();
-        while (!wantsToEndTurn() || decision.contains("End")) {
+    public void handleDecision() {
+        String playerDecision = player.getCurrentPlayerDecision();
+        while (!wantsToEndTurn() || playerDecision.contains("End")) {
             if (!isWorking()) {
-                if (decision.contains("Upgrade") && canUpgrade) {
+                if (playerDecision.contains("Upgrade") && canUpgrade) {
                     upgrade();
                     // TODO: how do we make the consideration of upgrading before
                     //       or after a move?
                     //
                 }
-
-                if (decision.contains("Move") && canMove) {
+                if (playerDecision.contains("Move") && canMove) {
                     canAct = false;
                     canTakeARole = false;
                     canRehearse = false;
                     // move();
                 }
 
-                if (decision.contains("Role") && canTakeARole) {
+                if (playerDecision.contains("Role") && canTakeARole) {
                     // takeARole();
                 }
             } else if (isWorking()) {
-                if (decision.contains("Act") && canAct) {
+                if (playerDecision.contains("Act") && canAct) {
                     // act();
-                } else if (decision.contains("Rehearse") && canRehearse) {
+                } else if (playerDecision.contains("Rehearse") && canRehearse) {
                     // rehearse();
                 }
             }
@@ -390,6 +391,4 @@ public class PlayerController {
         will also probably trigger stuff for undiscovered scenes
         */
     }
-
-
 }

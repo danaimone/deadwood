@@ -1,4 +1,6 @@
-package deadwood;
+package deadwood.Board;
+
+import deadwood.Room;
 
 import java.util.ArrayList;
 

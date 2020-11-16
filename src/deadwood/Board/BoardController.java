@@ -1,4 +1,4 @@
-package deadwood;
+package deadwood.Board;
 
 /**
  * BoardController is a singleton class that should exist in one instance of a game of Deadwood.

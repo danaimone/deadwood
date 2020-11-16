@@ -3,6 +3,8 @@ package deadwood;
 
 public class Role {
     protected String roleName;
+
+
     protected int roleDifficulty;
     protected String x;
     protected String y;
@@ -14,6 +16,71 @@ public class Role {
     public Role() {
 
     }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
+    public int getRoleDifficulty() {
+        return roleDifficulty;
+    }
+
+    public void setRoleDifficulty(int roleDifficulty) {
+        this.roleDifficulty = roleDifficulty;
+    }
+
+    public String getX() {
+        return x;
+    }
+
+    public void setX(String x) {
+        this.x = x;
+    }
+
+    public String getY() {
+        return y;
+    }
+
+    public void setY(String y) {
+        this.y = y;
+    }
+
+    public String getW() {
+        return w;
+    }
+
+    public void setW(String w) {
+        this.w = w;
+    }
+
+    public String getH() {
+        return h;
+    }
+
+    public void setH(String h) {
+        this.h = h;
+    }
+
+    public String getRoleDescription() {
+        return roleDescription;
+    }
+
+    public void setRoleDescription(String roleDescription) {
+        this.roleDescription = roleDescription;
+    }
+
+    public boolean isStarring() {
+        return starring;
+    }
+
+    public void setStarring(boolean starring) {
+        this.starring = starring;
+    }
+
 
     private String getName() {
         return roleName;

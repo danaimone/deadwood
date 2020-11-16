@@ -1,5 +1,7 @@
 package deadwood;
 
+import deadwood.Printer.DeadwoodPrinter;
+
 import java.util.Scanner;
 
 public class CastingOffice extends Room {

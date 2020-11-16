@@ -1,17 +1,21 @@
 package deadwood.XML;
 
+import deadwood.Card;
 import deadwood.Role;
-import deadwood.Scene;
+import deadwood.SceneCard;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
 import java.util.ArrayList;
 
-class SceneParser extends XMLParser {
-    public ArrayList<Scene> readCardData(Document doc) {
-        ArrayList<Scene> allCards = new ArrayList<Scene>(); //arraylist of cards to return;
+public class SceneParser extends XMLParser {
+    public ArrayList<SceneCard> parseCardXML(File cardData) throws ParserConfigurationException {
+        Document doc = getDocFromFile(cardData);
+        ArrayList<SceneCard> allCards = new ArrayList<SceneCard>(); //arraylist of cards to return;
 
         Element root = doc.getDocumentElement();
         NodeList cards = root.getElementsByTagName("card");
@@ -48,8 +52,8 @@ class SceneParser extends XMLParser {
                     String partName = sub.getAttributes().getNamedItem("name").getNodeValue();
                     String partLevel = sub.getAttributes().getNamedItem("level").getNodeValue();
 
-                    tempRole.roleName = partName;
-                    tempRole.roleDifficulty = Integer.parseInt(partLevel);
+                    tempRole.setRoleName(partName);
+                    tempRole.setRoleDifficulty(Integer.parseInt(partLevel));
 
                     totalRoles++;
 
@@ -63,24 +67,24 @@ class SceneParser extends XMLParser {
                             String pW = partDataNode.getAttributes().getNamedItem("w").getNodeValue();
                             String pH = partDataNode.getAttributes().getNamedItem("h").getNodeValue();
 
-                            tempRole.x = pX;
-                            tempRole.y = pY;
-                            tempRole.w = pW;
-                            tempRole.h = pH;
+                            tempRole.setX(pX);
+                            tempRole.setY(pY);
+                            tempRole.setW(pW);
+                            tempRole.setH(pH);
 
                         }
                         if ("line".equals(partDataNode.getNodeName())) {
                             String line = partDataNode.getTextContent();
-
-                            tempRole.roleDescription = line;
-
+                            tempRole.setRoleDescription(line);
                         }
                     }
                     roles.add(tempRole);
                 }
             }
-            Scene newScene = new Scene(cardName, cardImg, Integer.parseInt(cardBudget), sceneNumber, sceneDescription, totalRoles, roles);
-            allCards.add(newScene);
+//            SceneCard newSceneCard = new SceneCard(cardName, cardImg, Integer.parseInt(cardBudget), sceneNumber, sceneDescription, totalRoles, roles);
+            SceneCard newSceneCard = new SceneCard();
+
+            allCards.add(newSceneCard);
         }
         return allCards;
     }
