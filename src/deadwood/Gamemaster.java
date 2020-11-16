@@ -9,7 +9,7 @@ public class Gamemaster {
     private PlayerController playerController;
     private int numberOfPlayers;
     private Player[] players;
-    private PlayerView playerView = new PlayerView();
+    private PlayerInput playerInput = new PlayerInput();
 
     // TODO: arguable, sceneCards
     // need some sort of Scene controller
@@ -44,7 +44,7 @@ public class Gamemaster {
      * Setup Players
      */
     private void setupPlayer() {
-        boardData.setDaysLeft(playerView.getNumberOfPlayers());
+        boardData.setDaysLeft(playerInput.getNumberOfPlayers());
 
     }
 

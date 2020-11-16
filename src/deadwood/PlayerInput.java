@@ -2,7 +2,7 @@ package deadwood;
 
 import java.util.Scanner;
 
-public class PlayerView {
+public class PlayerInput {
     private static Scanner scanner = new Scanner(System.in);
     private int numberOfPlayers;
 
