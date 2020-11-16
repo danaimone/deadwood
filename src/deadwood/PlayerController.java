@@ -121,16 +121,6 @@ public class PlayerController {
     }
 
     /**
-     * get user input
-     * <p>
-     * uses scanner object with player
-     * TODO: this function
-     */
-    private String getUserInput() {
-        return "";
-    }
-
-    /**
      * Determine Player Turn Options
      * <p>
      * Determines the available options for a player to make for the printer to handle and display.
