@@ -45,7 +45,7 @@ public class PlayerInput {
     }
 
     /**
-     * Get Player Input
+     * Get Player Option Input
      * <p>
      * Asks a player for what they would like to do, following a set of options.
      * This function ensures that a user cannot enter a new decision that is not valid,
@@ -53,7 +53,7 @@ public class PlayerInput {
      *
      * @param currentPlayer The current player who's input we want
      */
-    public void getPlayerInput(Player currentPlayer) {
+    public void getPlayerOptionInput(Player currentPlayer) {
         System.out.println("What would you like to do given the options above?");
         String decision = scanner.nextLine();
         while (!currentPlayer.turnOptions.contains(decision)) {
@@ -63,6 +63,35 @@ public class PlayerInput {
 
         Decision turnDecision = new Decision(decision);
         currentPlayer.setPlayerDecision(turnDecision);
+    }
+
+    /**
+     * Gets player input on what rank they would
+     * like to upgrade to.
+     *
+     * TODO: should we be concerned about whether the user can afford it here?
+     *       it'll probably save some headache
+     *
+     * @param player player who is trying to upgrade rank
+     * @return the rank number they want to upgrade to
+     */
+    public int getPlayerUpgradeInput(Player player) {
+        int rank = -1;
+        System.out.println("What rank would you like to upgrade to?");
+        try {
+            rank = scanner.nextInt();
+            while (rank <= player.getRank() || rank > 6) {
+                // TODO: replace with printer functions
+                System.out.println("You entered an invalid rank.");
+                System.out.println("Please choose a rank between 1 and 6.");
+                rank = scanner.nextInt();
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("You sneaky little dog, you. That's not a valid rank!");
+            System.out.println("I suggest entering a number before I get real angry.");
+        }
+
+        return rank;
     }
 
 

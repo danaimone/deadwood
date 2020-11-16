@@ -11,8 +11,12 @@ import java.util.ArrayList;
 public class Player {
     private final int ID;
     public ArrayList<String> turnOptions;
+
     private int dollars;
     private int credits;
+
+
+    private int bank;
     private int rehearsalTokens;
     private int rank;
     private Decision playerDecision;
@@ -41,6 +45,14 @@ public class Player {
         setInitialCredits(numberOfPlayers);
         this.turnOptions = new ArrayList<String>();
         this.currentRoom = room;
+    }
+
+    public int getBank() {
+        return bank;
+    }
+
+    public void setBank() {
+        this.bank = dollars + credits;
     }
 
     public Decision getPlayerDecision() {

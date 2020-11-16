@@ -57,7 +57,7 @@ public class Gamemaster {
             printer.printPlayerData(currentPlayer);
             printer.printPlayerOptions(currentPlayer);
             while (!currentPlayer.wantsToEndTurn()) {
-                playerController.playerInput.getPlayerInput(currentPlayer);
+                playerController.playerInput.getPlayerOptionInput(currentPlayer);
 
                 playerController.handleDecision(currentPlayer);
                 playerController.determinePlayerTurnOptions(currentPlayer);

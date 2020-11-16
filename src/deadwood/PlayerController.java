@@ -10,7 +10,7 @@ package deadwood;
  */
 public class PlayerController {
     Player player;
-    PlayerInput playerInput;
+    PlayerInput playerInput = new PlayerInput();
     /* Actions (while my turn has not ended)*/
     private boolean canTakeARole; // can I move? can I act?
     private boolean canMove;
@@ -18,15 +18,28 @@ public class PlayerController {
     private boolean canRehearse;
     private boolean canUpgrade;
 
-    /* Constructor 'singleton'
-     * TODO: might want to updatePlayer when the constructor is called, just to get everything set up
-     * */
+    /*
+     * Constructor 'singleton'
+     *
+     * A Player Controller should really only be made at the beginning of program
+     * operation, thus these should be the assumed rules given that a player
+     * starts out at the Trailers.
+     *
+     */
     PlayerController() {
-        playerInput = new PlayerInput();
+        canMove = true;
+        canAct = true;
+        canTakeARole = true;
+        canRehearse = false;
+        canUpgrade = false;
+    }
+
+    public void updatePlayer() {
         setCanMove();
         setCanAct();
         setCanRehearse();
         setCanTakeRole();
+        setCanUpgrade();
         player.setWantsToEndTurn(false);
     }
 
@@ -36,9 +49,8 @@ public class PlayerController {
      * their current room. Essentially, this is checking that
      * their currentRoom is CastingOffice.
      *
-     * @param canUpgrade
      */
-    public void setCanUpgrade(boolean canUpgrade) {
+    public void setCanUpgrade() {
         this.canUpgrade = (player.getCurrentRoom() instanceof CastingOffice);
     }
 
@@ -53,7 +65,7 @@ public class PlayerController {
      *
      * @param player PlayerData object to setup
      */
-    void updatePlayerOptions(Player player) {
+    void updatePlayer(Player player) {
         this.player = player;
         setCanMove();
         setCanAct();
@@ -188,7 +200,7 @@ public class PlayerController {
         while (!player.wantsToEndTurn() || decision.contains("End")) {
             if (!player.isWorking()) {
                 if (decision.contains("Upgrade") && canUpgrade) {
-                    // upgrade();
+                    upgrade(player);
                     // TODO: how do we make the consideration of upgrading before
                     //       or after a move?
                     //
@@ -213,6 +225,28 @@ public class PlayerController {
             }
         }
         player.setWantsToEndTurn(true);
+    }
+
+    /**
+     * Perform upgrade
+     *
+     * Rank Chart:
+     * Rank 2: 4 dollars or 5 credits
+     * Rank 3: 10 dollars or 10 credits
+     * Rank 4: 18 dollars or 15 credits
+     * Rank 5: 28 dollars or 20 credits
+     * Rank 6: 40 dollars 25 credits
+     */
+    private void upgrade(Player player) {
+        int rankChoice = playerInput.getPlayerUpgradeInput(player);
+        // TODO: is it a valid rank choice?
+        switch (rankChoice) {
+            case 2:
+                if (player.getDollars() > 4 || player.getCredits() > 5) {
+
+                }
+        }
+
     }
 
 
