@@ -2,25 +2,52 @@ package deadwood;
 
 import java.util.*;
 
-import org.w3c.dom.Document;
-
 public class Gamemaster {
     private Board board;
+    private BoardData boardData;
+
     private PlayerController playerController;
-    private boolean boardRandom; //false is default layout, true is randomized layout
     private int numberOfPlayers;
     private Player[] players;
+    private PlayerView playerView = new PlayerView();
+
     // TODO: arguable, sceneCards
     // need some sort of Scene controller
     private ArrayList<Scene> sceneCards = new ArrayList<Scene>(); //stores all the scene cards and their data
-    private static Scanner scanner = new Scanner(System.in);
 
     /* Constructor Singleton */
     public Gamemaster() {
         board = new Board();
+        boardData = board.boardData;
+    }
 
+    /**
+     * Play Deadwood
+     *
+     * This is the driving force behind the entire program.
+     * Invoking this method will run the console program of Deadwood.
+     * Make sure this is what you want to do!
+     *
+     * This is package protected, since no one should need access to this outside of the package.
+     * @return The winner of this entire game!
+     */
+    String playDeadwood() {
+        System.out.println("Welcome to Deadwood!");
+        // TODO: Here's where we set up players.
+        //       This involves grabbing their names,
+        //       and getting all the related number specific jazz setup!
+
+        return "It was me all along!";
+    }
+
+    /**
+     * Setup Players
+     */
+    private void setupPlayer() {
+        boardData.setDaysLeft(playerView.getNumberOfPlayers());
 
     }
+
 
     private int calculateScore(PlayerController playerController) {
         int score = 0;
@@ -54,17 +81,17 @@ public class Gamemaster {
         int startingCredits = 0;
         int startingRank = 1;
         if (numberOfPlayers <= 3) {
-            Board.BoardData.gameLength = 3;
+            BoardData.gameLength = 3;
         } else if (numberOfPlayers == 4) {
-            Board.BoardData.gameLength = 4;
+            BoardData.gameLength = 4;
         } else if (numberOfPlayers == 5) {
-            Board.BoardData.gameLength = 4;
+            BoardData.gameLength = 4;
             startingCredits = 2;
         } else if (numberOfPlayers == 6) {
-            Board.BoardData.gameLength = 4;
+            BoardData.gameLength = 4;
             startingCredits = 4;
         } else {
-            Board.BoardData.gameLength = 4;
+            BoardData.gameLength = 4;
             startingRank = 2;
         }
         for (int i = 1; i <= numberOfPlayers; i++) {
