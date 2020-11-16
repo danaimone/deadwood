@@ -7,7 +7,7 @@ package deadwood;
  * There exists multiple PlayerDatas for the set of Players in Deadwood.
  */
 public class Player {
-    private String name;
+    private int ID;
     //    private int playerNumber;
     private int dollars;
     private int credits;

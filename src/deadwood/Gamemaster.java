@@ -42,6 +42,8 @@ public class Gamemaster {
 
     /**
      * Setup Players
+     *
+     * Gets all player names and player inputs
      */
     private void setupPlayer() {
         boardData.setDaysLeft(playerInput.getNumberOfPlayers());

@@ -36,8 +36,20 @@ public class BoardData {
         return currentDay;
     }
 
-    public void setDaysLeft(int daysLeft) {
-        this.daysLeft = daysLeft;
+    /**
+     * Set Days Left
+     *
+     * Essentially, days left is the same as how many days
+     * there are to play. Initially, this is based off how
+     * many players are playing.
+     * @param numberOfPlayers The number of Players playing Deadwood
+     */
+    public void setDaysLeft(int numberOfPlayers) {
+        if (numberOfPlayers < 4) {
+            this.daysLeft = 3;
+        } else {
+            this.daysLeft = 4;
+        }
     }
 
     public void setCurrentDay(int currentDay) {
