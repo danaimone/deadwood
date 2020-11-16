@@ -3,9 +3,12 @@ package deadwood;
 import java.util.ArrayList;
 import java.util.Collection;
 
-/*
-each room has a card
-make abstract class
+/**
+ * Room is an abstract class that is implemented
+ * by more specific Rooms, such as CastingOffice.
+ *
+ * Name details the actual Room type, although this should be inferred by
+ * each Room having a specific name.
  */
 public abstract class Room {
     public static String name;
