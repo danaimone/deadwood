@@ -101,9 +101,9 @@ public class Gamemaster {
 
     private int calculateScore(PlayerController playerController) {
         int score = 0;
-        score += playerController.getDollars();
-        score += playerController.getCredits();
-        score += (playerController.getRank() * 5);
+        score += playerController.playerData.getDollars();
+        score += playerController.playerData.getCredits();
+        score += (playerController.playerData.getRank() * 5);
         return score;
     }
 
