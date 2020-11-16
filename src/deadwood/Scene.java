@@ -2,6 +2,9 @@ package deadwood;
 
 import java.util.*;
 
+/**
+ *
+ */
 public class Scene {
     /* TODO: scene controller:
         every time someone wants to start a scene (only one player does it at a time)

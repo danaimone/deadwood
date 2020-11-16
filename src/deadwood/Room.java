@@ -6,42 +6,21 @@ import java.util.Collection;
 /**
  * Room is an abstract class that is implemented
  * by more specific Rooms, such as CastingOffice.
- *
+ * <p>
  * Name details the actual Room type, although this should be inferred by
  * each Room having a specific name.
+ * <p>
+ * Rooms has off-card roles
+ * Each room holds a Scene, a Scene holds a card, and a Scene also knows the off-card roles
  */
 public abstract class Room {
-    public static String name;
-    protected Collection<Room> adjacentRooms = new ArrayList<>();
-    Collection<Player> playersInRoom = new ArrayList<>();
+    public String name;
+    private Collection<Room> adjacentRooms = new ArrayList<>();
+    private Collection<Player> playersInRoom = new ArrayList<>();
     public boolean isActive;
-    // adjacentRooms
-
-
+    private Collection<Role> offcardRoles = new ArrayList<>();
 
     public Room(String name) {
-        Room.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    /**
-     * addPlayer
-     *
-     * Adds player to the current Room object. Players are stored in an array of Players.
-     * @param playerController Player to be added to Room
-     * @throws RuntimeException if player is already in Room
-     */
-    public void addPlayer(PlayerController playerController) throws RuntimeException {
-        if (playersInRoom.contains(playerController)) {
-            throw new RuntimeException("Player is already in " + Room.name + ".");
-        }
-        playersInRoom.add(playerController);
-    }
-
-    private PlayerController[] getPlayersInRoom(){
-        return null;
+        this.name = name;
     }
 }
