@@ -32,6 +32,14 @@ public class PlayerInput {
         return numberOfPlayersPlaying;
     }
 
+    /**
+     * Get Player Input
+     *
+     * Asks a player for what they would like to do, following a set of options.
+     * Please ensure that you actually provided the user options to check out!
+     *
+     * @param currentPlayer The current player who's input we want
+     */
     public void getPlayerInput(Player currentPlayer) {
         System.out.println("What would you like to do given the options above?");
         String decision = scanner.nextLine();

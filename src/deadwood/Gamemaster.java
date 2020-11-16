@@ -56,9 +56,8 @@ public class Gamemaster {
             printer.printCurrentPlayer(currentPlayer);
             printer.printPlayerData(currentPlayer);
             printer.printPlayerOptions(currentPlayer);
-            // TODO: get input from player as to what they would like to do
-
-
+            playerController.playerInput.getPlayerInput(currentPlayer);
+            playerController.performTurn();
         }
 
         return "It was me all along!";
