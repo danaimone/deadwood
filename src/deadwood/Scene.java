@@ -25,7 +25,7 @@ public class Scene {
     private int totalRoles;
     private boolean isVisible;
 
-    public Scene(String name, String image, int budget, String number, String description, int roleTotal, ArrayList<Role> roleList){
+    public Scene(String name, String image, int budget, String number, String description, int roleTotal, ArrayList<Role> roleList) {
         sceneName = name;
         sceneImage = image;
         sceneBudget = budget;
@@ -56,8 +56,8 @@ public class Scene {
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
     }
-    
-    public void printSceneInfo(){
+
+    public void printSceneInfo() {
         System.out.printf("Scene name: %s, Scene Budget: %d, Scene Img: %s%n    Scene Number: %s, Scene Desc: %s%n    Total Roles: %d%n", sceneName, sceneBudget, sceneImage, sceneNumber, sceneDescription, totalRoles);
     }
 
@@ -65,7 +65,6 @@ public class Scene {
      * wrapScene
      * <p>
      * move to scene
-     *
      */
     private void wrapScene() {
         sceneCardsLeft--;
