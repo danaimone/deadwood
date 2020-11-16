@@ -178,6 +178,37 @@ public class PlayerController {
     }
 
     /**
+     * Determine rank options
+     *
+     * This function determines a players rank options at any given point in the game.
+     * @param player The player whose rank options we are determining
+     */
+    public void determineRankOptions(Player player) {
+        int credits = player.getCredits();
+        int dollars = player.getDollars();
+
+        if (dollars >= 4 || credits >= 5) {
+            player.rankOptions.add(2);
+        }
+
+        if (dollars >= 10 || credits >= 10) {
+            player.rankOptions.add(3);
+        }
+
+        if (dollars >= 18 || credits >= 15) {
+            player.rankOptions.add(4);
+        }
+
+        if (dollars >= 28 || credits >= 20) {
+            player.rankOptions.add(5);
+        }
+
+        if (dollars >= 40 || credits >= 25) {
+            player.rankOptions.add(6);
+        }
+
+    }
+    /**
      * Handle Decision
      * <p>
      * Handle decision handles a given players decision, given

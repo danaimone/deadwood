@@ -80,7 +80,7 @@ public class PlayerInput {
         System.out.println("What rank would you like to upgrade to?");
         try {
             rank = scanner.nextInt();
-            while (rank <= player.getRank() || rank > 6) {
+            while (rank <= player.getRank() || rank > 6) { // check if valid rank choice
                 // TODO: replace with printer functions
                 System.out.println("You entered an invalid rank.");
                 System.out.println("Please choose a rank between 1 and 6.");

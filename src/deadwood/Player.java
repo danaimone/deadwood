@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class Player {
     private final int ID;
     public ArrayList<String> turnOptions;
+    public ArrayList<Integer> rankOptions;
 
     private int dollars;
     private int credits;
@@ -26,12 +27,15 @@ public class Player {
     private boolean wantsToEndTurn;
     private boolean isWorking;
     private boolean hasTakenRole;
+
     /**
-     * PlayerData Constructor
+     * Player Constructor
      * Sets up name, dollars, credits, rehearsal tokens, and rank.
      * The only variable parameter for the first construction of a Player
      * is the name. A player's current room always starts out in a trailer
      * in the game of Deadwood.
+     *
+     * A player can have at most 5 rank options at any given time.
      *
      * @param name            The name of the new Player to create.
      * @param room            The trailer to set them in (this should always be a Room of type Trailer)
@@ -43,7 +47,8 @@ public class Player {
         this.rehearsalTokens = 0;
         setInitialRank(numberOfPlayers);
         setInitialCredits(numberOfPlayers);
-        this.turnOptions = new ArrayList<String>();
+        this.turnOptions = new ArrayList<>();
+        this.rankOptions = new ArrayList<>(5);
         this.currentRoom = room;
     }
 
