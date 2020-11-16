@@ -141,8 +141,6 @@ public class PlayerController {
      * If they are working, they can only Act or Rehearse, and they can only Rehearse if
      * they have less Rehearsal Tokens than the budget.
      *
-     *
-     * @return
      */
     public void determinePlayerTurnOptions(Player player) {
         player.turnOptions.add("End Turn");
