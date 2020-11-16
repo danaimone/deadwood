@@ -83,6 +83,23 @@ public class DeadwoodPrinter extends Printer{
         System.out.printf("%nRank 2: 4 Dollars OR 5 Credits%nRank 3: 10 Dollars OR 10 Credits%nRank 4: 18 Dollars OR 15 Credits%nRank 5: 28 Dollars OR 20 Credits%nRank 6: 40 Dollars OR 25 Credits%n");
     }
 
+    public void printUpgradeCase() {
+        System.out.println("You've chosen to upgrade!");
+    }
+
+    public void printDollarPrompt() {
+        System.out.println("Please enter how many dollars you wish to spend:");
+    }
+
+    public void printCreditPrompt() {
+        System.out.println("Please enter how many credits you wish to spend:");
+    }
+
+    public void printExcessEnteredError() {
+        System.out.println("You entered more than you have, silly!");
+        System.out.println("Try again.");
+    }
+
     private void askRank() {
         System.out.printf("%nWhich rank would you like to upgrade to? [2], [3]...[6]. Or go [back]%n");
     }

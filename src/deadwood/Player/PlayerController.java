@@ -1,6 +1,7 @@
 package deadwood.Player;
 
 import deadwood.*;
+import deadwood.Printer.DeadwoodPrinter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -75,7 +76,12 @@ public class PlayerController {
         setCanTakeRole();
         setCanUpgrade();
         setWantsToEndTurn(false);
+        setPlayerInput(null);
         updateRankOptions();
+    }
+
+    private void setPlayerInput(PlayerInput input) {
+        playerInput = input;
     }
 
     /**
@@ -219,7 +225,6 @@ public class PlayerController {
      * For each available rank in the Hashmap, get the Rank.
      * If it is the same rank (they have the exact same attributes), the player's rank options
      * has that Rank added.
-     *
      */
     public void updateRankOptions() {
         Rank currentRank = player.getRank();
@@ -253,7 +258,6 @@ public class PlayerController {
      * <p>
      * The boolean can checks act as safe guards to make sure a player isn't able
      * to do any move they are not allowed to.
-     *
      */
     public void handleDecision() {
         String playerDecision = player.getCurrentPlayerDecision();
@@ -302,22 +306,34 @@ public class PlayerController {
      * if the player
      */
     private void upgrade() {
+        DeadwoodPrinter printer = new DeadwoodPrinter();
         int rankChoice = playerInput.getPlayerUpgradeInput(this);
+        Rank chosenRank = availableRanks.get(rankChoice);
 //        String currencyChoice = playerInput.getCurrencyChoice(player);
         int currentDollars = player.getDollars();
         int currentCredits = player.getCredits();
-//        for (Rank rankOption :
-//                player.rankOptions) {
-//            // TODO: if player can afford it
-//            // prompt user for dollars or credits
-//
-//            }
-//
+
+        printer.printUpgradeCase();
+        int enteredDollars = playerInput.getDollarInput(this, printer);
+        int enteredCredits = playerInput.getCreditInput(this, printer);
+
+        int dollarDifference = currentDollars - enteredDollars;
+        int creditDifference = enteredCredits - currentCredits;
+
+        if (!(dollarDifference < 0 || creditDifference < 0)) { // ensuring no overflow
+            setRank(chosenRank, enteredDollars, enteredCredits);
+            // TODO: we could maybe make some edge case considerations if a user
+            // provides too much, but this is easier for now
         }
-        //
 
 
+    }
 
+    public void setRank(Rank rank, int dollar, int credit) {
+        player.setDollars(player.getDollars() - dollar);
+        player.setCredits(player.getCredits() - credit);
+        player.setRank(rank);
+    }
 
     public boolean wantsToEndTurn() {
         return wantsToEndTurn;
@@ -344,9 +360,9 @@ public class PlayerController {
     }
 
 
-        /**
-         * Perform Turn
-         */
+    /**
+     * Perform Turn
+     */
 //    void performTurn() {
 //        // here's the deal:
 //        // if you choose you want to move  you're going to be updating other variables

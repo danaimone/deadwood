@@ -1,11 +1,13 @@
 package deadwood.Player;
 
+import deadwood.Printer.DeadwoodPrinter;
 import deadwood.RankController;
 
 import java.util.Scanner;
 
 public class PlayerInput {
     private static final Scanner scanner = new Scanner(System.in);
+    DeadwoodPrinter printer;
     private int numberOfPlayers;
     Decision inputDecision;
 
@@ -68,6 +70,26 @@ public class PlayerInput {
         setInputDecision(turnDecision);
     }
 
+    public int getDollarInput(PlayerController playerController, DeadwoodPrinter printer) {
+        printer.printDollarPrompt();
+        int dollar = scanner.nextInt();
+        while (dollar > playerController.player.getDollars()) {
+            printer.printExcessEnteredError();
+            dollar = scanner.nextInt();
+        }
+        return dollar;
+    }
+
+    public int getCreditInput(PlayerController playerController, DeadwoodPrinter printer) {
+        printer.printCreditPrompt();
+        int credit = scanner.nextInt();
+        while (credit > playerController.player.getCredits()) {
+            printer.printExcessEnteredError();
+            credit = scanner.nextInt();
+        }
+        return credit;
+    }
+
     /**
      * Gets player input on what rank they would
      * like to upgrade to.
@@ -117,6 +139,7 @@ public class PlayerInput {
         public Decision() {
             this.decision = "";
         }
+
 
         public Decision(String decision) {
             this.decision = decision;
