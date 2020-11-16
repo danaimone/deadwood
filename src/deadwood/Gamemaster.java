@@ -3,15 +3,17 @@ package deadwood;
 import java.util.ArrayList;
 
 public class Gamemaster {
-    private Board board;
+    private final Board board;
     private BoardData boardData;
     private final DeadwoodPrinter printer;
 
-    private PlayerController playerController;
+    private final PlayerController playerController;
 
     // TODO: arguable, sceneCards
     // need some sort of Scene controller
-    private final ArrayList<Scene> sceneCards = new ArrayList<Scene>(); //stores all the scene cards and their data
+    // TODO: change this into a deck to be more specific? a deck is essentially an array list, but
+    //       Deck HAS-A Scene card
+    private final Deck<Card> sceneCards = new Deck<>();
 
     /**
      * In the case that a printer is not passed, a new one will be created instead.
@@ -47,11 +49,15 @@ public class Gamemaster {
      * @return The winner of this entire game!
      */
     String playDeadwood() {
+        Player currentPlayer = board.boardData.currentPlayer;
         System.out.println("Welcome to Deadwood!");
         setupPlayers();
         while (board.boardData.getDaysLeft() > 0) {
-            // TODO: - display locations
-            printer.printCurrentPlayer(boardData.currentPlayer);
+            printer.printCurrentPlayer(currentPlayer);
+            printer.printPlayerData(currentPlayer);
+            // TODO: printTurnOptions function that takes in an Array of options a player can make
+
+
 
         }
 
