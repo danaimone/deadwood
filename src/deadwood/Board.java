@@ -30,7 +30,7 @@ public class Board {
     public void addPlayersToBoard(int numberOfPlayers) {
         for (int i = 0; i < boardData.playersOnBoard.length; i++) {
             Room trailer = new Trailer();
-            Player player = new Player(i, trailer);
+            Player player = new Player(i, trailer, numberOfPlayers);
             trailer.addPlayer(player);
         }
     }

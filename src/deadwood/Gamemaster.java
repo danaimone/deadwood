@@ -41,14 +41,20 @@ public class Gamemaster {
      * Setup Players
      *
      * Gets all player names and player inputs
+     * This takes care of setting up all the player objects
+     * and the players for the Board in its entirety, since
+     * those are inherently built into their respective classes.
+     *
+     * This function also sets up the board a bit more.
+     * The board setting up could be separated specifically into
+     * class related functions, so this function could use some work.
      *
      */
     private void setupPlayers() {
         int numberOfPlayers = playerInput.getNumberOfPlayers();
         board.boardData = new BoardData(numberOfPlayers);
         board.boardData.setDaysLeft(numberOfPlayers);
-
-
+        board.addPlayersToBoard(numberOfPlayers);
     }
 
     private int calculateScore(PlayerController playerController) {
