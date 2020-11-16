@@ -2,8 +2,9 @@ package deadwood;
 
 /**
  * PlayerData
- *
- * PlayerData represents multiple Players in a game of Deadwood.
+ * <p>
+ * PlayerData represents each individual Player in a game of Deadwood.
+ * There exists multiple PlayerDatas for the set of Players in Deadwood.
  */
 public class PlayerData {
     private String name;
@@ -12,7 +13,6 @@ public class PlayerData {
     private int credits;
     private int rehearsalTokens;
     private int rank;
-
 
 
     private Role role;
@@ -32,36 +32,79 @@ public class PlayerData {
     /*
         Getters
      */
+
+    /**
+     * getName
+     * Retrieves this players name
+     *
+     * @return String name this player's name
+     */
     public String getName() {
-        return name;
-    }
-
-    public int getDollars() {
-        return dollars;
-    }
-
-    public int getCredits() {
-        return credits;
-    }
-
-    public int getRank() {
-        return rank;
+        return this.name;
     }
 
     /**
+     * getDollars
+     * Retrieves this players dollars
      *
-     * @return null if role not available
+     * @return int this players dollars
+     */
+    public int getDollars() {
+        return this.dollars;
+    }
+
+    /**
+     * getCredits
+     * Retrieves this players credits
+     *
+     * @return int credits this players credits
+     */
+    public int getCredits() {
+        return this.credits;
+    }
+
+    /**
+     * getRank
+     * Retrieves this players current rank
+     *
+     * @return int rank this players current rank
+     */
+    public int getRank() {
+        return this.rank;
+    }
+
+    /**
+     * getRole
+     * Retrieves this players current role
+     *
+     * @return Role currentRole or null if role not available
      */
     public Role getRole() {
-        return role;
+        if (this.role != null) {
+            return null;
+        } else {
+            return this.role;
+        }
     }
 
+    /**
+     * getRehearsalTokens
+     * Retrieves this players current rehearsal tokens.
+     *
+     * @return int rehearsalTokens current amount of rehearsal tokens
+     */
     public int getRehearsalTokens() {
-        return rehearsalTokens;
+        return this.rehearsalTokens;
     }
 
+    /**
+     * getCurrentRoom
+     * Retrieves the current Room that player is in
+     *
+     * @return Room currentRoom this players current room
+     */
     public Room getCurrentRoom() {
-        return currentRoom;
+        return this.currentRoom;
     }
 
     /*
