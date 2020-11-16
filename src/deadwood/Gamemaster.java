@@ -82,8 +82,6 @@ public class Gamemaster {
         }
         printer.setPlayerController(currentPlayer);
 
-        // TODO: setup all the rooms and scenes to be populated all nicely
-        //      from the XML
         while (boardController.boardData.getDaysLeft() > 0) {
             printer.printCurrentPlayer();
             printer.printPlayerData();
