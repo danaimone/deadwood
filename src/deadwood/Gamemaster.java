@@ -93,8 +93,8 @@ public class Gamemaster {
         try {
             ArrayList<Room> roomsToAdd = boardParser.parseBoardXML(boardXML);
             ArrayList<SceneCard> scenesToAdd = sceneParser.parseCardXML(cardXML);
-            boardController.boardData.addRoomsToBoard(roomsToAdd);
-            boardController.boardData.addScenesToEachRoom(scenesToAdd);
+            boardController.boardData.addRoomsToBoard(roomsToAdd, scenesToAdd);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

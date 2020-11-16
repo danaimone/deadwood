@@ -83,21 +83,27 @@ public class BoardData {
     }
 
     /**
-     * Add Rooms to Board
+     * Add Fully BuiltRooms to Board
      *
-     * Given an array of Rooms, add them to the BoardData's
+     * Given an array of Rooms, add them to the BoardData's along with some scenes
      * roomsOnBoard array.
      * @param roomsToAdd an ArrayList of Rooms to add
      */
-    public void addRoomsToBoard(ArrayList<Room> roomsToAdd) {
-        roomsOnBoard.addAll(roomsToAdd);
+    public void addRoomsToBoard(ArrayList<Room> roomsToAdd, ArrayList<SceneCard> scenesToAdd) {
+        this.roomsOnBoard.addAll(roomsToAdd);
+        addScenesToEachRoom(scenesToAdd);
     }
 
-    public void addScenesToEachRoom(ArrayList<SceneCard> scenesToAdd) {
-        int i = 0;
+    /**
+     * add Scenes to Each Room
+     * Helper function for adding rooms to the board to ensure
+     * each room has 4 SceneCards.
+     * @param scenesToAdd an arraylist of all the scene cards
+     */
+    private void addScenesToEachRoom(ArrayList<SceneCard> scenesToAdd) {
         for (Room room : this.roomsOnBoard) {
-            for (SceneCard card : scenesToAdd) {
-                room.getSceneCardDeck().addCard(card);
+            for (int i = 0; i < 4; i++) {
+                room.getSceneCardDeck().addCard(scenesToAdd.remove(0));
             }
         }
     }
