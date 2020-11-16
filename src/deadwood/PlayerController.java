@@ -185,12 +185,8 @@ public class PlayerController {
     void handleDecision(Player player) {
         Decision playerDecision = player.getPlayerDecision();
         String decision = playerDecision.getDecision();
-        while (!player.wantsToEndTurn()) {
+        while (!player.wantsToEndTurn() || decision.contains("End")) {
             if (!player.isWorking()) {
-                if (decision.contains("End")) {
-                    player.setWantsToEndTurn(true);
-                }
-
                 if (decision.contains("Upgrade") && canUpgrade) {
                     // upgrade();
                     // TODO: how do we make the consideration of upgrading before
@@ -216,7 +212,7 @@ public class PlayerController {
                 }
             }
         }
-        updatePlayerOptions();
+        player.setWantsToEndTurn(true);
     }
 
 
