@@ -4,11 +4,8 @@ import java.util.*;
 
 public class Gamemaster {
     private Board board;
-    private BoardData boardData;
 
     private PlayerController playerController;
-    private int numberOfPlayers;
-    private Player[] players;
     private PlayerInput playerInput = new PlayerInput();
 
     // TODO: arguable, sceneCards
@@ -18,7 +15,7 @@ public class Gamemaster {
     /* Constructor Singleton */
     public Gamemaster() {
         board = new Board();
-        boardData = board.boardData;
+
     }
 
     /**
@@ -44,12 +41,15 @@ public class Gamemaster {
      * Setup Players
      *
      * Gets all player names and player inputs
+     *
      */
-    private void setupPlayer() {
-        boardData.setDaysLeft(playerInput.getNumberOfPlayers());
+    private void setupPlayers() {
+        int numberOfPlayers = playerInput.getNumberOfPlayers();
+        board.boardData = new BoardData(numberOfPlayers);
+        board.boardData.setDaysLeft(numberOfPlayers);
+
 
     }
-
 
     private int calculateScore(PlayerController playerController) {
         int score = 0;
@@ -76,37 +76,5 @@ public class Gamemaster {
         // TODO: implement setBoardLayout()
         //ask user if board should be default or randomized
         //create board layout, default or random
-    }
-
-    private void createPlayers() {
-        //create players with stats accordingly
-        int startingCredits = 0;
-        int startingRank = 1;
-        if (numberOfPlayers <= 3) {
-            BoardData.gameLength = 3;
-        } else if (numberOfPlayers == 4) {
-            BoardData.gameLength = 4;
-        } else if (numberOfPlayers == 5) {
-            BoardData.gameLength = 4;
-            startingCredits = 2;
-        } else if (numberOfPlayers == 6) {
-            BoardData.gameLength = 4;
-            startingCredits = 4;
-        } else {
-            BoardData.gameLength = 4;
-            startingRank = 2;
-        }
-        for (int i = 1; i <= numberOfPlayers; i++) {
-            PlayerController newPlayerController = new PlayerController(i, 100, startingCredits, rehearsalTokens, startingRank);
-            playerControllers.add(newPlayerController);
-        }
-        for (int i = 0; i < numberOfPlayers; i++) {
-            PlayerController current = playerControllers.get(i);
-            String print = current.printPlayerData();
-            System.out.println(print);
-        }
-
-        //player 1 goes first cause that's easiest
-        currentPlayerController = playerControllers.get(0);
     }
 }

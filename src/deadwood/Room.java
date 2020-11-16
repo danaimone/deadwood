@@ -23,6 +23,15 @@ public abstract class Room {
     public boolean isActive;
     private Collection<Role> offcardRoles = new ArrayList<>();
 
-    public Room(String name) {
+    public Room() {
+
+    }
+
+    public void addPlayer(Player player) {
+        if (playersInRoom.contains(player)) {
+            System.out.println("Player is already in that room!");
+        } else {
+            this.playersInRoom.add(player);
+        }
     }
 }

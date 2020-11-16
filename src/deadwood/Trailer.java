@@ -1,7 +1,9 @@
 package deadwood;
 
 public class Trailer extends Room{
-    public Trailer(String name) {
-        super(name);
+    private String name;
+
+    public Trailer() {
+        this.name = "Trailer";
     }
 }

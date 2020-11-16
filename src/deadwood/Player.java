@@ -26,16 +26,17 @@ public class Player {
      * is the name. A player's current room always starts out in a trailer
      * in the game of Deadwood.
      *
-     * @param name The name of the new Player to create.
+     * @param name            The name of the new Player to create.
+     * @param room            The trailer to set them in (this should always be a Room of type Trailer)
+     * @param numberOfPlayers the number of players playing
      */
-    public Player(String name) {
-        this.name = name;
+    public Player(int playerID, Room room, int numberOfPlayers) {
+        this.ID = playerID;
         this.dollars = 0;
-        this.credits = 0;
         this.rehearsalTokens = 0;
-        this.rank = 1;
-        // aiming to have this currentRoom be a Trailer object
-        // this.currentRoom = new Room();
+        setInitialRank(numberOfPlayers);
+        setInitialCredits(numberOfPlayers);
+        this.currentRoom = room;
     }
 
     /*
@@ -43,13 +44,13 @@ public class Player {
      */
 
     /**
-     * getName
+     * get
      * Retrieves this players name
      *
-     * @return String name this player's name
+     * @return int ID this player's ID
      */
-    public String getName() {
-        return this.name;
+    public int getID() {
+        return this.ID;
     }
 
     /**
@@ -127,8 +128,26 @@ public class Player {
         this.dollars = dollars;
     }
 
+
     public void setCredits(int credits) {
         this.credits = credits;
+    }
+
+    /**
+     * Set initial credits
+     * <p>
+     * Sets the initial credits based on the number of players playing the game.
+     *
+     * @param numberOfPlayers the number of players playing the game
+     */
+    public void setInitialCredits(int numberOfPlayers) {
+        if (numberOfPlayers == 5) {
+            setCredits(2);
+        } else if (numberOfPlayers == 6) {
+            setCredits(4);
+        } else {
+            setCredits(0);
+        }
     }
 
     public void setRole(Role role) {
@@ -139,7 +158,28 @@ public class Player {
         this.rehearsalTokens = rehearsalTokens;
     }
 
-    public void setRank(int rank) {
+    /**
+     * Sets a player's initial rank
+     * <p>
+     * When a player is created, their rank is first assigned based on the number of players.
+     * This sets their rank accordingly.
+     */
+    public void setInitialRank(int numberOfPlayers) {
+        if (numberOfPlayers > 7) {
+            setRank(2);
+        } else {
+            setRank(1);
+        }
+    }
+
+    /**
+     * Set Rank
+     * <p>
+     * Setter for rank
+     *
+     * @param rank rank to set to
+     */
+    private void setRank(int rank) {
         this.rank = rank;
     }
 

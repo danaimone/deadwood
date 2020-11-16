@@ -6,7 +6,7 @@ package deadwood;
  * the program, along with an instance of boardData
  */
 public class Board {
-    public BoardData boardData = new BoardData();
+    public BoardData boardData;
 
     private boolean dayIsOver;
     private boolean gameIsOver;
@@ -19,6 +19,20 @@ public class Board {
      */
     public Board() {
 
+    }
+
+    /**
+     * Add Players to Board
+     *
+     * Adds player to the board's data. Number of players is required
+     * for the rank construction.
+     */
+    public void addPlayersToBoard(int numberOfPlayers) {
+        for (int i = 0; i < boardData.playersOnBoard.length; i++) {
+            Room trailer = new Trailer();
+            Player player = new Player(i, trailer);
+            trailer.addPlayer(player);
+        }
     }
 
     /**
