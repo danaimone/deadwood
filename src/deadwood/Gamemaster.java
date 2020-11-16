@@ -1,5 +1,6 @@
 package deadwood;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class Gamemaster {
@@ -71,7 +72,16 @@ public class Gamemaster {
         BoardController boardController = new BoardController();
         System.out.println("Welcome to Deadwood!");
         setupPlayers(this);
+
+        BoardXMLParser boardParser = new BoardXMLParser();
+        File XMLBoard = new File("xml/board.xml");
+        try {
+            boardData.addRoomsToBoard(boardParser.parseBoardXML(XMLBoard));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         printer.setPlayerController(currentPlayer);
+
         // TODO: setup all the rooms and scenes to be populated all nicely
         //      from the XML
         while (boardController.boardData.getDaysLeft() > 0) {

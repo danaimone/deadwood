@@ -4,10 +4,13 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class BoardXMLParser {
@@ -103,13 +106,30 @@ public class BoardXMLParser {
     }
 
     /**
-     * Populates the board room array for sharing the Rooms
-     * in use for Deadwood. Sets the BoardXMLParsers
+     * parseBoardXml
      *
-     * @param sets
-     * @return
+     * Parses the board.xml file
+     * @param XMLFile the board.xml File object
+     * @return an Arraylist of Rooms that were in the XML
+     * @throws ParserConfigurationException if XML file was not in correct format
+     * @throws IOException if file could not be found
+     * @throws SAXException general XML exception
      */
-    private ArrayList<Room> createRoomArray(NodeList sets) {
+    public ArrayList<Room> parseBoardXML(File XMLFile) throws ParserConfigurationException, IOException, SAXException {
+        Document doc = null;
+        try {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            doc = db.parse(XMLFile);
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        NodeList sets = doc.getDocumentElement().getElementsByTagName("set");
         ArrayList<Room> roomsOnBoard = new ArrayList<>(sets.getLength());
         for (int i = 0; i < sets.getLength(); i++) {
             Node set = sets.item(i);
@@ -132,8 +152,8 @@ public class BoardXMLParser {
      * - Area
      * - Takes/shot-counter data
      *
-     * @param set          The set/room to extract the neighbors out of
-     * @param room         Room to add the neighboring rooms on to
+     * @param set  The set/room to extract the neighbors out of
+     * @param room Room to add the neighboring rooms on to
      */
     private void addNeighboringRooms(Node set, Room room) {
         NodeList setChildren = set.getChildNodes();
@@ -165,96 +185,4 @@ public class BoardXMLParser {
         }
         return neighboringRooms;
     }
-
-//    //reads the board.xml file
-//    public void readBoardData(Document doc) {
-//        Element root = doc.getDocumentElement();
-//        NodeList sets = root.getElementsByTagName("set");
-//        createRoomArray(sets);
-//
-//        //for each 'set' on the board
-//        for (int i = 0; i < sets.getLength(); i++) {
-//            Node set = sets.item(i);
-//            parseRooms(set);
-//
-//            //get the rest of the elements in the current set
-//            NodeList setChildren = set.getChildNodes();
-//
-//            Node sub = setChildren.item(j);
-//
-//            //gets neighbor data
-//            if ("neighbors".equals(sub.getNodeName())) {
-//                Element el = (Element) setChildren.item(j);
-//                NodeList neighbors = el.getElementsByTagName("neighbor");
-//                for (int x = 0; x < neighbors.getLength(); x++) {
-//                    Node neighbor = neighbors.item(x);
-//                    String neighborName = neighbor.getAttributes().getNamedItem("name").getNodeValue();
-//                    Room neighboringRoom = new PlayableRoom(neighborName);
-//
-//
-//                }
-//            }
-//            //gets set area data
-//            else if ("area".equals(sub.getNodeName())) {
-//                String sX = sub.getAttributes().getNamedItem("x").getNodeValue();
-//                String sY = sub.getAttributes().getNamedItem("y").getNodeValue();
-//                String sH = sub.getAttributes().getNamedItem("w").getNodeValue();
-//                String sW = sub.getAttributes().getNamedItem("h").getNodeValue();
-//                System.out.printf("    Set area; x: %s, y: %s, h: %s, w: %s%n", sX, sY, sH, sW);
-//            }
-//            //gets takes/shotcounter data
-//            else if ("takes".equals(sub.getNodeName())) {
-//                Element el = (Element) setChildren.item(j);
-//                NodeList takes = el.getElementsByTagName("take");
-//                int totalTakes = takes.getLength();
-//                System.out.println("    Set Takes: " + totalTakes);
-//
-//                //gets take data for later (gui stuff)
-//                for (int x = 0; x < takes.getLength(); x++) {
-//                    Node take = takes.item(x);
-//                    String takeNumber = take.getAttributes().getNamedItem("number").getNodeValue();
-//
-//                    Element takeEl = (Element) takes.item(x);
-//                    NodeList takeData = takeEl.getElementsByTagName("area");
-//                    for (int y = 0; y < takeData.getLength(); y++) {
-//                        Node takeArea = takeData.item(y);
-//                        String tX = takeArea.getAttributes().getNamedItem("x").getNodeValue();
-//                        String tY = takeArea.getAttributes().getNamedItem("y").getNodeValue();
-//                        String tH = takeArea.getAttributes().getNamedItem("h").getNodeValue();
-//                        String tW = takeArea.getAttributes().getNamedItem("w").getNodeValue();
-//                        System.out.printf("        Take area %s; x: %s, y: %s, h: %s, w: %s%n", takeNumber, tX, tY, tH, tW);
-//                    }
-//                }
-//            }
-//            //gets set parts data
-//            else if ("parts".equals(sub.getNodeName())) {
-//                Element el = (Element) setChildren.item(j);
-//                NodeList parts = el.getElementsByTagName("part");
-//
-//                for (int y = 0; y < parts.getLength(); y++) {
-//                    Node part = parts.item(y);
-//                    String partName = part.getAttributes().getNamedItem("name").getNodeValue();
-//                    String difficulty = part.getAttributes().getNamedItem("level").getNodeValue();
-//                    System.out.printf("    Part: %s, Difficulty: %s%n", partName, difficulty);
-//
-//                    NodeList partData = part.getChildNodes();
-//                    for (int z = 0; z < partData.getLength(); z++) {
-//                        Node partDataNode = partData.item(z);
-//                        if ("area".equals(partDataNode.getNodeName())) {
-//                            String pX = partDataNode.getAttributes().getNamedItem("x").getNodeValue();
-//                            String pY = partDataNode.getAttributes().getNamedItem("y").getNodeValue();
-//                            String pH = partDataNode.getAttributes().getNamedItem("w").getNodeValue();
-//                            String pW = partDataNode.getAttributes().getNamedItem("h").getNodeValue();
-//                            System.out.printf("        Part area; x: %s, y: %s, h: %s, w: %s%n", pX, pY, pH, pW);
-//                        }
-//                        if ("line".equals(partDataNode.getNodeName())) {
-//                            String line = partDataNode.getTextContent();
-//                            System.out.printf("        Line: %s%n", line);
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
 }
