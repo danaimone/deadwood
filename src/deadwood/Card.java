@@ -3,6 +3,11 @@ package deadwood;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * TODO: define whether Card is an abstract class
+ * We could consider SceneCards to be an extension of the abstract class Card
+ * but is that necessary?
+ */
 public class Card {
     private final String name;
     private final String description;
