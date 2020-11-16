@@ -13,6 +13,7 @@ import java.util.Collection;
 public abstract class Room {
     public static String name;
     protected Collection<Room> adjacentRooms = new ArrayList<>();
+    Collection<PlayerData> playersInRoom = new ArrayList<>();
     public boolean isActive;
     // adjacentRooms
 
