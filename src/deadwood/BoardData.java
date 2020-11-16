@@ -14,6 +14,9 @@ public class BoardData {
     public Player[] playersOnBoard;
 
 
+    public Player currentPlayer;
+
+
     /* Constructor for BoardData */
     public BoardData(int numberOfPlayers) {
         this.sceneCardsLeft = 40;
@@ -27,10 +30,13 @@ public class BoardData {
 
     }
 
+    /*
+     * Getters
+     */
+
     public Player[] getPlayersOnBoard() {
         return playersOnBoard;
     }
-
 
     public int getDaysLeft() {
         return daysLeft;
@@ -47,6 +53,11 @@ public class BoardData {
     public int getCurrentDay() {
         return currentDay;
     }
+
+
+    /*
+     * Setters
+     */
 
     /**
      * Set Days Left
@@ -78,6 +89,21 @@ public class BoardData {
 
     public void setSceneCardsLeft(int sceneCardsLeft) {
         this.sceneCardsLeft = sceneCardsLeft;
+    }
+
+    /**
+     * Set initial current player in play on board.
+     * Arguably, current player could be part of Gamemaster, but a given player active
+     * on board has a higher cohesion with the Board itself.
+     *
+     * @param currentPlayer the current player in play
+     */
+    public void setInitialCurrentPlayer() {
+        this.currentPlayer = playersOnBoard[0];
+    }
+
+    public void setCurrentPlayer(Player player) {
+        this.currentPlayer = player;
     }
 
     public void advanceDay() {
