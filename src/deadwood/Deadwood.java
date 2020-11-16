@@ -17,7 +17,7 @@ public class Deadwood {
      */
     public static void main(String[] args) {
         DeadwoodPrinter printer = new DeadwoodPrinter();
-        Gamemaster game = new Gamemaster();
+        Gamemaster game = new Gamemaster(printer);
         String gameWinner = game.playDeadwood();
         printer.printWinner(gameWinner);
     }
