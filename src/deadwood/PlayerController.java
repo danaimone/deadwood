@@ -136,27 +136,30 @@ public class PlayerController {
      * Determines the available options for a player to make for the printer to handle and display.
      * and is stored within the Players data.
      *
-     * If a player does not want to end their turn, or they haven't worked, then
-     * that is when the majority of turn options open.
+     * No matter what, the player can upgrade rank before or after they move.
+     * Otherwise, a player can either move and/or take a role if they are not working.
+     * If they are working, they can only Act or Rehearse, and they can only Rehearse if
+     * they have less Rehearsal Tokens than the budget.
      *
-     * If a player doesn't have a role
      *
      * @return
      */
     public void determinePlayerTurnOptions(Player player) {
         player.turnOptions.add("End Turn");
-
-        if (!(player.wantsToEndTurn() || player.hasWorked())) {
-            if (!player.hasRole() && !player.hasTakenRole()) {
-                player.turnOptions.add("Act");
-                // TODO: get players current room and the scene it contains
-                if (player.getRehearsalTokens() < )
-
-            }
-
+        Scene playersCurrentScene = player.getCurrentScene();
+        if (player.getCurrentRoom() instanceof CastingOffice) {
+            player.turnOptions.add("Upgrade Rank");
         }
 
-
+        if (!player.isWorking()) {
+            player.turnOptions.add("Move (opt.)");
+            player.turnOptions.add("Take a role (opt.)");
+        } else {
+            player.turnOptions.add("Act");
+            if (player.getRehearsalTokens() < playersCurrentScene.getBudget()) {
+                player.turnOptions.add("Rehearse");
+            }
+        }
     }
 
     /**
@@ -181,7 +184,7 @@ public class PlayerController {
 
         getUserInput(); // set all the booleans above, they select an option
 
-        while (!endTurn) {
+        while (!player.wantsToEndTurn()) {
             if (canMove && chooseMove) {
                 canTakeARole = true;
                 canAct = false;

@@ -19,9 +19,11 @@ public class Player {
     private Role role;
     private Room currentRoom;
 
+    private Scene currentScene;
+
 
     private boolean wantsToEndTurn;
-    private boolean hasWorked;
+    private boolean isWorking;
     private boolean hasTakenRole;
 
 
@@ -179,6 +181,15 @@ public class Player {
         }
     }
 
+    public Scene getCurrentScene() {
+        assert currentScene != null;
+        return currentScene;
+    }
+
+    public void setCurrentScene(Scene currentScene) {
+        this.currentScene = currentScene;
+    }
+
     /**
      * Sets a player's initial rank
      * <p>
@@ -201,12 +212,12 @@ public class Player {
         this.wantsToEndTurn = wantsToEndTurn;
     }
 
-    public boolean hasWorked() {
-        return this.hasWorked;
+    public boolean isWorking() {
+        return this.isWorking;
     }
 
-    public void setHasWorked(boolean hasWorked) {
-        this.hasWorked = hasWorked;
+    public void setWorking(boolean working) {
+        this.isWorking = working;
     }
 
     public boolean hasTakenRole() {
