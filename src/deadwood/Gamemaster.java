@@ -56,9 +56,13 @@ public class Gamemaster {
             printer.printCurrentPlayer(currentPlayer);
             printer.printPlayerData(currentPlayer);
             printer.printPlayerOptions(currentPlayer);
-            playerController.playerInput.getPlayerInput(currentPlayer);
-            playerController.handleDecision(currentPlayer);
-            playerController.updatePlayer(currentPlayer);
+            while (!currentPlayer.wantsToEndTurn()) {
+                playerController.playerInput.getPlayerInput(currentPlayer);
+
+                playerController.handleDecision(currentPlayer);
+                playerController.determinePlayerTurnOptions(currentPlayer);
+                playerController.updatePlayerOptions(currentPlayer);
+            }
         }
 
         return "It was me all along!";

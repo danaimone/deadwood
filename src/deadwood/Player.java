@@ -9,34 +9,19 @@ import java.util.ArrayList;
  * There exists multiple PlayerDatas for the set of Players in Deadwood.
  */
 public class Player {
-    private int ID;
+    private final int ID;
+    public ArrayList<String> turnOptions;
     private int dollars;
     private int credits;
     private int rehearsalTokens;
     private int rank;
-    public ArrayList<String> turnOptions;
-
-    public Decision getPlayerDecision() {
-        return playerDecision;
-    }
-
-    public void setPlayerDecision(Decision playerDecision) {
-        this.playerDecision = playerDecision;
-    }
-
     private Decision playerDecision;
-
     private Role role;
     private Room currentRoom;
-
     private Scene currentScene;
-
-
     private boolean wantsToEndTurn;
     private boolean isWorking;
     private boolean hasTakenRole;
-
-
     /**
      * PlayerData Constructor
      * Sets up name, dollars, credits, rehearsal tokens, and rank.
@@ -56,6 +41,14 @@ public class Player {
         setInitialCredits(numberOfPlayers);
         this.turnOptions = new ArrayList<String>();
         this.currentRoom = room;
+    }
+
+    public Decision getPlayerDecision() {
+        return playerDecision;
+    }
+
+    public void setPlayerDecision(Decision playerDecision) {
+        this.playerDecision = playerDecision;
     }
 
     /*

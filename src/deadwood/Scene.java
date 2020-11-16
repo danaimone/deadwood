@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  *
  */
-public class Scene extends Room{
+public class Scene extends Room {
     /* TODO: scene controller:
         every time someone wants to start a scene (only one player does it at a time)
         that's when we do all the work

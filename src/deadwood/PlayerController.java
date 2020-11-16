@@ -18,18 +18,6 @@ public class PlayerController {
     private boolean canRehearse;
     private boolean canUpgrade;
 
-    /**
-     * Set can upgrade
-     * Determine whether the player can upgrade, given
-     * their current room. Essentially, this is checking that
-     * their currentRoom is CastingOffice.
-     *
-     * @param canUpgrade
-     */
-    public void setCanUpgrade(boolean canUpgrade) {
-        this.canUpgrade = (player.getCurrentRoom() instanceof CastingOffice);
-    }
-
     /* Constructor 'singleton'
      * TODO: might want to updatePlayer when the constructor is called, just to get everything set up
      * */
@@ -43,6 +31,18 @@ public class PlayerController {
     }
 
     /**
+     * Set can upgrade
+     * Determine whether the player can upgrade, given
+     * their current room. Essentially, this is checking that
+     * their currentRoom is CastingOffice.
+     *
+     * @param canUpgrade
+     */
+    public void setCanUpgrade(boolean canUpgrade) {
+        this.canUpgrade = (player.getCurrentRoom() instanceof CastingOffice);
+    }
+
+    /**
      * Update Player
      * <p>
      * Update a new Player for Player Controller
@@ -53,7 +53,7 @@ public class PlayerController {
      *
      * @param player PlayerData object to setup
      */
-    void updatePlayer(Player player) {
+    void updatePlayerOptions(Player player) {
         this.player = player;
         setCanMove();
         setCanAct();
@@ -191,20 +191,24 @@ public class PlayerController {
                     player.setWantsToEndTurn(true);
                 }
 
+                if (decision.contains("Upgrade") && canUpgrade) {
+                    // upgrade();
+                    // TODO: how do we make the consideration of upgrading before
+                    //       or after a move?
+                    //
+                }
+
                 if (decision.contains("Move") && canMove) {
-                    if (decision.contains("Upgrade") && canUpgrade) {
-                        // upgrade();
-                        // TODO: how do we make the consideration of upgrading before
-                        //       or after a move?
-                        //
-                    }
+                    canAct = false;
+                    canTakeARole = false;
+                    canRehearse = false;
                     // move();
                 }
 
                 if (decision.contains("Role") && canTakeARole) {
                     // takeARole();
                 }
-            } else {
+            } else if (player.isWorking()) {
                 if (decision.contains("Act") && canAct) {
                     // act();
                 } else if (decision.contains("Rehearse") && canRehearse) {
@@ -212,6 +216,7 @@ public class PlayerController {
                 }
             }
         }
+        updatePlayerOptions();
     }
 
 

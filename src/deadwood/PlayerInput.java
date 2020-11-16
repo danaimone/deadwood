@@ -33,10 +33,23 @@ public class PlayerInput {
     }
 
     /**
-     * Get Player Input
+     * Setter for setNumberOfPlayers
+     * <p>
+     * Private, as the number of players doesn't need to be changed afterwards.
+     * Only needs to be used by getNumberOfPlayers
      *
+     * @param numberOfPlayers the number of players that are playing
+     */
+    private void setNumberOfPlayers(int numberOfPlayers) {
+        this.numberOfPlayers = numberOfPlayers;
+    }
+
+    /**
+     * Get Player Input
+     * <p>
      * Asks a player for what they would like to do, following a set of options.
-     * Please ensure that you actually provided the user options to check out!
+     * This function ensures that a user cannot enter a new decision that is not valid,
+     * as turnOptions contains any valid option types.
      *
      * @param currentPlayer The current player who's input we want
      */
@@ -50,18 +63,6 @@ public class PlayerInput {
 
         Decision turnDecision = new Decision(decision);
         currentPlayer.setPlayerDecision(turnDecision);
-    }
-
-    /**
-     * Setter for setNumberOfPlayers
-     * <p>
-     * Private, as the number of players doesn't need to be changed afterwards.
-     * Only needs to be used by getNumberOfPlayers
-     *
-     * @param numberOfPlayers the number of players that are playing
-     */
-    private void setNumberOfPlayers(int numberOfPlayers) {
-        this.numberOfPlayers = numberOfPlayers;
     }
 
 

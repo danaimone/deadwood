@@ -1,5 +1,4 @@
 package deadwood;
-import java.util.ArrayList;
 
 public class DeadwoodPrinter {
     void printWinner(String winner) {
@@ -34,8 +33,9 @@ public class DeadwoodPrinter {
 
     /**
      * print player options
-     *
+     * <p>
      * Prints the player options
+     *
      * @param player the player whose options you would like to print
      */
     void printPlayerOptions(Player player) {

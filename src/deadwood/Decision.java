@@ -5,11 +5,6 @@ package deadwood;
  */
 public class Decision {
     private static Decision decisionInstance;
-
-    public String getDecision() {
-        return decision;
-    }
-
     private String decision;
 
     public Decision() {
@@ -25,6 +20,10 @@ public class Decision {
             decisionInstance = new Decision();
         }
         return decisionInstance;
+    }
+
+    public String getDecision() {
+        return decision;
     }
 
     public void setDecision(String playerDecision) {

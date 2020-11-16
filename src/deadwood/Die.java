@@ -10,14 +10,6 @@ public class Die {
     private int currentFaceValue;
 
 
-    public int getCurrentFaceValue() {
-        return currentFaceValue;
-    }
-
-    public void setCurrentFaceValue(int currentFaceValue) {
-        this.currentFaceValue = currentFaceValue;
-    }
-
     /**
      * Constructor
      */
@@ -32,6 +24,14 @@ public class Die {
      */
     public Die(int value) {
         currentFaceValue = value;
+    }
+
+    public int getCurrentFaceValue() {
+        return currentFaceValue;
+    }
+
+    public void setCurrentFaceValue(int currentFaceValue) {
+        this.currentFaceValue = currentFaceValue;
     }
 
     /**
