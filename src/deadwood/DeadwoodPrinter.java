@@ -1,4 +1,5 @@
 package deadwood;
+import java.util.ArrayList;
 
 public class DeadwoodPrinter {
     void printWinner(String winner) {
@@ -20,7 +21,7 @@ public class DeadwoodPrinter {
      * <p>
      * Prints necessary info of given player
      *
-     * @param player
+     * @param player the player to print
      */
     void printPlayerData(Player player) {
         Room playerCurrentRoom = player.getCurrentRoom();
@@ -29,6 +30,19 @@ public class DeadwoodPrinter {
         System.out.println("Money: " + player.getDollars());
         System.out.println("Credits: " + player.getCredits());
         System.out.println();
+    }
+
+    /**
+     * print player options
+     *
+     * Prints the player options
+     * @param player the player whose options you would like to print
+     */
+    void printPlayerOptions(Player player) {
+        System.out.println("Here are your current options:");
+        for (String option : player.turnOptions) {
+            System.out.println(option + "\t");
+        }
     }
 
     void askPlayers() {

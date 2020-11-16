@@ -55,6 +55,7 @@ public class Gamemaster {
         while (board.boardData.getDaysLeft() > 0) {
             printer.printCurrentPlayer(currentPlayer);
             printer.printPlayerData(currentPlayer);
+            printer.printPlayerOptions(currentPlayer);
             // TODO: printTurnOptions function that takes in an Array of options a player can make
 
         }
