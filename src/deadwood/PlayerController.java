@@ -17,6 +17,29 @@ public class PlayerController {
     private boolean canAct;
     private boolean canRehearse;
     private boolean canUpgrade;
+    private boolean canUpgradeWithDollars;
+    private boolean canUpgradeWithCredits;
+
+    public boolean canUpgradeWithDollars() {
+        return canUpgradeWithDollars;
+    }
+
+    public void setCanUpgradeWithDollars(Player player) {
+        for (int rank :
+                player.rankOptions) {
+
+        }
+        this.canUpgradeWithDollars = canUpgradeWithDollars;
+    }
+
+    public boolean canUpgradeWithCredits() {
+        return canUpgradeWithCredits;
+    }
+
+    public void setCanUpgradeWithCredits(boolean canUpgradeWithCredits) {
+        this.canUpgradeWithCredits = canUpgradeWithCredits;
+    }
+
 
     /*
      * Constructor 'singleton'
@@ -48,7 +71,6 @@ public class PlayerController {
      * Determine whether the player can upgrade, given
      * their current room. Essentially, this is checking that
      * their currentRoom is CastingOffice.
-     *
      */
     public void setCanUpgrade() {
         this.canUpgrade = (player.getCurrentRoom() instanceof CastingOffice);
@@ -179,13 +201,15 @@ public class PlayerController {
 
     /**
      * Determine rank options
-     *
+     * <p>
      * This function determines a players rank options at any given point in the game.
+     *
      * @param player The player whose rank options we are determining
      */
     public void determineRankOptions(Player player) {
         int credits = player.getCredits();
         int dollars = player.getDollars();
+
 
         if (dollars >= 4 || credits >= 5) {
             player.rankOptions.add(2);
@@ -208,6 +232,13 @@ public class PlayerController {
         }
 
     }
+
+    void determineCurrencyOptions(Player player) {
+        if (player.rankOptions.contains(2)) {
+
+        }
+    }
+
     /**
      * Handle Decision
      * <p>
@@ -260,7 +291,9 @@ public class PlayerController {
 
     /**
      * Perform upgrade
-     *
+     * <p>
+     * TODO: are we just..deciding for the player whether they would like to use
+     * their credits or cash?
      * Rank Chart:
      * Rank 2: 4 dollars or 5 credits
      * Rank 3: 10 dollars or 10 credits
@@ -270,16 +303,19 @@ public class PlayerController {
      */
     private void upgrade(Player player) {
         int rankChoice = playerInput.getPlayerUpgradeInput(player);
-        // TODO: is it a valid rank choice?
-        switch (rankChoice) {
-            case 2:
-                if (player.getDollars() > 4 || player.getCredits() > 5) {
+        String currencyChoice = playerInput.getCurrencyChoice(player);
+        int currentDollars = player.getDollars();
+        int currentCredits = player.getCredits();
 
-                }
+        if (rankChoice == 2) {
+            if (currentDollars > currentCredits) { // dollars
+
+            }
+            player.setDollars(currentDollars - 4);
+            player.setCredits(currentDollars - 4);
         }
 
     }
-
 
     /**
      * Perform Turn

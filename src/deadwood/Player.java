@@ -12,6 +12,7 @@ public class Player {
     private final int ID;
     public ArrayList<String> turnOptions;
     public ArrayList<Integer> rankOptions;
+    public ArrayList<String> currencyOptions;
 
     private int dollars;
     private int credits;
@@ -49,6 +50,7 @@ public class Player {
         setInitialCredits(numberOfPlayers);
         this.turnOptions = new ArrayList<>();
         this.rankOptions = new ArrayList<>(5);
+        this.currencyOptions = new ArrayList<>(2);
         this.currentRoom = room;
     }
 

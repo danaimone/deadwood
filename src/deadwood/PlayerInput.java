@@ -69,18 +69,15 @@ public class PlayerInput {
      * Gets player input on what rank they would
      * like to upgrade to.
      *
-     * TODO: should we be concerned about whether the user can afford it here?
-     *       it'll probably save some headache
-     *
      * @param player player who is trying to upgrade rank
-     * @return the rank number they want to upgrade to
+     * @return the rank number they want to upgrade to, -1 if rank upgrade was unsuccessful
      */
-    public int getPlayerUpgradeInput(Player player) {
+    int getPlayerUpgradeInput(Player player) {
         int rank = -1;
         System.out.println("What rank would you like to upgrade to?");
         try {
             rank = scanner.nextInt();
-            while (rank <= player.getRank() || rank > 6) { // check if valid rank choice
+            while (!player.rankOptions.contains(rank)) {
                 // TODO: replace with printer functions
                 System.out.println("You entered an invalid rank.");
                 System.out.println("Please choose a rank between 1 and 6.");
@@ -93,6 +90,5 @@ public class PlayerInput {
 
         return rank;
     }
-
 
 }
