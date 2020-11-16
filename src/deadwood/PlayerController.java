@@ -167,6 +167,23 @@ public class PlayerController {
         }
     }
 
+    /**
+     * Handle Decision
+     *
+     * Handle decision handles a given players decision, given
+     * the state of whether they are able to make that decision in the first place.
+     *
+     * If the player is not working, they can move or take a role.
+     * A player may also upgrade before or after their move if they are in the casting
+     * office.
+     *
+     * If a player is working, they must either act or rehearse.
+     *
+     * The boolean can checks act as safe guards to make sure a player isn't able
+     * to do any move they are not allowed to.
+     *
+     * @param player the given player to take care of
+     */
     private void handleDecision(Player player) {
         Decision playerDecision = player.getPlayerDecision();
         String decision = playerDecision.getDecision();
