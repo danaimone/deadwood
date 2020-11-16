@@ -1,10 +1,8 @@
 package deadwood;
 
-import java.util.ArrayList;
-
 public class Gamemaster {
     private final Board board;
-    private BoardData boardData;
+    private final BoardData boardData;
     private final DeadwoodPrinter printer;
 
     private final PlayerController playerController;
@@ -52,12 +50,12 @@ public class Gamemaster {
         Player currentPlayer = board.boardData.currentPlayer;
         System.out.println("Welcome to Deadwood!");
         setupPlayers();
+        // TODO: setup all the rooms and scenes to be populated all nicely
+        //      from the XML
         while (board.boardData.getDaysLeft() > 0) {
             printer.printCurrentPlayer(currentPlayer);
             printer.printPlayerData(currentPlayer);
             // TODO: printTurnOptions function that takes in an Array of options a player can make
-
-
 
         }
 

@@ -14,12 +14,12 @@ import java.util.Collection;
  * Each room holds a Scene, a Scene holds a card, and a Scene also knows the off-card roles
  */
 public abstract class Room {
-    public String name;
-    public boolean isActive;
     // to set up adjacent rooms for a given Room, look at the XML!
     private final Collection<Room> adjacentRooms = new ArrayList<>();
     private final Collection<Player> playersInRoom = new ArrayList<>();
     private final Collection<Role> offcardRoles = new ArrayList<>();
+    public String name;
+    public boolean isActive;
 
     public Room() {
 

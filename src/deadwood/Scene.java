@@ -1,11 +1,11 @@
 package deadwood;
 
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  *
  */
-public class Scene {
+public class Scene extends Room{
     /* TODO: scene controller:
         every time someone wants to start a scene (only one player does it at a time)
         that's when we do all the work
@@ -15,14 +15,14 @@ public class Scene {
         Scene and cards is coupled tightly together right now as well.
      */
 
-    private String sceneName;
-    private String sceneImage;
+    private final String sceneName;
+    private final String sceneImage;
+    private final String sceneNumber;
+    private final String sceneDescription;
+    private final ArrayList<Role> roles = new ArrayList<Role>();
+    private final int totalRoles;
     private int sceneBudget;
-    private String sceneNumber;
-    private String sceneDescription;
     private int difficulty;
-    private ArrayList<Role> roles = new ArrayList<Role>();
-    private int totalRoles;
     private boolean isVisible;
 
     public Scene(String name, String image, int budget, String number, String description, int roleTotal, ArrayList<Role> roleList) {

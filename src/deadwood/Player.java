@@ -1,5 +1,7 @@
 package deadwood;
 
+import java.util.ArrayList;
+
 /**
  * PlayerData
  * <p>
@@ -7,16 +9,20 @@ package deadwood;
  * There exists multiple PlayerDatas for the set of Players in Deadwood.
  */
 public class Player {
-    private final int ID;
-    //    private int playerNumber;
+    private int ID;
     private int dollars;
     private int credits;
     private int rehearsalTokens;
     private int rank;
-
+    public ArrayList<String> turnOptions;
 
     private Role role;
     private Room currentRoom;
+
+
+    private boolean wantsToEndTurn;
+    private boolean hasWorked;
+    private boolean hasTakenRole;
 
 
     /**
@@ -36,6 +42,7 @@ public class Player {
         this.rehearsalTokens = 0;
         setInitialRank(numberOfPlayers);
         setInitialCredits(numberOfPlayers);
+        this.turnOptions = new ArrayList<String>;
         this.currentRoom = room;
     }
 
@@ -44,8 +51,8 @@ public class Player {
      */
 
     /**
-     * get
-     * Retrieves this players name
+     * getId
+     * Retrieves this players ID
      *
      * @return int ID this player's ID
      */
@@ -184,6 +191,34 @@ public class Player {
         } else {
             setRank(1);
         }
+    }
+
+    public boolean wantsToEndTurn() {
+        return this.wantsToEndTurn;
+    }
+
+    public void setWantsToEndTurn(boolean wantsToEndTurn) {
+        this.wantsToEndTurn = wantsToEndTurn;
+    }
+
+    public boolean hasWorked() {
+        return this.hasWorked;
+    }
+
+    public void setHasWorked(boolean hasWorked) {
+        this.hasWorked = hasWorked;
+    }
+
+    public boolean hasTakenRole() {
+        return this.hasTakenRole;
+    }
+
+    public void setHasTakenRole(boolean hasTakenRole) {
+        this.hasTakenRole = hasTakenRole;
+    }
+
+    public boolean hasRole() {
+        return this.role != null;
     }
 
     /*

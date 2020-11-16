@@ -1,5 +1,7 @@
 package deadwood;
 
+import java.util.ArrayList;
+
 /**
  * Player
  * <p>
@@ -16,9 +18,10 @@ public class PlayerController {
     private boolean canMove;
     private boolean canAct;
     private boolean canRehearse;
-    private boolean endTurn;
 
-    /* Constructor 'singleton' */
+    /* Constructor 'singleton'
+     * TODO: might want to updatePlayer when the constructor is called, just to get everything set up
+     * */
     PlayerController() {
         playerInput = new PlayerInput();
     }
@@ -29,16 +32,17 @@ public class PlayerController {
      * Update a new Player for Player Controller
      * setCurrentPlayer is called after every person has a turn
      * TODO: consider the order of setting booleans
+     * consider whether you want to reset player wanting to end turn
      *
      * @param player PlayerData object to setup
      */
     void updatePlayer(Player player) {
         this.player = player;
-        this.endTurn = false;
         setCanAct();
         setCanMove();
         setCanRehearse();
         setCanTakeRole();
+        player.setWantsToEndTurn(false);
     }
 
     /**
@@ -124,6 +128,35 @@ public class PlayerController {
      */
     private String getUserInput() {
         return "";
+    }
+
+    /**
+     * Determine Player Turn Options
+     * <p>
+     * Determines the available options for a player to make for the printer to handle and display.
+     * and is stored within the Players data.
+     *
+     * If a player does not want to end their turn, or they haven't worked, then
+     * that is when the majority of turn options open.
+     *
+     * If a player doesn't have a role
+     *
+     * @return
+     */
+    public void determinePlayerTurnOptions(Player player) {
+        player.turnOptions.add("End Turn");
+
+        if (!(player.wantsToEndTurn() || player.hasWorked())) {
+            if (!player.hasRole() && !player.hasTakenRole()) {
+                player.turnOptions.add("Act");
+                // TODO: get players current room and the scene it contains
+                if (player.getRehearsalTokens() < )
+
+            }
+
+        }
+
+
     }
 
     /**
