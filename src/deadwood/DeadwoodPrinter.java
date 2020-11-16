@@ -10,8 +10,8 @@ public class DeadwoodPrinter {
      *
      * @param currentPlayer current player on Board
      */
-    void printCurrentPlayer(String currentPlayer) {
-        System.out.printf("Current Player: %d\n", currentPlayer);
+    void printCurrentPlayer(Player currentPlayer) {
+        System.out.printf("Current Player: %d\n", currentPlayer.getID());
     }
 
     void askPlayers() {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Gamemaster {
     private Board board;
+    private BoardData boardData;
     private final DeadwoodPrinter printer;
 
     private PlayerController playerController;
@@ -17,6 +18,9 @@ public class Gamemaster {
      */
     public Gamemaster() {
         this.printer = new DeadwoodPrinter();
+        playerController = new PlayerController();
+        board = new Board();
+        this.boardData = board.boardData;
     }
 
     /**
@@ -25,8 +29,9 @@ public class Gamemaster {
      * @param printer the DeadwoodPrinter to be used among the package
      */
     public Gamemaster(DeadwoodPrinter printer) {
-        board = new Board();
         playerController = new PlayerController();
+        board = new Board();
+        this.boardData = board.boardData;
         this.printer = printer;
     }
 
@@ -46,7 +51,7 @@ public class Gamemaster {
         setupPlayers();
         while (board.boardData.getDaysLeft() > 0) {
             // TODO: - display locations
-            DeadwoodPr
+            printer.printCurrentPlayer(boardData.currentPlayer);
 
         }
 
