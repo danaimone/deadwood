@@ -197,44 +197,44 @@ public class PlayerController {
     /**
      * Perform Turn
      */
-    void performTurn() {
-        // here's the deal:
-        // if you choose you want to move  you're going to be updating other variables
-        // if you choose to move you can't do acting
-        // what do we display? can they move? can they act? can they rehearse?
-        // show player what they can do
-        // get there input
-        // do whatever they chose
-        // prompt again (or end turn!)
-        // figure out moves they can make
-
-        // How do we prompt these choices?
-        boolean chooseMove = false;
-        boolean chooseAct = false;
-        boolean chooseRehearse = false;
-        boolean chooseTakeARole = false;
-
-        getUserInput(); // set all the booleans above, they select an option
-
-        while (!player.wantsToEndTurn()) {
-            if (canMove && chooseMove) {
-                canTakeARole = true;
-                canAct = false;
-                canRehearse = false;
-                move();
-            } else if (canAct && chooseAct) {
-                canAct = true;
-                canTakeARole = false;
-
-            } else if (canRehearse) { // they rehease
-
-            } else if (canTakeARole && chooseTakeARole) { // they take a role
-                this.canTakeARole = false;
-            } else { // they choose to end turn
-
-            }
-        }
-    }
+//    void performTurn() {
+//        // here's the deal:
+//        // if you choose you want to move  you're going to be updating other variables
+//        // if you choose to move you can't do acting
+//        // what do we display? can they move? can they act? can they rehearse?
+//        // show player what they can do
+//        // get there input
+//        // do whatever they chose
+//        // prompt again (or end turn!)
+//        // figure out moves they can make
+//
+//        // How do we prompt these choices?
+//        boolean chooseMove = false;
+//        boolean chooseAct = false;
+//        boolean chooseRehearse = false;
+//        boolean chooseTakeARole = false;
+//
+//        getUserInput(); // set all the booleans above, they select an option
+//
+//        while (!player.wantsToEndTurn()) {
+//            if (canMove && chooseMove) {
+//                canTakeARole = true;
+//                canAct = false;
+//                canRehearse = false;
+//                move();
+//            } else if (canAct && chooseAct) {
+//                canAct = true;
+//                canTakeARole = false;
+//
+//            } else if (canRehearse) { // they rehease
+//
+//            } else if (canTakeARole && chooseTakeARole) { // they take a role
+//                this.canTakeARole = false;
+//            } else { // they choose to end turn
+//
+//            }
+//        }
+//    }
 
     private void moveTo(Room destRoom) {
         /*
