@@ -1,7 +1,5 @@
 package deadwood;
 
-import java.util.ArrayList;
-
 /**
  * Player
  * <p>
@@ -25,6 +23,7 @@ public class PlayerController {
      * Determine whether the player can upgrade, given
      * their current room. Essentially, this is checking that
      * their currentRoom is CastingOffice.
+     *
      * @param canUpgrade
      */
     public void setCanUpgrade(boolean canUpgrade) {
@@ -142,12 +141,11 @@ public class PlayerController {
      * <p>
      * Determines the available options for a player to make for the printer to handle and display.
      * and is stored within the Players data.
-     *
+     * <p>
      * No matter what, the player can upgrade rank before or after they move.
      * Otherwise, a player can either move and/or take a role if they are not working.
      * If they are working, they can only Act or Rehearse, and they can only Rehearse if
      * they have less Rehearsal Tokens than the budget.
-     *
      */
     public void determinePlayerTurnOptions(Player player) {
         player.turnOptions.add("End Turn");
@@ -169,43 +167,49 @@ public class PlayerController {
 
     /**
      * Handle Decision
-     *
+     * <p>
      * Handle decision handles a given players decision, given
      * the state of whether they are able to make that decision in the first place.
-     *
+     * <p>
      * If the player is not working, they can move or take a role.
      * A player may also upgrade before or after their move if they are in the casting
      * office.
-     *
+     * <p>
      * If a player is working, they must either act or rehearse.
-     *
+     * <p>
      * The boolean can checks act as safe guards to make sure a player isn't able
      * to do any move they are not allowed to.
      *
      * @param player the given player to take care of
      */
-    private void handleDecision(Player player) {
+    void handleDecision(Player player) {
         Decision playerDecision = player.getPlayerDecision();
         String decision = playerDecision.getDecision();
-        if (!player.isWorking()) {
-            if (decision.contains("Move") && canMove) {
-                if (decision.contains("Upgrade") && canUpgrade) {
-                    // upgrade();
-                    // TODO: how do we make the consideration of upgrading before
-                    //       or after a move?
-                    //
+        while (!player.wantsToEndTurn()) {
+            if (!player.isWorking()) {
+                if (decision.contains("End")) {
+                    player.setWantsToEndTurn(true);
                 }
-                // move();
-            }
 
-            if (decision.contains("Role") && canTakeARole) {
-                // takeARole();
-            }
-        } else {
-            if (decision.contains("Act") && canAct) {
-                // act();
-            } else if (decision.contains("Rehearse") && canRehearse){
-                // rehearse();
+                if (decision.contains("Move") && canMove) {
+                    if (decision.contains("Upgrade") && canUpgrade) {
+                        // upgrade();
+                        // TODO: how do we make the consideration of upgrading before
+                        //       or after a move?
+                        //
+                    }
+                    // move();
+                }
+
+                if (decision.contains("Role") && canTakeARole) {
+                    // takeARole();
+                }
+            } else {
+                if (decision.contains("Act") && canAct) {
+                    // act();
+                } else if (decision.contains("Rehearse") && canRehearse) {
+                    // rehearse();
+                }
             }
         }
     }
@@ -252,7 +256,6 @@ public class PlayerController {
 //            }
 //        }
 //    }
-
     private void moveTo(Room destRoom) {
         /*
         this will need to check for valid rooms user can move into
