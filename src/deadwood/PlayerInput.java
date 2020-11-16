@@ -14,18 +14,20 @@ public class PlayerInput {
      *
      * @return The number of players playing this game of Deadwood
      */
-    public int getNumberOfPlayers(DeadwoodPrinter printer) {
+    public int getNumberOfPlayers() {
         int numberOfPlayersPlaying = 20;
-        printer.askPlayers();
+        System.out.println("How many players are playing?");
+        System.out.println("> ");
         try {
             int numberOfPlayersEntered = scanner.nextInt();
             while (numberOfPlayersEntered > 20 || numberOfPlayersEntered < 0) {
-                printer.invalidPlayers();
+                System.out.println("Sorry, we've gotta cap you at 20.");
+                System.out.println("Try again!");
                 numberOfPlayersEntered = scanner.nextInt();
             }
             numberOfPlayersPlaying = numberOfPlayersEntered;
         } catch (NumberFormatException e) {
-            printer.invalid();
+            System.out.println("Please enter a valid number.");
         }
         return numberOfPlayersPlaying;
     }
