@@ -5,7 +5,7 @@ package deadwood;
  * It contains all Board related actions. One BoardController should be created to drive
  * the program, along with an instance of boardData
  */
-public class BoardController {
+public class Board {
     private BoardData boardData = new BoardData();
 
     private boolean dayIsOver;
@@ -17,7 +17,7 @@ public class BoardController {
      * At the creation of a Board Controller, the corresponding
      * game length should also be set.
      */
-    public BoardController() {
+    public Board() {
 
     }
 
@@ -61,11 +61,68 @@ public class BoardController {
      * - gameIsOver is set to correct gameOver condition
      */
     private void isGameOver() {
-        assert this.boardData != null
+        assert this.boardData != null;
         if (this.boardData.getDaysLeft() == 0) {
             gameIsOver = true;
         } else {
             gameIsOver = false;
+        }
+    }
+
+    /**
+     * Board data contains any data relating to the Board
+     */
+    public static class BoardData {
+
+
+        private int daysLeft; //how many days the game lasts
+        private int sceneCardsInPlay;
+        private int sceneCardsLeft;
+        private int currentDay;
+
+
+        /* Constructor for BoardData */
+        public BoardData() {
+            this.sceneCardsLeft = 40;
+            this.sceneCardsInPlay = 40;
+            this.currentDay = 0;
+            this.daysLeft = 4;
+        }
+
+        public int getDaysLeft() {
+            return daysLeft;
+        }
+
+        public int getSceneCardsInPlay() {
+            return sceneCardsInPlay;
+        }
+
+        public int getSceneCardsLeft() {
+            return sceneCardsLeft;
+        }
+
+        public int getCurrentDay() {
+            return currentDay;
+        }
+
+        public void setDaysLeft(int daysLeft) {
+            this.daysLeft = daysLeft;
+        }
+
+        public void setCurrentDay(int currentDay) {
+            this.currentDay = currentDay;
+        }
+
+        public void setSceneCardsInPlay(int sceneCardsInPlay) {
+            this.sceneCardsInPlay = sceneCardsInPlay;
+        }
+
+        public void setSceneCardsLeft(int sceneCardsLeft) {
+            this.sceneCardsLeft = sceneCardsLeft;
+        }
+
+        public void advanceDay() {
+            this.currentDay++;
         }
     }
 }

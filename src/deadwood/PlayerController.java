@@ -18,7 +18,7 @@ public class PlayerController {
     private boolean canRehearse;
     private boolean endTurn;
 
-    private PlayerData playerData;
+    PlayerData playerData;
     private Scanner playerInput;
 
     /* Constructor 'singleton' */
@@ -189,15 +189,4 @@ public class PlayerController {
     }
 
 
-    // TODO: use getters and setters from playerData
-    //       move to DeadwoodPrinter
-    public String printPlayerData() {
-        return "Player " + playerNumber +
-                " - Credits: " + credits +
-                ", Dollars: " + dollars +
-                ", Rank: " + rank +
-                ", Rehearsal Tokens: " + rehearsalTokens +
-                ", Location: NOT IMPLEMENTED";
-        //print player location too
-    }
 }
