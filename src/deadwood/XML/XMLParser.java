@@ -17,7 +17,7 @@ public abstract class XMLParser {
         try {
             doc = db.parse(filename);
         } catch (Exception ex) {
-            System.out.println("BoardController XML parse failure");
+            System.out.println("XMLParser Failure");
             ex.printStackTrace();
         }
         return doc;
