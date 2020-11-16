@@ -6,7 +6,7 @@ package deadwood;
  * PlayerData represents each individual Player in a game of Deadwood.
  * There exists multiple PlayerDatas for the set of Players in Deadwood.
  */
-public class PlayerData {
+public class Player {
     private String name;
     //    private int playerNumber;
     private int dollars;
@@ -28,7 +28,7 @@ public class PlayerData {
      *
      * @param name The name of the new Player to create.
      */
-    public PlayerData(String name) {
+    public Player(String name) {
         this.name = name;
         this.dollars = 0;
         this.credits = 0;

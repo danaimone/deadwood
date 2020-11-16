@@ -10,7 +10,7 @@ public class DeadwoodPrinter {
     }
 
     protected void whoseTurn(PlayerController playerController) {
-        System.out.println("It is " + playerController.playerData.getName() + "'s turn");
+        System.out.println("It is " + playerController.player.getName() + "'s turn");
     }
 
     protected void working() {
@@ -65,11 +65,11 @@ public class DeadwoodPrinter {
 
     // TODO: use getters and setters from playerData
     public String printPlayerData(PlayerController player) {
-        return "Player " + player.playerData.getName() +
-                " - Credits: " + player.playerData.getCredits() +
-                ", Dollars: " + player.playerData.getDollars() +
-                ", Rank: " + player.playerData.getRank() +
-                ", Rehearsal Tokens: " + player.playerData.getRehearsalTokens() +
+        return "Player " + player.player.getName() +
+                " - Credits: " + player.player.getCredits() +
+                ", Dollars: " + player.player.getDollars() +
+                ", Rank: " + player.player.getRank() +
+                ", Rehearsal Tokens: " + player.player.getRehearsalTokens() +
                 ", Location: NOT IMPLEMENTED";
         //print player location too
     }

@@ -18,7 +18,7 @@ public class PlayerController {
     private boolean canRehearse;
     private boolean endTurn;
 
-    PlayerData playerData;
+    Player player;
     private Scanner playerInput;
 
     /* Constructor 'singleton' */
@@ -35,8 +35,8 @@ public class PlayerController {
      *
      * @param player PlayerData object to setup
      */
-    public void updatePlayer(PlayerData player) {
-        this.playerData = player;
+    public void updatePlayer(Player player) {
+        this.player = player;
         this.endTurn = false;
         setCanAct();
         setCanMove();
@@ -58,7 +58,7 @@ public class PlayerController {
      * - player cannot act
      */
     private void setCanRehearse() {
-        if (this.playerData.getRole() != null) {
+        if (this.player.getRole() != null) {
             this.canRehearse = true;
             this.canAct = false;
         } else {
@@ -80,7 +80,7 @@ public class PlayerController {
      * Post-condition: player can no longer move?
      */
     private void setCanMove() {
-        if (playerData.getRole() == null) { // doesn't have role
+        if (player.getRole() == null) { // doesn't have role
             this.canMove = true;
         } else {
             this.canMove = false;
@@ -100,7 +100,7 @@ public class PlayerController {
      * - player can either act or not act
      */
     private void setCanAct() {
-        if (this.playerData.getRole() != null) {
+        if (this.player.getRole() != null) {
             this.canAct = true;
         } else {
             this.canAct = false;
@@ -122,8 +122,8 @@ public class PlayerController {
      * - player can either take a role or not take a role
      */
     private void setCanTakeRole() {
-        if (this.playerData.getRole() == null &&
-                playerData.getCurrentRoom().isActive) {
+        if (this.player.getRole() == null &&
+                player.getCurrentRoom().isActive) {
             canTakeARole = true;
         } else {
             canTakeARole = false;
@@ -181,7 +181,7 @@ public class PlayerController {
         }
     }
 
-    private void moveTo(Set destRoom) {
+    private void moveTo(Room destRoom) {
         /*
         this will need to check for valid rooms user can move into
         will also probably trigger stuff for undiscovered scenes
