@@ -35,9 +35,8 @@ public class PlayerInput {
                 System.out.println("Sorry, we've gotta cap you at 20.");
                 System.out.println("Try again!");
                 numberOfPlayersEntered = scanner.nextInt();
-            } else {
-                numberOfPlayersPlaying = numberOfPlayersEntered;
             }
+            numberOfPlayersPlaying = numberOfPlayersEntered;
         } catch (NumberFormatException e) {
             System.out.println("Please enter a valid number.");
         }
