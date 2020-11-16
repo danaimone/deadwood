@@ -14,6 +14,23 @@ public class DeadwoodPrinter {
         System.out.printf("Current Player: %d\n", currentPlayer.getID());
     }
 
+
+    /**
+     * Print player info
+     * <p>
+     * Prints necessary info of given player
+     *
+     * @param player
+     */
+    void printPlayerData(Player player) {
+        Room playerCurrentRoom = player.getCurrentRoom();
+        System.out.println("Current Room: " + playerCurrentRoom.name);
+        System.out.println("Rank: " + player.getRank());
+        System.out.println("Money: " + player.getDollars());
+        System.out.println("Credits: " + player.getCredits());
+        System.out.println();
+    }
+
     void askPlayers() {
         System.out.println("How many players? (2-8)");
     }
@@ -74,16 +91,5 @@ public class DeadwoodPrinter {
     protected void rankFail(String type) {
         System.out.println("Rank not upgraded, not enough " + type);
         System.out.println();
-    }
-
-    // TODO: use getters and setters from playerData
-    public String printPlayerData(PlayerController player) {
-        return "Player " + player.player.getID() +
-                " - Credits: " + player.player.getCredits() +
-                ", Dollars: " + player.player.getDollars() +
-                ", Rank: " + player.player.getRank() +
-                ", Rehearsal Tokens: " + player.player.getRehearsalTokens() +
-                ", Location: NOT IMPLEMENTED";
-        //print player location too
     }
 }
