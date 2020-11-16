@@ -1,43 +1,47 @@
 package deadwood;
 
 public class DeadwoodPrinter {
-    protected void askPlayers() {
+    void printWinner(String winner) {
+        System.out.printf("Congrats! %s is the winner!\n", winner);
+    }
+
+    void askPlayers() {
         System.out.println("How many players? (2-8)");
     }
 
-    protected void invalidPlayers() {
+    void invalidPlayers() {
         System.out.println("Please enter a valid number of players");
     }
 
-    protected void whoseTurn(PlayerController playerController) {
+    void whoseTurn(PlayerController playerController) {
         System.out.println("It is " + playerController.player.getID() + "'s turn");
     }
 
-    protected void working() {
+    void working() {
         System.out.println("Would you like to [act] or [rehearse]? Or player [info]");
     }
 
-    protected void notMoveNotUpgrade() {
+    void notMoveNotUpgrade() {
         System.out.println("Would you like to [move], [upgrade], [work], [skip]? Or player [info]");
     }
 
-    protected void moveNotUpgrade() {
+    void moveNotUpgrade() {
         System.out.println("Would you like to [upgrade], [work], [skip]? Or player [info]");
     }
 
-    protected void notMoveUpgrade() {
+    void notMoveUpgrade() {
         System.out.println("Would you like to [move], [work], [skip]? Or player [info]");
     }
 
-    protected void moveUpgrade() {
+    void moveUpgrade() {
         System.out.println("Would you like to [work], [skip]? Or player [info]");
     }
 
-    protected void ranksList() {
+    private void ranksList() {
         System.out.printf("%nRank 2: 4 Dollars OR 5 Credits%nRank 3: 10 Dollars OR 10 Credits%nRank 4: 18 Dollars OR 15 Credits%nRank 5: 28 Dollars OR 20 Credits%nRank 6: 40 Dollars OR 25 Credits%n");
     }
 
-    protected void askRank() {
+    private void askRank() {
         System.out.printf("%nWhich rank would you like to upgrade to? [2], [3]...[6]. Or go [back]%n");
     }
 

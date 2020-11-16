@@ -30,6 +30,7 @@ public class Gamemaster {
      */
     String playDeadwood() {
         System.out.println("Welcome to Deadwood!");
+        setupPlayers();
         // TODO: Here's where we set up players.
         //       This involves grabbing their names,
         //       and getting all the related number specific jazz setup!

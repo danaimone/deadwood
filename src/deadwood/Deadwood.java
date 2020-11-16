@@ -16,9 +16,12 @@ public class Deadwood {
      * @param args
      */
     public static void main(String[] args) {
+        DeadwoodPrinter printer = new DeadwoodPrinter();
         Gamemaster game = new Gamemaster();
+        String gameWinner = game.playDeadwood();
+        printer.printWinner(gameWinner);
     }
-
+}
 //    public static void alt_main(String[] args) {
 //        Gamemaster game = new Gamemaster(); //create the game!
 //        DeadwoodPrinter printer = new DeadwoodPrinter(); //create the printer
@@ -94,4 +97,3 @@ public class Deadwood {
 //            }
 //        }
 //    }
-}
