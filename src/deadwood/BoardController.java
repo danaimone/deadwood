@@ -1,11 +1,11 @@
 package deadwood;
 
 /**
- * Board is a singleton class that should exist in one instance of a game of Deadwood.
- * It contains all Board related actions. One BoardController should be created to drive
+ * BoardController is a singleton class that should exist in one instance of a game of Deadwood.
+ * It contains all BoardController related actions. One BoardController should be created to drive
  * the program, along with an instance of boardData
  */
-public class Board {
+public class BoardController {
     public BoardData boardData;
 
     private boolean dayIsOver;
@@ -14,25 +14,11 @@ public class Board {
     /**
      * Singleton constructor
      * <p>
-     * At the creation of a Board Controller, the corresponding
+     * At the creation of a BoardController Controller, the corresponding
      * game length should also be set.
      */
-    public Board() {
+    public BoardController() {
 
-    }
-
-    /**
-     * Add Players to Board
-     * <p>
-     * Adds player to the board's data. Number of players is required
-     * for the rank construction.
-     */
-    public void addPlayersToBoard(int numberOfPlayers) {
-        for (int i = 0; i < boardData.playersOnBoard.length; i++) {
-            Room trailer = new Trailer();
-            Player player = new Player(i, trailer, numberOfPlayers);
-            trailer.addPlayer(player);
-        }
     }
 
     /**
@@ -40,7 +26,7 @@ public class Board {
      * maybe this is more so the functional ending of a day on the board
      * <p>
      * Pre-condition:
-     * - Board data is not null
+     * - BoardController data is not null
      * - game is active
      * <p>
      * Post-condition:
@@ -78,5 +64,6 @@ public class Board {
         assert this.boardData != null;
         gameIsOver = this.boardData.getDaysLeft() == 0;
     }
+
 
 }

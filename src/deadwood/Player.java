@@ -1,6 +1,7 @@
 package deadwood;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * PlayerData
@@ -11,23 +12,17 @@ import java.util.ArrayList;
 public class Player {
     private final int ID;
     public ArrayList<String> turnOptions;
-    public ArrayList<Integer> rankOptions;
+    public ArrayList<Rank> rankOptions;
     public ArrayList<String> currencyOptions;
 
-    private int dollars;
-    private int credits;
+    // Stores information about currency
+    private Rank rank;
 
-
-    private int bank;
     private int rehearsalTokens;
-    private int rank;
     private Decision playerDecision;
     private Role role;
     private Room currentRoom;
     private Scene currentScene;
-    private boolean wantsToEndTurn;
-    private boolean isWorking;
-    private boolean hasTakenRole;
 
     /**
      * Player Constructor
@@ -38,15 +33,14 @@ public class Player {
      *
      * A player can have at most 5 rank options at any given time.
      *
-     * @param name            The name of the new Player to create.
      * @param room            The trailer to set them in (this should always be a Room of type Trailer)
      * @param numberOfPlayers the number of players playing
      */
-    public Player(int playerID, Room room, int numberOfPlayers) {
+    public Player(int playerID, Room room, int numberOfPlayers, HashMap<Integer, Rank> availableRanks) {
         this.ID = playerID;
-        this.dollars = 0;
+        this.rank = new Rank(0, 0, 0);
         this.rehearsalTokens = 0;
-        setInitialRank(numberOfPlayers);
+        setInitialRank(numberOfPlayers, availableRanks);
         setInitialCredits(numberOfPlayers);
         this.turnOptions = new ArrayList<>();
         this.rankOptions = new ArrayList<>(5);
@@ -54,12 +48,24 @@ public class Player {
         this.currentRoom = room;
     }
 
-    public int getBank() {
-        return bank;
+    public void setRank(Rank rank) {
+        this.rank = rank;
     }
 
-    public void setBank() {
-        this.bank = dollars + credits;
+    /**
+     * Sets a player's initial rank
+     * <p>
+     * When a player is created, their rank is first assigned based on the number of players.
+     * This sets their rank accordingly.
+     */
+    public void setInitialRank(int numberOfPlayers, HashMap<Integer, Rank> availableRanks) {
+        if (numberOfPlayers > 7) {
+            Rank rank = availableRanks.get(2);
+            setRank(rank);
+        } else {
+            Rank rank = availableRanks.get(1);
+            setRank(rank);
+        }
     }
 
     public Decision getPlayerDecision() {
@@ -91,11 +97,11 @@ public class Player {
      * @return int this players dollars
      */
     public int getDollars() {
-        return this.dollars;
+        return this.rank.getDollars();
     }
 
     public void setDollars(int dollars) {
-        this.dollars = dollars;
+        this.rank.setDollars(dollars);
     }
 
     /**
@@ -105,11 +111,11 @@ public class Player {
      * @return int credits this players credits
      */
     public int getCredits() {
-        return this.credits;
+        return this.rank.getCredits();
     }
 
     public void setCredits(int credits) {
-        this.credits = credits;
+        this.rank.setCredits(credits);
     }
 
     /**
@@ -118,19 +124,21 @@ public class Player {
      *
      * @return int rank this players current rank
      */
-    public int getRank() {
+    public Rank getRank() {
         return this.rank;
     }
 
     /**
-     * Set Rank
-     * <p>
-     * Setter for rank
+     * Can Get Rank
      *
-     * @param rank rank to set to
+     * Checks to see if given Rank is identical in fields to this rank
+     * @param rankToCompare rank to compare
+     * @return true if they are identical, false otherwise
      */
-    private void setRank(int rank) {
-        this.rank = rank;
+    public boolean canGetRank(Rank rankToCompare) {
+        return this.rank.getRankID() == rankToCompare.getRankID() &&
+                this.rank.getDollars() > rankToCompare.getDollars() &&
+                this.rank.getCredits() > rankToCompare.getCredits();
     }
 
     /**
@@ -149,6 +157,10 @@ public class Player {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public boolean hasRole() {
+        return this.role != null;
     }
 
     /**
@@ -179,13 +191,6 @@ public class Player {
         this.currentRoom = currentRoom;
     }
 
-    /*
-        Setters
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
     /**
      * Set initial credits
      * <p>
@@ -212,47 +217,6 @@ public class Player {
         this.currentScene = currentScene;
     }
 
-    /**
-     * Sets a player's initial rank
-     * <p>
-     * When a player is created, their rank is first assigned based on the number of players.
-     * This sets their rank accordingly.
-     */
-    public void setInitialRank(int numberOfPlayers) {
-        if (numberOfPlayers > 7) {
-            setRank(2);
-        } else {
-            setRank(1);
-        }
-    }
-
-    public boolean wantsToEndTurn() {
-        return this.wantsToEndTurn;
-    }
-
-    public void setWantsToEndTurn(boolean wantsToEndTurn) {
-        this.wantsToEndTurn = wantsToEndTurn;
-    }
-
-    public boolean isWorking() {
-        return this.isWorking;
-    }
-
-    public void setWorking(boolean working) {
-        this.isWorking = working;
-    }
-
-    public boolean hasTakenRole() {
-        return this.hasTakenRole;
-    }
-
-    public void setHasTakenRole(boolean hasTakenRole) {
-        this.hasTakenRole = hasTakenRole;
-    }
-
-    public boolean hasRole() {
-        return this.role != null;
-    }
 
     /*
         Helper Functions for Player Data

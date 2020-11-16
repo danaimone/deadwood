@@ -1,5 +1,8 @@
 package deadwood;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Player
  * <p>
@@ -11,24 +14,30 @@ package deadwood;
 public class PlayerController {
     Player player;
     PlayerInput playerInput = new PlayerInput();
+
+    RankController rankController = new RankController();
+    HashMap<Integer, Rank> availableRanks = rankController.getAvailableRanks();
+
     /* Actions (while my turn has not ended)*/
     private boolean canTakeARole; // can I move? can I act?
     private boolean canMove;
     private boolean canAct;
     private boolean canRehearse;
+    private boolean wantsToEndTurn;
+    private boolean isWorking;
+    private boolean hasTakenRole;
+
     private boolean canUpgrade;
     private boolean canUpgradeWithDollars;
     private boolean canUpgradeWithCredits;
+    private Rank[] rankList;
+
 
     public boolean canUpgradeWithDollars() {
         return canUpgradeWithDollars;
     }
 
     public void setCanUpgradeWithDollars(Player player) {
-        for (int rank :
-                player.rankOptions) {
-
-        }
         this.canUpgradeWithDollars = canUpgradeWithDollars;
     }
 
@@ -63,7 +72,8 @@ public class PlayerController {
         setCanRehearse();
         setCanTakeRole();
         setCanUpgrade();
-        player.setWantsToEndTurn(false);
+        setWantsToEndTurn(false);
+        updateRankOptions();
     }
 
     /**
@@ -132,7 +142,7 @@ public class PlayerController {
      */
     private void setCanMove() {
         // doesn't have role
-        this.canMove = !player.isWorking();
+        this.canMove = !isWorking();
     }
 
     /**
@@ -181,14 +191,14 @@ public class PlayerController {
      * If they are working, they can only Act or Rehearse, and they can only Rehearse if
      * they have less Rehearsal Tokens than the budget.
      */
-    public void determinePlayerTurnOptions(Player player) {
+    public void determinePlayerTurnOptions() {
         player.turnOptions.add("End Turn");
         Scene playersCurrentScene = player.getCurrentScene();
         if (player.getCurrentRoom() instanceof CastingOffice) {
             player.turnOptions.add("Upgrade Rank");
         }
 
-        if (!player.isWorking()) {
+        if (!isWorking()) {
             player.turnOptions.add("Move (opt.)");
             player.turnOptions.add("Take a role (opt.)");
         } else {
@@ -200,38 +210,25 @@ public class PlayerController {
     }
 
     /**
-     * Determine rank options
+     * Update rank options
      * <p>
      * This function determines a players rank options at any given point in the game.
+     * <p>
+     * For each available rank in the Hashmap, get the Rank.
+     * If it is the same rank (they have the exact same attributes), the player's rank options
+     * has that Rank added.
      *
-     * @param player The player whose rank options we are determining
      */
-    public void determineRankOptions(Player player) {
-        int credits = player.getCredits();
-        int dollars = player.getDollars();
-
-
-        if (dollars >= 4 || credits >= 5) {
-            player.rankOptions.add(2);
+    public void updateRankOptions() {
+        Rank currentRank = player.getRank();
+        for (Map.Entry<Integer, Rank> entry : availableRanks.entrySet()) {
+            Rank rank = entry.getValue();
+            if (player.canGetRank(currentRank)) {
+                player.rankOptions.add(rank);
+            }
         }
-
-        if (dollars >= 10 || credits >= 10) {
-            player.rankOptions.add(3);
-        }
-
-        if (dollars >= 18 || credits >= 15) {
-            player.rankOptions.add(4);
-        }
-
-        if (dollars >= 28 || credits >= 20) {
-            player.rankOptions.add(5);
-        }
-
-        if (dollars >= 40 || credits >= 25) {
-            player.rankOptions.add(6);
-        }
-
     }
+
 
     void determineCurrencyOptions(Player player) {
         if (player.rankOptions.contains(2)) {
@@ -254,15 +251,14 @@ public class PlayerController {
      * The boolean can checks act as safe guards to make sure a player isn't able
      * to do any move they are not allowed to.
      *
-     * @param player the given player to take care of
      */
-    void handleDecision(Player player) {
+    void handleDecision() {
         Decision playerDecision = player.getPlayerDecision();
         String decision = playerDecision.getDecision();
-        while (!player.wantsToEndTurn() || decision.contains("End")) {
-            if (!player.isWorking()) {
+        while (!wantsToEndTurn() || decision.contains("End")) {
+            if (!isWorking()) {
                 if (decision.contains("Upgrade") && canUpgrade) {
-                    upgrade(player);
+                    upgrade();
                     // TODO: how do we make the consideration of upgrading before
                     //       or after a move?
                     //
@@ -278,7 +274,7 @@ public class PlayerController {
                 if (decision.contains("Role") && canTakeARole) {
                     // takeARole();
                 }
-            } else if (player.isWorking()) {
+            } else if (isWorking()) {
                 if (decision.contains("Act") && canAct) {
                     // act();
                 } else if (decision.contains("Rehearse") && canRehearse) {
@@ -286,7 +282,7 @@ public class PlayerController {
                 }
             }
         }
-        player.setWantsToEndTurn(true);
+        setWantsToEndTurn(true);
     }
 
     /**
@@ -300,26 +296,56 @@ public class PlayerController {
      * Rank 4: 18 dollars or 15 credits
      * Rank 5: 28 dollars or 20 credits
      * Rank 6: 40 dollars 25 credits
+     * <p>
+     * For each possible Rank option in the players given options,
+     * if the player
      */
-    private void upgrade(Player player) {
-        int rankChoice = playerInput.getPlayerUpgradeInput(player);
-        String currencyChoice = playerInput.getCurrencyChoice(player);
+    private void upgrade() {
+        int rankChoice = playerInput.getPlayerUpgradeInput(this);
+//        String currencyChoice = playerInput.getCurrencyChoice(player);
         int currentDollars = player.getDollars();
         int currentCredits = player.getCredits();
-
-        if (rankChoice == 2) {
-            if (currentDollars > currentCredits) { // dollars
-
-            }
-            player.setDollars(currentDollars - 4);
-            player.setCredits(currentDollars - 4);
+//        for (Rank rankOption :
+//                player.rankOptions) {
+//            // TODO: if player can afford it
+//            // prompt user for dollars or credits
+//
+//            }
+//
         }
+        //
 
+
+
+
+    public boolean wantsToEndTurn() {
+        return wantsToEndTurn;
     }
 
-    /**
-     * Perform Turn
-     */
+    public void setWantsToEndTurn(boolean wantsToEndTurn) {
+        this.wantsToEndTurn = wantsToEndTurn;
+    }
+
+    public boolean isWorking() {
+        return isWorking;
+    }
+
+    public void setWorking(boolean working) {
+        this.isWorking = working;
+    }
+
+    public boolean hasTakenRole() {
+        return hasTakenRole;
+    }
+
+    public void setHasTakenRole(boolean hasTakenRole) {
+        this.hasTakenRole = hasTakenRole;
+    }
+
+
+        /**
+         * Perform Turn
+         */
 //    void performTurn() {
 //        // here's the deal:
 //        // if you choose you want to move  you're going to be updating other variables

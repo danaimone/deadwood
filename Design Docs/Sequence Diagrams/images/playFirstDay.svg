@@ -3,21 +3,21 @@
 title: Play day
 
 participant Host
-participant Board
+participant BoardController
 actor Player
 
 Player -> Player: take turn
 Player -> Player: decide current position
 Player -> Player: determine turn based on position
 alt move
-  Player -> Board: move one step to adjacent areas
+  Player -> BoardController: move one step to adjacent areas
   
   group "take role"
-  Player -> Board: place die on role equal or below rank and not taken by other player
+  Player -> BoardController: place die on role equal or below rank and not taken by other player
   end
 
   group "move onto set, no role"
-  Player -> Board: place die on blank area of set
+  Player -> BoardController: place die on blank area of set
   end
 
 
@@ -37,8 +37,8 @@ else work
       Host -> Player: give player one dollar and one credit
       end
 
-    Host -> Board: remove shot counter from board
-    Host -> Board: if no more shot counters, perform wrap
+    Host -> BoardController: remove shot counter from board
+    Host -> BoardController: if no more shot counters, perform wrap
     end
   group "failure"
     Host -> Player: determine whether play on or off card
@@ -51,7 +51,7 @@ else work
     end
   end
     
-  Host -> Board: determine if wrap
+  Host -> BoardController: determine if wrap
   Player -> Player: finish turn
 
 

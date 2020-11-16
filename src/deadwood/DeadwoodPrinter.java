@@ -1,6 +1,20 @@
 package deadwood;
 
 public class DeadwoodPrinter {
+    public void setPlayerController(PlayerController playerController) {
+        this.playerController = playerController;
+    }
+
+    PlayerController playerController;
+
+    public DeadwoodPrinter(){
+
+    }
+
+    public DeadwoodPrinter(PlayerController playerController) {
+        this.playerController = playerController;
+    }
+
     void printWinner(String winner) {
         System.out.printf("Congrats! %s is the winner!\n", winner);
     }
@@ -8,26 +22,24 @@ public class DeadwoodPrinter {
     /**
      * Prints current player
      *
-     * @param currentPlayer current player on Board
      */
-    void printCurrentPlayer(Player currentPlayer) {
-        System.out.printf("Current Player: %d\n", currentPlayer.getID());
+    void printCurrentPlayer() {
+        System.out.printf("Current Player: %d\n", playerController.player.getID());
     }
-
 
     /**
      * Print player info
      * <p>
      * Prints necessary info of given player
      *
-     * @param player the player to print
      */
-    void printPlayerData(Player player) {
-        Room playerCurrentRoom = player.getCurrentRoom();
+    void printPlayerData() {
+        Player currentPlayer = playerController.player;
+        Room playerCurrentRoom = currentPlayer.getCurrentRoom();
         System.out.println("Current Room: " + playerCurrentRoom.name);
-        System.out.println("Rank: " + player.getRank());
-        System.out.println("Money: " + player.getDollars());
-        System.out.println("Credits: " + player.getCredits());
+        System.out.println("Rank: " + currentPlayer.getRank());
+        System.out.println("Money: " + currentPlayer.getDollars());
+        System.out.println("Credits: " + currentPlayer.getCredits());
         System.out.println();
     }
 
@@ -36,11 +48,11 @@ public class DeadwoodPrinter {
      * <p>
      * Prints the player options
      *
-     * @param player the player whose options you would like to print
      */
-    void printPlayerOptions(Player player) {
+    void printPlayerOptions() {
+        Player currentPlayer = playerController.player;
         System.out.println("Here are your current options:");
-        for (String option : player.turnOptions) {
+        for (String option : currentPlayer.turnOptions) {
             System.out.println(option + "\t");
         }
     }
@@ -54,7 +66,7 @@ public class DeadwoodPrinter {
         System.out.println("Please enter a valid number of players.");
     }
 
-    void whoseTurn(PlayerController playerController) {
+    void whoseTurn() {
         System.out.println("It is " + playerController.player.getID() + "'s turn");
     }
 

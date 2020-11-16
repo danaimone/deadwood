@@ -1,25 +1,12 @@
 package deadwood;
 
 /**
- * Rank represents a given Rank in among us
- * There exists such ranks as Rank 1, Rank 2, etc.
- * Abstracted out a bit so things become more readable
+ * Player HAS-A RankData
+ * <p>
+ * Tidy way of storing financial information for a player
+ * Rank exists for each rank
  */
 public class Rank {
-    private int rankID;
-    private int dollarCost;
-    private int creditCost;
-
-    public Rank() {
-
-    }
-
-    public Rank(int rankID, int dollarCost, int creditCost) {
-        this.rankID = rankID;
-        this.dollarCost = dollarCost;
-        this.creditCost = creditCost;
-    }
-
     public int getRankID() {
         return rankID;
     }
@@ -28,21 +15,31 @@ public class Rank {
         this.rankID = rankID;
     }
 
-    public int getDollarCost() {
-        return dollarCost;
+    private int rankID;
+    private int dollars;
+    private int credits;
+
+    public Rank(int rankID, int dollars, int credits) {
+        this.rankID = rankID;
+        this.dollars = dollars;
+        this.credits = credits;
     }
 
-    public void setDollarCost(int dollarCost) {
-        this.dollarCost = dollarCost;
+    public int getDollars() {
+        return dollars;
     }
 
-    public int getCreditCost() {
-        return creditCost;
+    public void setDollars(int dollars) {
+        this.dollars = dollars;
     }
 
-    public void setCreditCost(int creditCost) {
-        this.creditCost = creditCost;
+    public int getCredits() {
+        return credits;
     }
 
+    public void setCredits(int credits) {
+        this.credits = credits;
+    }
 
 }
+

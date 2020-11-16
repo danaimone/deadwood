@@ -1,13 +1,10 @@
 package deadwood;
 
 /**
- * Board data contains any data relating to the Board
+ * BoardController data contains any data relating to the BoardController
  */
 public class BoardData {
 
-
-    public Player[] playersOnBoard;
-    public Player currentPlayer;
     private int daysLeft; //how many days the game lasts
     private int sceneCardsInPlay;
     private int sceneCardsLeft;
@@ -20,19 +17,10 @@ public class BoardData {
         this.sceneCardsInPlay = 40;
         this.currentDay = 0;
         this.daysLeft = 4;
-        this.playersOnBoard = new Player[numberOfPlayers];
     }
 
     public BoardData() {
 
-    }
-
-    /*
-     * Getters
-     */
-
-    public Player[] getPlayersOnBoard() {
-        return playersOnBoard;
     }
 
     public int getDaysLeft() {
@@ -91,17 +79,9 @@ public class BoardData {
     /**
      * Set initial current player in play on board.
      * Arguably, current player could be part of Gamemaster, but a given player active
-     * on board has a higher cohesion with the Board itself.
+     * on board has a higher cohesion with the BoardController itself.
      *
-     * @param currentPlayer the current player in play
      */
-    public void setInitialCurrentPlayer() {
-        this.currentPlayer = playersOnBoard[0];
-    }
-
-    public void setCurrentPlayer(Player player) {
-        this.currentPlayer = player;
-    }
 
     public void advanceDay() {
         this.currentDay++;

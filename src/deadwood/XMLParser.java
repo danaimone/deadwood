@@ -20,7 +20,7 @@ public class XMLParser {
         try {
             doc = db.parse(filename);
         } catch (Exception ex) {
-            System.out.println("Board XML parse failure");
+            System.out.println("BoardController XML parse failure");
             ex.printStackTrace();
         }
         return doc;

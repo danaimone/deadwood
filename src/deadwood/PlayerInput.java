@@ -51,34 +51,34 @@ public class PlayerInput {
      * This function ensures that a user cannot enter a new decision that is not valid,
      * as turnOptions contains any valid option types.
      *
-     * @param currentPlayer The current player who's input we want
+     * @param playerController The current player who's input we want
      */
-    public void getPlayerOptionInput(Player currentPlayer) {
+    public void getPlayerOptionInput(PlayerController playerController) {
         System.out.println("What would you like to do given the options above?");
         String decision = scanner.nextLine();
-        while (!currentPlayer.turnOptions.contains(decision)) {
+        while (!playerController.player.turnOptions.contains(decision)) {
             System.out.println("That was an invalid option. Please try again.");
             decision = scanner.nextLine();
         }
 
         Decision turnDecision = new Decision(decision);
-        currentPlayer.setPlayerDecision(turnDecision);
+        playerController.player.setPlayerDecision(turnDecision);
     }
 
     /**
      * Gets player input on what rank they would
      * like to upgrade to.
      *
-     * @param player player who is trying to upgrade rank
+     * @param playerController controller of player who is trying to upgrade rank
      * @return the rank number they want to upgrade to, -1 if rank upgrade was unsuccessful
      */
-    int getPlayerUpgradeInput(Player player) {
-        int rank = -1;
+    int getPlayerUpgradeInput(PlayerController playerController) {
+        RankController playerRank = playerController.rankController;
+        int rank = 1;
         System.out.println("What rank would you like to upgrade to?");
         try {
             rank = scanner.nextInt();
-            while (!player.rankOptions.contains(rank)) {
-                // TODO: replace with printer functions
+            while (!(playerRank.availableRanks.get(rank) == null)) { // this may not work
                 System.out.println("You entered an invalid rank.");
                 System.out.println("Please choose a rank between 1 and 6.");
                 rank = scanner.nextInt();
@@ -87,8 +87,14 @@ public class PlayerInput {
             System.out.println("You sneaky little dog, you. That's not a valid rank!");
             System.out.println("I suggest entering a number before I get real angry.");
         }
-
         return rank;
+    }
+
+    /**
+     *
+     */
+    void getPlayerCurrencyChoice(Player player) {
+
     }
 
 }
