@@ -5,6 +5,14 @@ public class DeadwoodPrinter {
         System.out.printf("Congrats! %s is the winner!\n", winner);
     }
 
+    /**
+     * Prints current player
+     * @param currentPlayer current player on Board
+     */
+    void printCurrentPlayer(String currentPlayer) {
+        System.out.printf("Current Player: %d\n", currentPlayer);
+    }
+
     void askPlayers() {
         System.out.println("How many players? (2-8)");
     }
