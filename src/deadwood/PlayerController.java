@@ -19,11 +19,11 @@ public class PlayerController {
     private boolean endTurn;
 
     Player player;
-    private Scanner playerInput;
+    PlayerInput playerInput;
 
     /* Constructor 'singleton' */
-    public PlayerController(Scanner scanner) {
-        this.playerInput = scanner;
+    PlayerController() {
+        playerInput = new PlayerInput();
     }
 
     /**
@@ -35,7 +35,7 @@ public class PlayerController {
      *
      * @param player PlayerData object to setup
      */
-    public void updatePlayer(Player player) {
+    void updatePlayer(Player player) {
         this.player = player;
         this.endTurn = false;
         setCanAct();
@@ -143,7 +143,7 @@ public class PlayerController {
     /**
      * Perform Turn
      */
-    public void performTurn() {
+    void performTurn() {
         // here's the deal:
         // if you choose you want to move  you're going to be updating other variables
         // if you choose to move you can't do acting
