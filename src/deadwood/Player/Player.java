@@ -222,12 +222,6 @@ public class Player {
         this.currentPlayerDecision = decision;
     }
 
-    public void setCurrentScore(int score) {
-        this.score = score;
-    }
-
-
-
 }
 
 
