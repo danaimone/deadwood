@@ -15,6 +15,7 @@ import java.util.Map;
  * This class makes all manipulation relating to a Player's turn
  */
 public class PlayerController {
+
     public Player player;
     public PlayerInput playerInput = new PlayerInput();
 
@@ -78,6 +79,10 @@ public class PlayerController {
         setWantsToEndTurn(false);
         setPlayerInput(null);
         updateRankOptions();
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     private void setPlayerInput(PlayerInput input) {
