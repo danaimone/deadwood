@@ -29,6 +29,7 @@ public class Player {
     private SceneCard currentSceneCard;
     private PlayerInput.Decision currentPlayerDecision;
 
+
     /**
      * Player Constructor
      * Sets up name, dollars, credits, rehearsal tokens, and rank.
@@ -43,10 +44,9 @@ public class Player {
      */
     public Player(int playerID, Room room, int numberOfPlayers, HashMap<Integer, Rank> availableRanks) {
         this.ID = playerID;
-        this.rank = new Rank(0, 0, 0);
         this.rehearsalTokens = 0;
-        setInitialRank(numberOfPlayers, availableRanks);
-        setInitialCredits(numberOfPlayers);
+        this.rank = setInitialRank(numberOfPlayers, availableRanks);
+        this.rank.setCredits(setInitialCredits(numberOfPlayers));
         this.turnOptions = new ArrayList<>();
         this.rankOptions = new ArrayList<>(5);
         this.currencyOptions = new ArrayList<>(2);
@@ -63,14 +63,12 @@ public class Player {
      * When a player is created, their rank is first assigned based on the number of players.
      * This sets their rank accordingly.
      */
-    public void setInitialRank(int numberOfPlayers, HashMap<Integer, Rank> availableRanks) {
+    public Rank setInitialRank(int numberOfPlayers, HashMap<Integer, Rank> availableRanks) {
+        Rank initialRank = new Rank(1, 0, 0);
         if (numberOfPlayers > 7) {
-            Rank rank = availableRanks.get(2);
-            setRank(rank);
-        } else {
-            Rank rank = availableRanks.get(1);
-            setRank(rank);
+            initialRank = availableRanks.get(2);
         }
+        return initialRank;
     }
 
     /*
@@ -195,13 +193,13 @@ public class Player {
      *
      * @param numberOfPlayers the number of players playing the game
      */
-    public void setInitialCredits(int numberOfPlayers) {
+    public int setInitialCredits(int numberOfPlayers) {
         if (numberOfPlayers == 5) {
-            setCredits(2);
+            return 2;
         } else if (numberOfPlayers == 6) {
-            setCredits(4);
+            return 4;
         } else {
-            setCredits(0);
+            return 0;
         }
     }
 

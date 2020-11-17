@@ -104,7 +104,7 @@ public class Gamemaster {
     }
 
     private void runGame(PlayerController playerController, BoardController boardController) {
-        while (boardController.boardData.getDaysLeft() > 0) { // entire game
+        while (boardController.boardData.getDaysLeft() > 0) {
             runDayOfDeadwood(playerController, boardController);
         }
     }

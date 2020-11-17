@@ -1,5 +1,6 @@
 package deadwood;
 
+import javax.print.attribute.HashPrintJobAttributeSet;
 import java.util.HashMap;
 
 /**
@@ -10,7 +11,7 @@ import java.util.HashMap;
  */
 public class RankController {
 
-    public HashMap<Integer, Rank> availableRanks;
+    public HashMap<Integer, Rank> availableRanks = new HashMap<>();
 
     public RankController() {
         buildRankList();
