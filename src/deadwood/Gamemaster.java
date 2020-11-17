@@ -125,7 +125,7 @@ public class Gamemaster {
             System.out.println("test1");
             deadwoodPrinter.printPlayerData(playerController);
             System.out.println("test2");
-            deadwoodPrinter.printPlayerOptions();
+            deadwoodPrinter.printPlayerOptions(playerController);
             System.out.println("test3");
             while (!currentPlayerController.wantsToEndTurn()) {
                 takeTurn(playerController);
