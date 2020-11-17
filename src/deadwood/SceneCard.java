@@ -19,7 +19,14 @@ public class SceneCard extends Card {
     private int difficulty;
 
 
-    /*
+    public SceneCard(String cardName, String sceneDescription, int budget, ArrayList<Role> roles) {
+        this.name = cardName;
+        this.description = sceneDescription;
+        this.budget = budget;
+        this.rolesOnCard = roles;
+	}
+
+	/*
         Getters and Setters
          */
     public int getDifficulty() {

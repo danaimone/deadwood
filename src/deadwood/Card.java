@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public abstract class Card {
-    private final String name;
-    private int number;
-    private String img;
-    private final String description;
-    private final int budget;
-    private Collection<Role> rolesOnCard = new ArrayList<Role>();
+    protected String name;
+    protected int number;
+    protected String img;
+    protected String description;
+    protected int budget;
+    protected Collection<Role> rolesOnCard = new ArrayList<Role>();
 
     public Card () {
         this.name = null;

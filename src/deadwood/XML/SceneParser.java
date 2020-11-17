@@ -82,8 +82,7 @@ public class SceneParser extends XMLParser {
                 }
             }
 //            SceneCard newSceneCard = new SceneCard(cardName, cardImg, Integer.parseInt(cardBudget), sceneNumber, sceneDescription, totalRoles, roles);
-            SceneCard newSceneCard = new SceneCard();
-
+            SceneCard newSceneCard = new SceneCard(cardName, sceneDescription, Integer.parseInt(cardBudget), roles);
             allCards.add(newSceneCard);
         }
         return allCards;

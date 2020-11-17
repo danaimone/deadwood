@@ -91,7 +91,7 @@ public class BoardData {
      * @param roomsToAdd an ArrayList of Rooms to add
      */
     public void addRoomsToBoard(ArrayList<Room> roomsToAdd, ArrayList<SceneCard> scenesToAdd) {
-        this.roomsOnBoard.addAll(roomsToAdd);
+        roomsOnBoard = roomsToAdd;
         addScenesToEachRoom(scenesToAdd);
     }
 
