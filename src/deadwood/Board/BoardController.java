@@ -18,7 +18,7 @@ public class BoardController {
      * game length should also be set.
      */
     public BoardController() {
-
+        boardData = new BoardData();
     }
 
     /**

@@ -87,8 +87,8 @@ public class Gamemaster {
 
         BoardParser boardParser = new BoardParser();
         SceneParser sceneParser = new SceneParser();
-        File boardXML = new File("xml/board.xml");
-        File cardXML = new File("xml/cards.xml");
+        File boardXML = new File("src/xml/board.xml");
+        File cardXML = new File("src/xml/cards.xml");
         try {
             ArrayList<Room> roomsToAdd = boardParser.parseBoardXML(boardXML);
             ArrayList<SceneCard> scenesToAdd = sceneParser.parseCardXML(cardXML);

@@ -38,6 +38,7 @@ public class BoardParser extends XMLParser {
             addNeighboringRooms(set, room);
             //add setAreaData
             //add take/Shotcounter data
+            roomsOnBoard.add(room);
         }
         return roomsOnBoard;
     }
