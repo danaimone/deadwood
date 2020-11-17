@@ -1,5 +1,6 @@
 package deadwood.Board;
 
+import deadwood.Player.Player;
 import deadwood.Room;
 import deadwood.SceneCard;
 

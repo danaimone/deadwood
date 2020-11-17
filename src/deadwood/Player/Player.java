@@ -21,7 +21,7 @@ public class Player {
     public ArrayList<String> currencyOptions;
 
     // Stores information about currency
-    private Rank rank;
+    public Rank rank;
 
     private int rehearsalTokens;
     private Role role;
@@ -221,6 +221,11 @@ public class Player {
     public void setCurrentPlayerDecision(PlayerInput.Decision decision) {
         this.currentPlayerDecision = decision;
     }
+
+    public void setCurrentScore(int score) {
+        this.score = score;
+    }
+
 
 
 }

@@ -56,7 +56,6 @@ public class Gamemaster {
      * This function also sets up the boardController a bit more.
      * The boardController setting up could be separated specifically into
      * class related functions, so this function could use some work.
-     *
      */
     static void setupPlayers() {
         RankController rankController = new RankController();
@@ -98,9 +97,20 @@ public class Gamemaster {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        deadwoodPrinter.setPlayerController(currentPlayerController);
 
-        while (boardController.boardData.getDaysLeft() > 0) {
+        deadwoodPrinter.setPlayerController(currentPlayerController);
+        runGame(playerController, boardController));
+        return
+    }
+
+    private void runGame(PlayerController playerController, BoardController boardController) {
+        while (boardController.boardData.getDaysLeft() > 0) { // entire game
+            runDayOfDeadwood(playerController, boardController);
+        }
+    }
+
+    private void runDayOfDeadwood(PlayerController playerController, BoardController boardController) {
+        while (!(boardController.boardData.getSceneCardsLeft() > 1)){
             deadwoodPrinter.printCurrentPlayer();
             deadwoodPrinter.printPlayerData(playerController);
             deadwoodPrinter.printPlayerOptions();
@@ -111,22 +121,23 @@ public class Gamemaster {
                 playerController.updatePlayer();
             }
         }
-
-        return "It was me all along!";
     }
 
     public static ArrayList<Player> getPlayersOnBoard() {
         return playersOnBoard;
     }
 
-    private int calculateScore(PlayerController playerController) {
-        int score = 0;
-        Rank rank = playerController.player.getRank();
-        score += playerController.player.getDollars();
-        score += playerController.player.getCredits();
-        score += rank.getRankID() * 5;
-        return score;
+    private Player getWinner() {
+        Player currentWinner = currentPlayerController.player;
+        for (Player player : playersOnBoard) {
+            if (player.rank.setScore() > currentWinner.rank.getScore()) {
+                currentWinner = player;
+            }
+        }
+
+        return currentWinner;
     }
+
 
     private void endGame() {
         // TODO: implement endGame
