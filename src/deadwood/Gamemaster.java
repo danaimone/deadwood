@@ -117,22 +117,20 @@ public class Gamemaster {
     private void runDayOfDeadwood(PlayerController playerController, BoardController boardController) {
         int i = 0;
         while (!(boardController.boardData.getSceneCardsLeft() > 1)){
-            if (i == playersOnBoard.size()) {
-                i = 0;
-            }
-            System.out.println("test");
             deadwoodPrinter.printCurrentPlayer(playerController);
-            System.out.println("test1");
             deadwoodPrinter.printPlayerData(playerController);
-            System.out.println("test2");
             deadwoodPrinter.printPlayerOptions(playerController);
             System.out.println("test3");
             while (!currentPlayerController.wantsToEndTurn()) {
+                System.out.println("test4");
                 takeTurn(playerController);
             }
-
-            playerController.setPlayer(playersOnBoard.get(i));
             i++;
+            if (i == playersOnBoard.size()) {
+                i = 0;
+            }
+            playerController.setPlayer(playersOnBoard.get(i));
+            
         }
     }
 
