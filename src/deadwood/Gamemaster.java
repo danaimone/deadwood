@@ -149,23 +149,7 @@ public class Gamemaster {
         return currentWinner;
     }
 
-
     private void endGame() {
         // TODO: implement endGame
-    }
-
-    private PlayerController calculateWinner() {
-        // TODO: implement calculateWinner
-        return null;
-    }
-
-    private void displayWinner(PlayerController winner) {
-        // TODO: implement displayWinner
-    }
-
-    private void setBoardLayout() {
-        // TODO: implement setBoardLayout()
-        //ask user if boardController should be default or randomized
-        //create boardController layout, default or random
     }
 }
