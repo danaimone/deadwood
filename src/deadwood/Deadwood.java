@@ -1,5 +1,6 @@
 package deadwood;
 
+import deadwood.Player.Player;
 import deadwood.Printer.DeadwoodPrinter;
 
 /**
@@ -15,7 +16,7 @@ public class Deadwood {
     public static void main(String[] args) {
         DeadwoodPrinter deadwoodPrinter = new DeadwoodPrinter();
         Gamemaster game = new Gamemaster(deadwoodPrinter);
-        String gameWinner = game.playDeadwood();
+        Player gameWinner = game.playDeadwood();
         deadwoodPrinter.printWinner(gameWinner);
     }
 }

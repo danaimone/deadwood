@@ -5,8 +5,9 @@ import deadwood.Player.PlayerController;
 import deadwood.Room;
 
 public class DeadwoodPrinter extends Printer{
-    public void printWinner(String winner) {
-        System.out.printf("Congrats! %s is the winner!\n", winner);
+    public void printWinner(Player winner) {
+        int playerID = winner.getID();
+        System.out.printf("Congrats! Player %d is the winner!\n", playerID);
     }
 
     /**

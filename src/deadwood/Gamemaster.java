@@ -79,7 +79,7 @@ public class Gamemaster {
      *
      * @return The winner of this entire game!
      */
-    String playDeadwood() {
+    Player playDeadwood() {
         PlayerController playerController = new PlayerController();
         BoardController boardController = new BoardController();
         System.out.println("Welcome to Deadwood!");
@@ -99,8 +99,8 @@ public class Gamemaster {
         }
 
         deadwoodPrinter.setPlayerController(currentPlayerController);
-        runGame(playerController, boardController));
-        return
+        runGame(playerController, boardController);
+        return getWinner();
     }
 
     private void runGame(PlayerController playerController, BoardController boardController) {
