@@ -97,6 +97,9 @@ public class Gamemaster {
             e.printStackTrace();
         }
 
+        //currently player needs to be set before passing into rungame or similar other there is no 'player' 
+        playerController.player = playersOnBoard.get(0);
+
         deadwoodPrinter.setPlayerController(currentPlayerController);
         runGame(playerController, boardController);
         return getWinner();
@@ -105,6 +108,7 @@ public class Gamemaster {
     private void runGame(PlayerController playerController, BoardController boardController) {
 
         while (boardController.boardData.getDaysLeft() > 0) {
+            System.out.println(playerController.player.getID());
             runDayOfDeadwood(playerController, boardController);
         }
     }
@@ -115,9 +119,13 @@ public class Gamemaster {
             if (i == playersOnBoard.size()) {
                 i = 0;
             }
-            deadwoodPrinter.printCurrentPlayer();
+            System.out.println("test");
+            deadwoodPrinter.printCurrentPlayer(playerController);
+            System.out.println("test1");
             deadwoodPrinter.printPlayerData(playerController);
+            System.out.println("test2");
             deadwoodPrinter.printPlayerOptions();
+            System.out.println("test3");
             while (!currentPlayerController.wantsToEndTurn()) {
                 takeTurn(playerController);
             }

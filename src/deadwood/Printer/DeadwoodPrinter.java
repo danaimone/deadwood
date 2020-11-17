@@ -14,7 +14,7 @@ public class DeadwoodPrinter extends Printer{
      * Prints current player
      *
      */
-    public void printCurrentPlayer() {
+    public void printCurrentPlayer(PlayerController playerController) {
         System.out.printf("Current Player: %d\n", playerController.player.getID());
     }
 
