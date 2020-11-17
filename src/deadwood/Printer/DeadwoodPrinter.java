@@ -27,7 +27,7 @@ public class DeadwoodPrinter extends Printer{
     public void printPlayerData(PlayerController playerController) {
         Room playerCurrentRoom = playerController.player.getCurrentRoom();
         System.out.println("Current Room: " + playerCurrentRoom.name);
-        System.out.println("Rank: " + playerController.player.getRank());
+        System.out.println("Rank: " + playerController.player.getRank().getRankID());
         System.out.println("Money: " + playerController.player.getDollars());
         System.out.println("Credits: " + playerController.player.getCredits());
         System.out.println();

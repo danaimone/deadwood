@@ -61,6 +61,7 @@ public class Gamemaster {
         RankController rankController = new RankController();
         int numberOfPlayers = currentPlayerController.playerInput.getNumberOfPlayers();
         Room trailer = new Trailer();
+        trailer.name = "Trailer";
         for (int i = 0; i < numberOfPlayers; i++) {
             Player player = new Player(i + 1, trailer, numberOfPlayers, rankController.getAvailableRanks());
             playersOnBoard.add(player);
