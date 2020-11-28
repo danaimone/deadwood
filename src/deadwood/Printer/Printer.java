@@ -3,17 +3,16 @@ package deadwood.Printer;
 import deadwood.Player.PlayerController;
 
 public abstract class Printer {
-    PlayerController playerController;
-
+    Printer printer = null;
     public Printer() {
 
     }
 
-    public Printer(PlayerController playerController) {
-        this.playerController = playerController;
+    public Printer(Printer printer) {
+        this.printer = printer;
     }
 
-    public void setPlayerController(PlayerController playerController) {
-        this.playerController = playerController;
+    public void setPrinter(Printer printer) {
+        this.printer = printer;
     }
 }

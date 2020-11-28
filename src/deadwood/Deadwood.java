@@ -14,8 +14,12 @@ public class Deadwood {
      * @param args
      */
     public static void main(String[] args) {
-        DeadwoodPrinter deadwoodPrinter = new DeadwoodPrinter();
-        Gamemaster game = new Gamemaster(deadwoodPrinter);
+        if (args.length > 1) {
+            System.out.println("The program requires no arguments for running. Exiting...");
+            System.exit(1);
+        }
+        DeadwoodPrinter deadwoodPrinter = DeadwoodPrinter.getInstance();
+        Gamemaster game = new Gamemaster();
         Player gameWinner = game.playDeadwood();
         deadwoodPrinter.printWinner(gameWinner);
     }

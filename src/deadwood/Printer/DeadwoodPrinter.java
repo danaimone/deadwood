@@ -5,6 +5,20 @@ import deadwood.Player.PlayerController;
 import deadwood.Room;
 
 public class DeadwoodPrinter extends Printer{
+    public static DeadwoodPrinter deadwoodPrinter = null;
+
+    public static DeadwoodPrinter getInstance() {
+        if (deadwoodPrinter == null) {
+            deadwoodPrinter = new DeadwoodPrinter();
+        }
+        return deadwoodPrinter;
+    }
+
+
+    public void printWelcome() {
+        System.out.println("Welcome to Deadwood!");
+    }
+
     public void printWinner(Player winner) {
         int playerID = winner.getID();
         System.out.printf("Congrats! Player %d is the winner!\n", playerID);
@@ -14,8 +28,8 @@ public class DeadwoodPrinter extends Printer{
      * Prints current player
      *
      */
-    public void printCurrentPlayer(PlayerController playerController) {
-        System.out.printf("Current Player: %d\n", playerController.player.getID());
+    public void printCurrentPlayer() {
+        System.out.printf("Current Player: %d\n", PlayerController.getInstance().player.getID());
     }
 
     /**
@@ -24,12 +38,12 @@ public class DeadwoodPrinter extends Printer{
      * Prints necessary info of given player
      *
      */
-    public void printPlayerData(PlayerController playerController) {
-        Room playerCurrentRoom = playerController.player.getCurrentRoom();
+    public void printPlayerData() {
+        Room playerCurrentRoom = PlayerController.getInstance().player.getCurrentRoom();
         System.out.println("Current Room: " + playerCurrentRoom.name);
-        System.out.println("Rank: " + playerController.player.getRank().getRankID());
-        System.out.println("Money: " + playerController.player.getDollars());
-        System.out.println("Credits: " + playerController.player.getCredits());
+        System.out.println("Rank: " + PlayerController.getInstance().player.getRank().getRankID());
+        System.out.println("Money: " + PlayerController.getInstance().player.getDollars());
+        System.out.println("Credits: " + PlayerController.getInstance().player.getCredits());
         System.out.println();
     }
 
@@ -39,10 +53,11 @@ public class DeadwoodPrinter extends Printer{
      * Prints the player options
      *
      */
-    public void printPlayerOptions(PlayerController playerController){
-        Player currentPlayer = playerController.player;
+    public void printPlayerOptions(){
+        Player currentPlayer = PlayerController.getInstance().player;
         System.out.println("Here are your current options:");
         for (String option : currentPlayer.turnOptions) {
+            System.out.println("Printing options..");
             System.out.println(option + "\t");
         }
     }
@@ -56,7 +71,7 @@ public class DeadwoodPrinter extends Printer{
         System.out.println("Please enter a valid number of players.");
     }
 
-    void whoseTurn() {
+    void whoseTurn(PlayerController playerController) {
         System.out.println("It is " + playerController.player.getID() + "'s turn");
     }
 

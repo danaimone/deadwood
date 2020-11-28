@@ -18,6 +18,8 @@ public class PlayerController {
 
     public Player player;
     public PlayerInput playerInput = new PlayerInput();
+    public static PlayerController playerController = null;
+
 
     RankController rankController = new RankController();
     HashMap<Integer, Rank> availableRanks = rankController.getAvailableRanks();
@@ -36,6 +38,13 @@ public class PlayerController {
     private boolean canUpgradeWithCredits;
     private Rank[] rankList;
 
+
+    public static PlayerController getInstance() {
+        if (playerController == null) {
+            playerController = new PlayerController();
+        }
+        return playerController;
+    }
 
     public boolean canUpgradeWithDollars() {
         return canUpgradeWithDollars;

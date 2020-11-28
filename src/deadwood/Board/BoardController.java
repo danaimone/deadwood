@@ -1,5 +1,7 @@
 package deadwood.Board;
 
+import deadwood.Player.PlayerController;
+
 /**
  * BoardController is a singleton class that should exist in one instance of a game of Deadwood.
  * It contains all BoardController related actions. One BoardController should be created to drive
@@ -7,6 +9,7 @@ package deadwood.Board;
  */
 public class BoardController {
     public BoardData boardData;
+    public static BoardController boardController = null;
 
     private boolean dayIsOver;
     private boolean gameIsOver;
@@ -19,6 +22,13 @@ public class BoardController {
      */
     public BoardController() {
         boardData = new BoardData();
+    }
+
+    public static BoardController getInstance() {
+        if (boardController == null) {
+            boardController = new BoardController();
+        }
+        return boardController;
     }
 
     /**

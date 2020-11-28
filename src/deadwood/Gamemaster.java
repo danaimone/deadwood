@@ -15,13 +15,10 @@ public class Gamemaster {
     /* Board */
     public static ArrayList<Player> playersOnBoard = new ArrayList<>();
     private static BoardController boardController = new BoardController();
-    private final BoardData boardData;
+    private BoardData boardData = null;
 
     /* Printers */
     private DeadwoodPrinter deadwoodPrinter;
-
-    /* Player */
-    public static PlayerController currentPlayerController = new PlayerController();
 
     /* Cards */
     private final Deck<SceneCard> sceneCards = new Deck<>(40);
@@ -30,19 +27,9 @@ public class Gamemaster {
      * In the case that a printer is not passed, a new one will be created instead.
      */
     public Gamemaster() {
-        currentPlayerController = new PlayerController();
+        boardController = BoardController.getInstance();
         this.boardData = boardController.boardData;
-    }
-
-    /**
-     * Constructor for Gamemaster, in the case that you would like to pass a printer.
-     *
-     * @param deadwoodPrinter the DeadwoodPrinter to be used among the package
-     */
-    public Gamemaster(DeadwoodPrinter deadwoodPrinter) {
-        this.boardData = boardController.boardData;
-        this.deadwoodPrinter = deadwoodPrinter;
-        deadwoodPrinter.setPlayerController(currentPlayerController);
+        this.deadwoodPrinter = DeadwoodPrinter.getInstance();
     }
 
     /**
@@ -58,6 +45,7 @@ public class Gamemaster {
      * class related functions, so this function could use some work.
      */
     static void setupPlayers() {
+        PlayerController currentPlayerController = PlayerController.getInstance();
         RankController rankController = new RankController();
         int numberOfPlayers = currentPlayerController.playerInput.getNumberOfPlayers();
         Room trailer = new Trailer();
@@ -65,7 +53,9 @@ public class Gamemaster {
         for (int i = 0; i < numberOfPlayers; i++) {
             Player player = new Player(i + 1, trailer, numberOfPlayers, rankController.getAvailableRanks());
             playersOnBoard.add(player);
+
         }
+        currentPlayerController.setPlayer(playersOnBoard.get(0));
         boardController.boardData.setDaysLeft(numberOfPlayers);
     }
 
@@ -81,8 +71,7 @@ public class Gamemaster {
      * @return The winner of this entire game!
      */
     Player playDeadwood() {
-        PlayerController playerController = new PlayerController();
-        System.out.println("Welcome to Deadwood!");
+        deadwoodPrinter.printWelcome();
         setupPlayers();
 
         BoardParser boardParser = new BoardParser();
@@ -98,47 +87,41 @@ public class Gamemaster {
             e.printStackTrace();
         }
 
-        //currently player needs to be set before passing into rungame or similar other there is no 'player' 
-        playerController.player = playersOnBoard.get(0);
-
-        deadwoodPrinter.setPlayerController(currentPlayerController);
-        runGame(playerController, boardController);
+        runGame(boardController);
         return getWinner();
     }
 
-    private void runGame(PlayerController playerController, BoardController boardController) {
-
+    private void runGame(BoardController boardController) {
         while (boardController.boardData.getDaysLeft() > 0) {
-            System.out.println(playerController.player.getID());
-            runDayOfDeadwood(playerController, boardController);
+            runDayOfDeadwood(boardController);
         }
     }
 
-    private void runDayOfDeadwood(PlayerController playerController, BoardController boardController) {
+    private void runDayOfDeadwood(BoardController boardController) {
+        PlayerController currentPlayerController = PlayerController.getInstance();
         int i = 0;
         while (!(boardController.boardData.getSceneCardsLeft() > 1)){
-            deadwoodPrinter.printCurrentPlayer(playerController);
-            deadwoodPrinter.printPlayerData(playerController);
-            deadwoodPrinter.printPlayerOptions(playerController);
-            System.out.println("test3");
+            deadwoodPrinter.printCurrentPlayer();
+            deadwoodPrinter.printPlayerData();
+            deadwoodPrinter.printPlayerOptions();
             while (!currentPlayerController.wantsToEndTurn()) {
-                System.out.println("test4");
-                takeTurn(playerController);
+                takeTurn();
             }
             i++;
             if (i == playersOnBoard.size()) {
                 i = 0;
             }
-            playerController.setPlayer(playersOnBoard.get(i));
+            PlayerController.getInstance().setPlayer(playersOnBoard.get(i));
             
         }
     }
 
-    private void takeTurn(PlayerController playerController) {
-        playerController.playerInput.getPlayerOptionInput(currentPlayerController);
-        playerController.handleDecision();
-        playerController.determinePlayerTurnOptions();
-        playerController.updatePlayer();
+    private void takeTurn() {
+        PlayerController currentPlayerController = PlayerController.getInstance();
+        currentPlayerController.playerInput.getPlayerOptionInput();
+        currentPlayerController.handleDecision();
+        currentPlayerController.determinePlayerTurnOptions();
+        currentPlayerController.updatePlayer();
     }
 
     public static ArrayList<Player> getPlayersOnBoard() {
@@ -146,14 +129,15 @@ public class Gamemaster {
     }
 
     private Player getWinner() {
-        Player currentWinner = currentPlayerController.player;
+        PlayerController currentPlayerController = PlayerController.getInstance();
+        Player winner = currentPlayerController.player;
         for (Player player : playersOnBoard) {
-            if (player.rank.setScore() > currentWinner.rank.getScore()) {
-                currentWinner = player;
+            if (player.rank.setScore() > winner.rank.getScore()) {
+                winner = player;
             }
         }
 
-        return currentWinner;
+        return winner;
     }
 
     private void endGame() {

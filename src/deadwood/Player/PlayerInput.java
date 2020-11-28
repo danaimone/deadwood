@@ -22,11 +22,11 @@ public class PlayerInput {
     public int getNumberOfPlayers() {
         int numberOfPlayersPlaying = 8;
         System.out.println("How many players are playing?");
-        System.out.println("> ");
+        System.out.print("> ");
         try {
             int numberOfPlayersEntered = scanner.nextInt();
             while (numberOfPlayersEntered > 8 || numberOfPlayersEntered < 2) {
-                System.out.println("Sorry, we've gotta cap you at 20.");
+                System.out.println("Sorry, you must have between 2 and 8 players playing.");
                 System.out.println("Try again!");
                 numberOfPlayersEntered = scanner.nextInt();
             }
@@ -58,7 +58,8 @@ public class PlayerInput {
      *
      * @param playerController The current player who's input we want
      */
-    public void getPlayerOptionInput(PlayerController playerController) {
+    public void getPlayerOptionInput() {
+        PlayerController playerController = PlayerController.getInstance();
         System.out.println("What would you like to do given the options above?");
         String decision = scanner.nextLine();
         while (!playerController.player.turnOptions.contains(decision)) {
