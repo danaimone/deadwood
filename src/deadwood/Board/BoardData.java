@@ -17,6 +17,9 @@ public class BoardData {
     private int currentDay;
     private ArrayList<Room> roomsOnBoard;
 
+    private boolean endOfGame;
+    private static boolean dayIsOver;
+
 
     /* Constructor for BoardData */
     public BoardData(int numberOfPlayers) {
@@ -24,6 +27,7 @@ public class BoardData {
         this.sceneCardsInPlay = 40;
         this.currentDay = 0;
         this.daysLeft = 4;
+        this.endOfGame = false;
     }
 
     public BoardData() {
@@ -52,6 +56,10 @@ public class BoardData {
         } else {
             this.daysLeft = 4;
         }
+    }
+
+    public void decrementDaysLeft() {
+        this.daysLeft--;
     }
 
     public int getSceneCardsInPlay() {

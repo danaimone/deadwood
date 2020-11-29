@@ -17,8 +17,8 @@ import java.util.Map;
 public class PlayerController {
 
     public Player player;
-    public PlayerInput playerInput = new PlayerInput();
-    public static PlayerController playerController = null;
+    private PlayerInput playerInput = new PlayerInput();
+    private static PlayerController playerController = null;
 
 
     RankController rankController = new RankController();
@@ -46,11 +46,15 @@ public class PlayerController {
         return playerController;
     }
 
+    public PlayerInput getPlayerInput() {
+        return playerInput;
+    }
+
     public boolean canUpgradeWithDollars() {
         return canUpgradeWithDollars;
     }
 
-    public void setCanUpgradeWithDollars(Player player) {
+    public void setCanUpgradeWithDollars(boolean canUpgradeWithDollars) {
         this.canUpgradeWithDollars = canUpgradeWithDollars;
     }
 

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Gamemaster {
     /* Board */
     public static ArrayList<Player> playersOnBoard = new ArrayList<>();
-    private static BoardController boardController = new BoardController();
+    private static BoardController boardController;
     private BoardData boardData = null;
 
     /* Printers */
@@ -27,8 +27,6 @@ public class Gamemaster {
      * In the case that a printer is not passed, a new one will be created instead.
      */
     public Gamemaster() {
-        boardController = BoardController.getInstance();
-        this.boardData = boardController.boardData;
         this.deadwoodPrinter = DeadwoodPrinter.getInstance();
     }
 
@@ -44,10 +42,10 @@ public class Gamemaster {
      * The boardController setting up could be separated specifically into
      * class related functions, so this function could use some work.
      */
-    static void setupPlayers() {
+    void setupPlayers() {
         PlayerController currentPlayerController = PlayerController.getInstance();
         RankController rankController = new RankController();
-        int numberOfPlayers = currentPlayerController.playerInput.getNumberOfPlayers();
+        int numberOfPlayers = currentPlayerController.getPlayerInput().getNumberOfPlayers();
         Room trailer = new Trailer();
         trailer.name = "Trailer";
         for (int i = 0; i < numberOfPlayers; i++) {
@@ -56,7 +54,10 @@ public class Gamemaster {
 
         }
         currentPlayerController.setPlayer(playersOnBoard.get(0));
-        boardController.boardData.setDaysLeft(numberOfPlayers);
+        boardController = BoardController.getInstance(numberOfPlayers);
+        this.boardData = boardController.getBoardData();
+        boardController.getBoardData().setDaysLeft(numberOfPlayers);
+        currentPlayerController.determinePlayerTurnOptions();
     }
 
     /**
@@ -81,7 +82,7 @@ public class Gamemaster {
         try {
             ArrayList<Room> roomsToAdd = boardParser.parseBoardXML(boardXML);
             ArrayList<SceneCard> scenesToAdd = sceneParser.parseCardXML(cardXML);
-            boardController.boardData.addRoomsToBoard(roomsToAdd, scenesToAdd);
+            boardController.getBoardData().addRoomsToBoard(roomsToAdd, scenesToAdd);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -92,7 +93,7 @@ public class Gamemaster {
     }
 
     private void runGame(BoardController boardController) {
-        while (boardController.boardData.getDaysLeft() > 0) {
+        while (!boardController.isGameIsOver()) {
             runDayOfDeadwood(boardController);
         }
     }
@@ -100,7 +101,10 @@ public class Gamemaster {
     private void runDayOfDeadwood(BoardController boardController) {
         PlayerController currentPlayerController = PlayerController.getInstance();
         int i = 0;
-        while (!(boardController.boardData.getSceneCardsLeft() > 1)){
+        int sceneCardsLeft = boardController.getBoardData().getSceneCardsLeft();
+        while (sceneCardsLeft > 1){
+            System.out.println("Scene cards left: " + sceneCardsLeft);
+            PlayerController.getInstance().setPlayer(playersOnBoard.get(i));
             deadwoodPrinter.printCurrentPlayer();
             deadwoodPrinter.printPlayerData();
             deadwoodPrinter.printPlayerOptions();
@@ -111,14 +115,14 @@ public class Gamemaster {
             if (i == playersOnBoard.size()) {
                 i = 0;
             }
-            PlayerController.getInstance().setPlayer(playersOnBoard.get(i));
-            
+            PlayerController.getInstance().setPlayer(playersOnBoard.get(i + 1));
+            sceneCardsLeft = boardController.getBoardData().getSceneCardsLeft();
         }
     }
 
     private void takeTurn() {
         PlayerController currentPlayerController = PlayerController.getInstance();
-        currentPlayerController.playerInput.getPlayerOptionInput();
+        currentPlayerController.getPlayerInput().getPlayerOptionInput();
         currentPlayerController.handleDecision();
         currentPlayerController.determinePlayerTurnOptions();
         currentPlayerController.updatePlayer();

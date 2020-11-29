@@ -1,18 +1,16 @@
 package deadwood.Board;
 
-import deadwood.Player.PlayerController;
-
 /**
  * BoardController is a singleton class that should exist in one instance of a game of Deadwood.
  * It contains all BoardController related actions. One BoardController should be created to drive
  * the program, along with an instance of boardData
  */
 public class BoardController {
-    public BoardData boardData;
-    public static BoardController boardController = null;
+
+    private BoardData boardData;
+    private static BoardController instance;
 
     private boolean dayIsOver;
-    private boolean gameIsOver;
 
     /**
      * Singleton constructor
@@ -20,15 +18,31 @@ public class BoardController {
      * At the creation of a BoardController Controller, the corresponding
      * game length should also be set.
      */
-    public BoardController() {
-        boardData = new BoardData();
+    private BoardController(int numberOfPlayers) {
+        boardData = new BoardData(numberOfPlayers);
     }
 
-    public static BoardController getInstance() {
-        if (boardController == null) {
-            boardController = new BoardController();
+    public static BoardController getInstance(int numberOfPlayers) {
+        if (instance == null) {
+            instance = new BoardController(numberOfPlayers);
         }
-        return boardController;
+        return instance;
+    }
+
+
+    public boolean isGameIsOver() {
+        return gameIsOver;
+    }
+
+    public void setGameIsOver(boolean gameIsOver) {
+        this.gameIsOver = gameIsOver;
+    }
+
+    private boolean gameIsOver;
+
+
+    public BoardData getBoardData() {
+        return boardData;
     }
 
     /**
@@ -46,7 +60,15 @@ public class BoardController {
      */
     private void endDay() {
         assert boardData != null;
-        // TODO: finish endDay()
+        if (boardData.getDaysLeft() == 0) {
+            // TODO: endGame here? Set endOfGame = true?
+        }
+        boardData.setCurrentDay(boardData.getCurrentDay() + 1);
+        boardData.decrementDaysLeft();
+    }
+
+    public void setDayIsOver(boolean dayIsOver) {
+        this.dayIsOver = dayIsOver;
     }
 
     /**
