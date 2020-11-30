@@ -1,6 +1,6 @@
 package deadwood.Board;
 
-import deadwood.Room;
+import deadwood.Room.Room;
 
 /**
  * BoardController is a singleton class that should exist in one instance of a game of Deadwood.

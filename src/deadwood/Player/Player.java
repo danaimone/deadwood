@@ -3,7 +3,7 @@ package deadwood.Player;
 import deadwood.Board.BoardController;
 import deadwood.Rank;
 import deadwood.Role;
-import deadwood.Room;
+import deadwood.Room.Room;
 import deadwood.SceneCard;
 
 import java.util.ArrayList;

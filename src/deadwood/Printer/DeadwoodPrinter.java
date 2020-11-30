@@ -2,7 +2,7 @@ package deadwood.Printer;
 
 import deadwood.Player.Player;
 import deadwood.Player.PlayerController;
-import deadwood.Room;
+import deadwood.Room.Room;
 
 public class DeadwoodPrinter extends Printer {
     public static DeadwoodPrinter deadwoodPrinter = null;

@@ -1,7 +1,7 @@
 package deadwood.Board;
 
 import deadwood.Deck;
-import deadwood.Room;
+import deadwood.Room.Room;
 import deadwood.SceneCard;
 
 import java.util.ArrayList;

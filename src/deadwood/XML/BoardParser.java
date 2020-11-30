@@ -2,6 +2,10 @@ package deadwood.XML;
 
 import deadwood.*;
 import deadwood.Board.BoardController;
+import deadwood.Room.CastingOffice;
+import deadwood.Room.PlayableRoom;
+import deadwood.Room.Room;
+import deadwood.Room.Trailer;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
