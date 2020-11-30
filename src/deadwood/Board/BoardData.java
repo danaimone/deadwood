@@ -1,10 +1,11 @@
 package deadwood.Board;
-
 import deadwood.Player.Player;
 import deadwood.Room;
 import deadwood.SceneCard;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * BoardController data contains any data relating to the BoardController
@@ -15,23 +16,45 @@ public class BoardData {
     private int sceneCardsInPlay;
     private int sceneCardsLeft;
     private int currentDay;
-    private ArrayList<Room> roomsOnBoard;
+    private int numberOfPlayers;
+
+    public int getNumberOfPlayers() {
+        return numberOfPlayers;
+    }
+
+    public void setNumberOfPlayers(int numberOfPlayers) {
+        this.numberOfPlayers = numberOfPlayers;
+    }
+
+
+
+    /*
+        Chose HashMap so "Room name" can correspond to the appropriate Room object.
+     */
+    private HashMap<String, Room> roomsOnBoard;
+
+    public HashMap<String, Room> getRoomsOnBoard() {
+        if (roomsOnBoard == null) {
+            roomsOnBoard = new HashMap<>();
+        }
+        return roomsOnBoard;
+    }
+
+    public void setRoomsOnBoard(HashMap<String, Room> roomsOnBoard) {
+        this.roomsOnBoard = roomsOnBoard;
+    }
 
     private boolean endOfGame;
     private static boolean dayIsOver;
 
 
     /* Constructor for BoardData */
-    public BoardData(int numberOfPlayers) {
+    public BoardData() {
         this.sceneCardsLeft = 40;
         this.sceneCardsInPlay = 40;
         this.currentDay = 0;
         this.daysLeft = 4;
         this.endOfGame = false;
-    }
-
-    public BoardData() {
-
     }
 
     public int getDaysLeft() {
@@ -92,27 +115,15 @@ public class BoardData {
     }
 
     /**
-     * Add Fully BuiltRooms to Board
-     *
-     * Given an array of Rooms, add them to the BoardData's along with some scenes
-     * roomsOnBoard array.
-     * @param roomsToAdd an ArrayList of Rooms to add
-     */
-    public void addRoomsToBoard(ArrayList<Room> roomsToAdd, ArrayList<SceneCard> scenesToAdd) {
-        roomsOnBoard = roomsToAdd;
-        addScenesToEachRoom(scenesToAdd);
-    }
-
-    /**
      * add Scenes to Each Room
      * Helper function for adding rooms to the board to ensure
      * each room has 4 SceneCards.
      * @param scenesToAdd an arraylist of all the scene cards
      */
-    private void addScenesToEachRoom(ArrayList<SceneCard> scenesToAdd) {
-        for (Room room : this.roomsOnBoard) {
+    public void addScenesToEachRoom(ArrayList<SceneCard> scenesToAdd) {
+        for (Map.Entry<String, Room> room : this.roomsOnBoard.entrySet()) {
             for (int i = 0; i < 4; i++) {
-                room.getSceneCardDeck().addCard(scenesToAdd.remove(0));
+                room.getValue().getSceneCardDeck().addCard(scenesToAdd.remove(0));
             }
         }
     }

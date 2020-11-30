@@ -1,13 +1,16 @@
 package deadwood.Player;
 
+import deadwood.DeadwoodLogger;
 import deadwood.Printer.DeadwoodPrinter;
 import deadwood.RankController;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class PlayerInput {
     private static final Scanner scanner = new Scanner(System.in);
-    DeadwoodPrinter printer;
+    DeadwoodPrinter printer = DeadwoodPrinter.getInstance();
     private int numberOfPlayers;
     Decision inputDecision;
 
@@ -21,8 +24,7 @@ public class PlayerInput {
      */
     public int getNumberOfPlayers() {
         int numberOfPlayersPlaying = 8;
-        System.out.println("How many players are playing?");
-        System.out.print("> ");
+        printer.askPlayers();
         try {
             int numberOfPlayersEntered = scanner.nextInt();
             while (numberOfPlayersEntered > 8 || numberOfPlayersEntered < 2) {
@@ -50,31 +52,55 @@ public class PlayerInput {
     }
 
     /**
+     * Get move input
+     * Figure out where a player would like to move, and handle accordingly.
+     * @return The Decision the player makes.
+     */
+    public Decision getMoveInput() {
+        PlayerController playerController = PlayerController.getInstance();
+        ArrayList<String> roomOptions = playerController.currentPlayer.getRoomOptions();
+        String decision = scanner.nextLine();
+
+        while (!roomOptions.contains(decision)) {
+            decision = scanner.nextLine();
+            if (!roomOptions.contains(decision)) {
+                DeadwoodLogger.logWarning("Player chose an invalid room.");
+                System.out.println("That was an invalid room. Please try again.");
+            }
+       }
+        Decision turnDecision = new Decision(decision);
+        setInputDecision(turnDecision);
+        return turnDecision;
+
+    }
+
+    /**
      * Get Player Option Input
      * <p>
      * Asks a player for what they would like to do, following a set of options.
      * This function ensures that a user cannot enter a new decision that is not valid,
      * as turnOptions contains any valid option types.
-     *
-     * @param playerController The current player who's input we want
      */
-    public void getPlayerOptionInput() {
+    public Decision getPlayerOptionInput() {
         PlayerController playerController = PlayerController.getInstance();
-        System.out.println("What would you like to do given the options above?");
+        HashMap<String, Boolean> turnOptions = playerController.currentPlayer.turnOptions;
         String decision = scanner.nextLine();
-        while (!playerController.player.turnOptions.contains(decision)) {
-            System.out.println("That was an invalid option. Please try again.");
+        while (!turnOptions.containsKey(decision)) {
             decision = scanner.nextLine();
+            if (!turnOptions.containsKey(decision)) {
+                System.out.println("That was an invalid option. Please try again.");
+            }
         }
 
         Decision turnDecision = new Decision(decision);
         setInputDecision(turnDecision);
+        return turnDecision;
     }
 
     public int getDollarInput(PlayerController playerController, DeadwoodPrinter printer) {
         printer.printDollarPrompt();
         int dollar = scanner.nextInt();
-        while (dollar > playerController.player.getDollars()) {
+        while (dollar > playerController.currentPlayer.getDollars()) {
             printer.printExcessEnteredError();
             dollar = scanner.nextInt();
         }
@@ -84,7 +110,7 @@ public class PlayerInput {
     public int getCreditInput(PlayerController playerController, DeadwoodPrinter printer) {
         printer.printCreditPrompt();
         int credit = scanner.nextInt();
-        while (credit > playerController.player.getCredits()) {
+        while (credit > playerController.currentPlayer.getCredits()) {
             printer.printExcessEnteredError();
             credit = scanner.nextInt();
         }
@@ -118,8 +144,9 @@ public class PlayerInput {
 
     /**
      * Get input decision
-     *
+     * <p>
      * Gets the current player input decision
+     *
      * @return
      */
     Decision getInputDecision() {
@@ -132,8 +159,8 @@ public class PlayerInput {
     }
 
     /*
-            Helper Functions for Player decisions
-         */
+        Helper Functions for Player decisions
+     */
     public static class Decision {
         public String decision;
 
@@ -143,7 +170,7 @@ public class PlayerInput {
 
 
         public Decision(String decision) {
-            this.decision = decision;
+            this.decision = decision.toLowerCase();
         }
 
         String getDecision() {
@@ -152,6 +179,10 @@ public class PlayerInput {
 
         public void setDecision(String decision) {
             this.decision = decision;
+        }
+
+        public boolean decisionsMatch(String option) {
+            return (decision.toLowerCase().contains(option.toLowerCase()));
         }
     }
 }

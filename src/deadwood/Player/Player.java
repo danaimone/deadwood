@@ -1,10 +1,10 @@
 package deadwood.Player;
 
-import deadwood.Rank;
-import deadwood.Role;
-import deadwood.Room;
-import deadwood.SceneCard;
+import deadwood.*;
+import deadwood.Board.BoardController;
+import deadwood.Board.BoardData;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -16,7 +16,12 @@ import java.util.HashMap;
  */
 public class Player {
     private final int ID;
-    public ArrayList<String> turnOptions;
+//    public ArrayList<String> turnOptions;
+    public HashMap<String, Boolean> turnOptions;
+    // TODO: Reset back to ArrayList? K/V doesn't really fit, but it is quick.
+    private ArrayList<String> roomOptions;
+    // TODO NOTE @ 12:12Am on 11/29: current train of thought: you need to implement roomOptions to be part of the player
+    // data. ESsentially will act the same. To update the available room options, just check for rooms adjacent to the current
     public ArrayList<Rank> rankOptions;
     public ArrayList<String> currencyOptions;
 
@@ -29,29 +34,210 @@ public class Player {
     private SceneCard currentSceneCard;
     private PlayerInput.Decision currentPlayerDecision;
 
-
     /**
      * Player Constructor
      * Sets up name, dollars, credits, rehearsal tokens, and rank.
      * The only variable parameter for the first construction of a Player
      * is the name. A player's current room always starts out in a trailer
-     * in the game of Deadwood.
+     * in the game of Deadwood. A Player always starts out in the Trailer room.
      *
      * A player can have at most 5 rank options at any given time.
      *
-     * @param room            The trailer to set them in (this should always be a Room of type Trailer)
      * @param numberOfPlayers the number of players playing
      */
-    public Player(int playerID, Room room, int numberOfPlayers, HashMap<Integer, Rank> availableRanks) {
+    public Player(int playerID, int numberOfPlayers, HashMap<Integer, Rank> availableRanks) {
         this.ID = playerID;
         this.rehearsalTokens = 0;
         this.rank = setInitialRank(numberOfPlayers, availableRanks);
         this.rank.setCredits(setInitialCredits(numberOfPlayers));
-        this.turnOptions = new ArrayList<>();
+        this.turnOptions = new HashMap<>();
         this.rankOptions = new ArrayList<>(5);
+        this.roomOptions = new ArrayList<>(8);
         this.currencyOptions = new ArrayList<>(2);
-        this.currentRoom = room;
+        this.currentRoom = BoardController.getInstance().getRoom("Trailer");
+
+        this.canMove = true;
+        this.canAct = true;
+        this.canTakeARole = true;
+        this.canRehearse = false;
+        this.canUpgrade = false;
     }
+
+
+    /*
+        Bools
+     */
+    private boolean canTakeARole; // can I move? can I act?
+    private boolean canMove;
+    private boolean canAct;
+    private boolean canRehearse;
+    private boolean wantsToEndTurn;
+    private boolean isWorking;
+    private boolean hasTakenRole;
+    private boolean canUpgrade;
+    private boolean canUpgradeWithDollars;
+    private boolean canUpgradeWithCredits;
+
+    public boolean isCanUpgrade() {
+        return canUpgrade;
+    }
+
+    public void setCanUpgrade(boolean canUpgrade) {
+        this.canUpgrade = canUpgrade;
+    }
+
+    public boolean canUpgradeWithDollars() {
+        return canUpgradeWithDollars;
+    }
+
+    public void setCanUpgradeWithDollars(boolean canUpgradeWithDollars) {
+        this.canUpgradeWithDollars = canUpgradeWithDollars;
+    }
+
+    public boolean canUpgradeWithCredits() {
+        return canUpgradeWithCredits;
+    }
+
+    public void setCanUpgradeWithCredits(boolean canUpgradeWithCredits) {
+        this.canUpgradeWithCredits = canUpgradeWithCredits;
+    }
+
+    /**
+     * Set can upgrade
+     * Determine whether the player can upgrade, given
+     * their current room. Essentially, this is checking that
+     * their currentRoom is CastingOffice.
+     */
+    public void setCanUpgrade() {
+        this.canUpgrade = currentRoom instanceof CastingOffice;
+    }
+
+
+    /**
+     * Set Can Rehearse
+     * <p>
+     * This function makes the determination of whether a given player can
+     * rehearse in their turn.
+     * <p>
+     * Pre-conditions:
+     * - player has a role, can't rehearse over maximum budget - 1
+     * <p>
+     * Post-conditions:
+     * - player is able to rehearse
+     * - player cannot act
+     */
+    void setCanRehearse() {
+        if (getRole() != null) {
+            this.canRehearse = true;
+            this.canAct = false;
+        } else {
+            this.canRehearse = false;
+            this.canAct = true;
+        }
+    }
+
+    /**
+     * Set Can Move
+     * <p>
+     * This function makes the determination of whether a given player
+     * can move in their turn.
+     * <p>
+     * Pre-conditions: player does not have a role
+     * <p>
+     * Invariant condition: player doesn't have role during turn
+     * <p>
+     * Post-condition: player can no longer move?
+     */
+    void setCanMove() {
+        // doesn't have role
+        this.canMove = !isWorking();
+    }
+
+    /**
+     * Set Can Act
+     * <p>
+     * This function makes the determination of whether a given player
+     * can act in their turn.
+     * <p>
+     * Pre-condition:
+     * - player has a role
+     * <p>
+     * Post-condition:
+     * - player can either act or not act
+     */
+    void setCanAct() {
+        this.canAct = this.getRole() != null;
+    }
+
+    /**
+     * Setter for canTakeRole
+     * <p>
+     * This function makes the determination of whether a given Player
+     * can take a role, as well as whether a player can work on the role
+     * if they take it.
+     * <p>
+     * Pre-condition:
+     * - player does not have a role
+     * - room that they are in is active/roles available
+     * <p>
+     * Post-condition:
+     * - player can either take a role or not take a role
+     */
+    void setCanTakeRole() {
+        canTakeARole = this.getRole() == null &&
+                currentRoom.isActive;
+    }
+
+    public boolean wantsToEndTurn() {
+        return wantsToEndTurn;
+    }
+
+    public boolean isWorking() {
+        return isWorking;
+    }
+
+    public void setWorking(boolean working) {
+        this.isWorking = working;
+    }
+
+    public void setWantsToEndTurn(boolean wantsToEndTurn) {
+        this.wantsToEndTurn = wantsToEndTurn;
+    }
+
+
+    public boolean isCanTakeARole() {
+        return canTakeARole;
+    }
+
+    public void setCanTakeARole(boolean canTakeARole) {
+        this.canTakeARole = canTakeARole;
+    }
+
+    public boolean isCanMove() {
+        return canMove;
+    }
+
+    public void setCanMove(boolean canMove) {
+        this.canMove = canMove;
+    }
+
+    public boolean isCanAct() {
+        return canAct;
+    }
+
+    public void setCanAct(boolean canAct) {
+        this.canAct = canAct;
+    }
+
+    public boolean isCanRehearse() {
+        return canRehearse;
+    }
+
+    public void setCanRehearse(boolean canRehearse) {
+        this.canRehearse = canRehearse;
+    }
+
+
 
     public void setRank(Rank rank) {
         this.rank = rank;
@@ -112,6 +298,7 @@ public class Player {
     public void setCredits(int credits) {
         this.rank.setCredits(credits);
     }
+
 
     /**
      * getRank
@@ -179,11 +366,14 @@ public class Player {
      * @return Room currentRoom this players current room
      */
     public Room getCurrentRoom() {
+        if (this.currentRoom == null) {
+            setCurrentRoom("Trailer");
+        }
         return this.currentRoom;
     }
 
-    public void setCurrentRoom(Room currentRoom) {
-        this.currentRoom = currentRoom;
+    public void setCurrentRoom(String room) {
+        this.currentRoom = BoardController.getInstance().getRoom(room);
     }
 
     /**
@@ -212,12 +402,25 @@ public class Player {
         this.currentSceneCard = currentSceneCard;
     }
 
-    public String getCurrentPlayerDecision() {
-         return currentPlayerDecision.getDecision();
+    public PlayerInput.Decision getCurrentPlayerDecision() {
+         return currentPlayerDecision;
     }
 
     public void setCurrentPlayerDecision(PlayerInput.Decision decision) {
         this.currentPlayerDecision = decision;
+    }
+
+    public void setRoomOptions(ArrayList<String> rooms) {
+        this.roomOptions = rooms;
+    }
+
+    public void updateRoomOptions() {
+        ArrayList<String> adjacentRooms = currentRoom.getAdjacentRooms();
+        getRoomOptions().addAll(adjacentRooms);
+    }
+
+    public ArrayList<String> getRoomOptions () {
+        return this.roomOptions;
     }
 
 }

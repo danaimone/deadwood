@@ -1,5 +1,6 @@
 package deadwood.XML;
 
+import deadwood.Board.BoardController;
 import deadwood.Card;
 import deadwood.Role;
 import deadwood.SceneCard;

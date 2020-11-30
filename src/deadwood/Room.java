@@ -16,15 +16,14 @@ import java.util.Collection;
  * Each room holds a SceneCard, a SceneCard holds a card, and a SceneCard also knows the off-card roles
  */
 public abstract class Room {
-    // to set up adjacent rooms for a given Room, look at the XML!
-    public String name;
+    private String name;
+    private Area area;
+
     public boolean isActive;
 
-    public Collection<Room> adjacentRooms = new ArrayList<>();
+    private ArrayList<String> adjacentRooms = new ArrayList<>();
     public Collection<Player> playersInRoom = new ArrayList<>();
     public Collection<Role> roles = new ArrayList<>();
-
-
     Deck<SceneCard> sceneCardDeck = new Deck<>(4);
 
     public Room() {
@@ -47,7 +46,27 @@ public abstract class Room {
         roles.addAll(rolesToAdd);
     }
 
-    public void addAdjacentRooms(Collection<Room> adjacentRoomsToAdd) {
-        this.adjacentRooms.addAll(adjacentRoomsToAdd);
+    public void setAdjacentRooms(ArrayList<String> adjacentRoomsToAdd) {
+        this.adjacentRooms = adjacentRoomsToAdd;
+    }
+
+    public ArrayList<String> getAdjacentRooms() {
+        return this.adjacentRooms;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Area getArea() {
+        return area;
+    }
+
+    public void setArea(Area area) {
+        this.area = area;
     }
 }

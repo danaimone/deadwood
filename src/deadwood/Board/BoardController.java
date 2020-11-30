@@ -1,5 +1,7 @@
 package deadwood.Board;
 
+import deadwood.Room;
+
 /**
  * BoardController is a singleton class that should exist in one instance of a game of Deadwood.
  * It contains all BoardController related actions. One BoardController should be created to drive
@@ -10,6 +12,7 @@ public class BoardController {
     private BoardData boardData;
     private static BoardController instance;
 
+
     private boolean dayIsOver;
 
     /**
@@ -18,17 +21,16 @@ public class BoardController {
      * At the creation of a BoardController Controller, the corresponding
      * game length should also be set.
      */
-    private BoardController(int numberOfPlayers) {
-        boardData = new BoardData(numberOfPlayers);
+    private BoardController() {
+        boardData = new BoardData();
     }
 
-    public static BoardController getInstance(int numberOfPlayers) {
+    public static BoardController getInstance() {
         if (instance == null) {
-            instance = new BoardController(numberOfPlayers);
+            instance = new BoardController();
         }
         return instance;
     }
-
 
     public boolean isGameIsOver() {
         return gameIsOver;
@@ -43,6 +45,10 @@ public class BoardController {
 
     public BoardData getBoardData() {
         return boardData;
+    }
+
+    public Room getRoom(String roomName) {
+        return getBoardData().getRoomsOnBoard().get(roomName);
     }
 
     /**
@@ -96,6 +102,7 @@ public class BoardController {
         assert this.boardData != null;
         gameIsOver = this.boardData.getDaysLeft() == 0;
     }
+
 
 
 }

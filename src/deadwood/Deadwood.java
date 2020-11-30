@@ -18,6 +18,7 @@ public class Deadwood {
             System.out.println("The program requires no arguments for running. Exiting...");
             System.exit(1);
         }
+        DeadwoodLogger.init();
         DeadwoodPrinter deadwoodPrinter = DeadwoodPrinter.getInstance();
         Gamemaster game = new Gamemaster();
         Player gameWinner = game.playDeadwood();

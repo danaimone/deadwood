@@ -1,8 +1,11 @@
 package deadwood.Player;
 
+import deadwood.Board.BoardController;
 import deadwood.*;
+import deadwood.Board.BoardData;
 import deadwood.Printer.DeadwoodPrinter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,8 +18,7 @@ import java.util.Map;
  * This class makes all manipulation relating to a Player's turn
  */
 public class PlayerController {
-
-    public Player player;
+    public Player currentPlayer;
     private PlayerInput playerInput = new PlayerInput();
     private static PlayerController playerController = null;
 
@@ -25,17 +27,6 @@ public class PlayerController {
     HashMap<Integer, Rank> availableRanks = rankController.getAvailableRanks();
 
     /* Actions (while my turn has not ended)*/
-    private boolean canTakeARole; // can I move? can I act?
-    private boolean canMove;
-    private boolean canAct;
-    private boolean canRehearse;
-    private boolean wantsToEndTurn;
-    private boolean isWorking;
-    private boolean hasTakenRole;
-
-    private boolean canUpgrade;
-    private boolean canUpgradeWithDollars;
-    private boolean canUpgradeWithCredits;
     private Rank[] rankList;
 
 
@@ -50,22 +41,6 @@ public class PlayerController {
         return playerInput;
     }
 
-    public boolean canUpgradeWithDollars() {
-        return canUpgradeWithDollars;
-    }
-
-    public void setCanUpgradeWithDollars(boolean canUpgradeWithDollars) {
-        this.canUpgradeWithDollars = canUpgradeWithDollars;
-    }
-
-    public boolean canUpgradeWithCredits() {
-        return canUpgradeWithCredits;
-    }
-
-    public void setCanUpgradeWithCredits(boolean canUpgradeWithCredits) {
-        this.canUpgradeWithCredits = canUpgradeWithCredits;
-    }
-
 
     /*
      * Constructor 'singleton'
@@ -76,40 +51,6 @@ public class PlayerController {
      *
      */
     public PlayerController() {
-        canMove = true;
-        canAct = true;
-        canTakeARole = true;
-        canRehearse = false;
-        canUpgrade = false;
-    }
-
-    public void updatePlayer() {
-        setCanMove();
-        setCanAct();
-        setCanRehearse();
-        setCanTakeRole();
-        setCanUpgrade();
-        setWantsToEndTurn(false);
-        setPlayerInput(null);
-        updateRankOptions();
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
-    private void setPlayerInput(PlayerInput input) {
-        playerInput = input;
-    }
-
-    /**
-     * Set can upgrade
-     * Determine whether the player can upgrade, given
-     * their current room. Essentially, this is checking that
-     * their currentRoom is CastingOffice.
-     */
-    public void setCanUpgrade() {
-        this.canUpgrade = (player.getCurrentRoom() instanceof CastingOffice);
     }
 
     /**
@@ -120,91 +61,26 @@ public class PlayerController {
      * consider whether you want to reset player wanting to end turn
      * This is essentially also ensuring that our Player Controller
      * has the current player at any given time.
-     *
-     * @param player PlayerData object to setup
      */
-    void updatePlayer(Player player) {
-        this.player = player;
-        setCanMove();
-        setCanAct();
-        setCanRehearse();
-        setCanTakeRole();
+    public void updatePlayer() {
+        currentPlayer.setCanMove();
+        currentPlayer.setCanAct();
+        currentPlayer.setCanRehearse();
+        currentPlayer.setCanTakeRole();
+        currentPlayer.setCanUpgrade();
+        currentPlayer.setWantsToEndTurn(false);
+        currentPlayer.setCurrentPlayerDecision(null);
+        updateRankOptions();
     }
 
-    /**
-     * Set Can Rehearse
-     * <p>
-     * This function makes the determination of whether a given player can
-     * rehearse in their turn.
-     * <p>
-     * Pre-conditions:
-     * - player has a role, can't rehearse over maximum budget - 1
-     * <p>
-     * Post-conditions:
-     * - player is able to rehearse
-     * - player cannot act
-     */
-    private void setCanRehearse() {
-        if (this.player.getRole() != null) {
-            this.canRehearse = true;
-            this.canAct = false;
-        } else {
-            this.canRehearse = false;
-            this.canAct = true;
-        }
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 
-    /**
-     * Set Can Move
-     * <p>
-     * This function makes the determination of whether a given player
-     * can move in their turn.
-     * <p>
-     * Pre-conditions: player does not have a role
-     * <p>
-     * Invariant condition: player doesn't have role during turn
-     * <p>
-     * Post-condition: player can no longer move?
-     */
-    private void setCanMove() {
-        // doesn't have role
-        this.canMove = !isWorking();
+    private void setPlayerInput(PlayerInput input) {
+        playerInput = input;
     }
 
-    /**
-     * Set Can Act
-     * <p>
-     * This function makes the determination of whether a given player
-     * can act in their turn.
-     * <p>
-     * Pre-condition:
-     * - player has a role
-     * <p>
-     * Post-condition:
-     * - player can either act or not act
-     */
-    private void setCanAct() {
-        this.canAct = this.player.getRole() != null;
-    }
-
-    /**
-     * Setter for canTakeRole
-     * <p>
-     * This function makes the determination of whether a given Player
-     * can take a role, as well as whether a player can work on the role
-     * if they take it.
-     * <p>
-     * Pre-condition:
-     * - player does not have a role
-     * - room that they are in is active/roles available
-     * <p>
-     * Post-condition:
-     * - player can either take a role or not take a role
-     */
-    private void setCanTakeRole() {
-        canTakeARole = this.player.getRole() == null &&
-                player.getCurrentRoom().isActive;
-    }
 
     /**
      * Determine Player Turn Options
@@ -218,19 +94,20 @@ public class PlayerController {
      * they have less Rehearsal Tokens than the budget.
      */
     public void determinePlayerTurnOptions() {
-        player.turnOptions.add("End Turn");
-        SceneCard playersCurrentSceneCard = player.getCurrentScene();
-        if (player.getCurrentRoom() instanceof CastingOffice) {
-            player.turnOptions.add("Upgrade Rank");
+        currentPlayer.turnOptions.put("End Turn", true);
+        Room currentRoom = currentPlayer.getCurrentRoom();
+        SceneCard playersCurrentSceneCard = currentPlayer.getCurrentScene();
+        if (currentRoom instanceof CastingOffice) {
+            currentPlayer.turnOptions.put("Upgrade Rank", true);
         }
 
-        if (!isWorking()) {
-            player.turnOptions.add("Move (opt.)");
-            player.turnOptions.add("Take a role (opt.)");
+        if (!currentPlayer.isWorking()) {
+            currentPlayer.turnOptions.put("Move", true);
+            currentPlayer.turnOptions.put("Take a role", true);
         } else {
-            player.turnOptions.add("Act");
-            if (player.getRehearsalTokens() < playersCurrentSceneCard.getBudget()) {
-                player.turnOptions.add("Rehearse");
+            currentPlayer.turnOptions.put("Act", true);
+            if (currentPlayer.getRehearsalTokens() < playersCurrentSceneCard.getBudget()) {
+                currentPlayer.turnOptions.put("Rehearse", true);
             }
         }
     }
@@ -245,11 +122,11 @@ public class PlayerController {
      * has that Rank added.
      */
     public void updateRankOptions() {
-        Rank currentRank = player.getRank();
+        Rank currentRank = currentPlayer.getRank();
         for (Map.Entry<Integer, Rank> entry : availableRanks.entrySet()) {
             Rank rank = entry.getValue();
-            if (player.canGetRank(currentRank)) {
-                player.rankOptions.add(rank);
+            if (currentPlayer.canGetRank(currentRank)) {
+                currentPlayer.rankOptions.add(rank);
             }
         }
     }
@@ -260,7 +137,6 @@ public class PlayerController {
 
         }
     }
-
 
     /**
      * Handle Decision
@@ -278,31 +154,54 @@ public class PlayerController {
      * to do any move they are not allowed to.
      */
     public void handleDecision() {
-        String playerDecision = player.getCurrentPlayerDecision();
-        while (!wantsToEndTurn() || playerDecision.contains("End")) {
-            if (!isWorking()) {
-                if (playerDecision.contains("Upgrade") && canUpgrade) {
+        PlayerInput.Decision playerDecision = currentPlayer.getCurrentPlayerDecision();
+        DeadwoodLogger.logInfo("Handling Player Decision...");
+        // TODO: fix this
+        while (!playerDecision.decisionsMatch("End Turn")) {
+            if (!currentPlayer.isWorking()) {
+                if (playerDecision.decisionsMatch("Upgrade") && currentPlayer.isCanUpgrade()) {
                     upgrade();
                 }
-                if (playerDecision.contains("Move") && canMove) {
-                    canAct = false;
-                    canTakeARole = false;
-                    canRehearse = false;
-//                    move()
+                if (playerDecision.decisionsMatch("Move") && currentPlayer.isCanMove()) {
+                    DeadwoodLogger.logInfo("Player wants to move.");
+                    currentPlayer.setCanAct(false);
+                    currentPlayer.setCanTakeARole(false);
+                    currentPlayer.setCanRehearse(false);
+
+                    // TODO: WORKING ON THIS! move()
+                    move();
                 }
 
-                if (playerDecision.contains("Role") && canTakeARole) {
+                if (playerDecision.decisionsMatch("Role") && currentPlayer.isCanTakeARole()) {
                     // takeARole();
                 }
-            } else if (isWorking()) {
-                if (playerDecision.contains("Act") && canAct) {
+            } else if (currentPlayer.isWorking()) {
+                if (playerDecision.decisionsMatch("Act") && currentPlayer.isCanAct()) {
                     // act();
-                } else if (playerDecision.contains("Rehearse") && canRehearse) {
+                } else if (playerDecision.decisionsMatch("Rehearse") && currentPlayer.isCanRehearse()) {
                     // rehearse();
                 }
             }
+
         }
-        setWantsToEndTurn(true);
+        System.out.println("Ending turn...");
+        currentPlayer.setWantsToEndTurn(true);
+    }
+
+    private void move() {
+        currentPlayer.updateRoomOptions();
+        DeadwoodPrinter printer = DeadwoodPrinter.getInstance();
+        ArrayList<String> roomOptions = currentPlayer.getRoomOptions();
+        printer.printRoomOptions();
+        printer.printMovePrompt();
+        PlayerInput playerInput = new PlayerInput();
+        PlayerInput.Decision decision = playerInput.getMoveInput();
+        printer.printRoomOptions();
+        while (!roomOptions.contains(decision.getDecision())) {
+            decision = playerInput.getMoveInput();
+            printer.printRoomOptions();
+        }
+        currentPlayer.setCurrentRoom(decision.getDecision());
     }
 
     /**
@@ -325,8 +224,8 @@ public class PlayerController {
         int rankChoice = playerInput.getPlayerUpgradeInput(this);
         Rank chosenRank = availableRanks.get(rankChoice);
 //        String currencyChoice = playerInput.getCurrencyChoice(player);
-        int currentDollars = player.getDollars();
-        int currentCredits = player.getCredits();
+        int currentDollars = currentPlayer.getDollars();
+        int currentCredits = currentPlayer.getCredits();
 
         printer.printUpgradeCase();
         int enteredDollars = playerInput.getDollarInput(this, printer);
@@ -341,39 +240,14 @@ public class PlayerController {
             // provides too much, but this is easier for now
         }
 
-        canUpgrade = false;
+        currentPlayer.setCanUpgrade(false);
     }
 
     public void setRank(Rank rank, int dollar, int credit) {
-        player.setDollars(player.getDollars() - dollar);
-        player.setCredits(player.getCredits() - credit);
-        player.setRank(rank);
+        currentPlayer.setDollars(currentPlayer.getDollars() - dollar);
+        currentPlayer.setCredits(currentPlayer.getCredits() - credit);
+        currentPlayer.setRank(rank);
     }
-
-    public boolean wantsToEndTurn() {
-        return wantsToEndTurn;
-    }
-
-    public void setWantsToEndTurn(boolean wantsToEndTurn) {
-        this.wantsToEndTurn = wantsToEndTurn;
-    }
-
-    public boolean isWorking() {
-        return isWorking;
-    }
-
-    public void setWorking(boolean working) {
-        this.isWorking = working;
-    }
-
-    public boolean hasTakenRole() {
-        return hasTakenRole;
-    }
-
-    public void setHasTakenRole(boolean hasTakenRole) {
-        this.hasTakenRole = hasTakenRole;
-    }
-
 
     /**
      * Perform Turn

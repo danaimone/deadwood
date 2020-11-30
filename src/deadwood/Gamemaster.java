@@ -4,12 +4,14 @@ import deadwood.Board.BoardController;
 import deadwood.Board.BoardData;
 import deadwood.Player.Player;
 import deadwood.Player.PlayerController;
+import deadwood.Player.PlayerInput;
 import deadwood.Printer.DeadwoodPrinter;
 import deadwood.XML.BoardParser;
 import deadwood.XML.SceneParser;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Gamemaster {
     /* Board */
@@ -43,21 +45,19 @@ public class Gamemaster {
      * class related functions, so this function could use some work.
      */
     void setupPlayers() {
-        PlayerController currentPlayerController = PlayerController.getInstance();
+        PlayerController playerController = PlayerController.getInstance();
         RankController rankController = new RankController();
-        int numberOfPlayers = currentPlayerController.getPlayerInput().getNumberOfPlayers();
-        Room trailer = new Trailer();
-        trailer.name = "Trailer";
+        int numberOfPlayers = playerController.getPlayerInput().getNumberOfPlayers();
         for (int i = 0; i < numberOfPlayers; i++) {
-            Player player = new Player(i + 1, trailer, numberOfPlayers, rankController.getAvailableRanks());
+            Player player = new Player(i + 1, numberOfPlayers, rankController.getAvailableRanks());
             playersOnBoard.add(player);
-
         }
-        currentPlayerController.setPlayer(playersOnBoard.get(0));
-        boardController = BoardController.getInstance(numberOfPlayers);
+        playerController.setCurrentPlayer(playersOnBoard.get(0));
+        boardController = BoardController.getInstance();
+        boardController.getBoardData().setNumberOfPlayers(numberOfPlayers);
         this.boardData = boardController.getBoardData();
         boardController.getBoardData().setDaysLeft(numberOfPlayers);
-        currentPlayerController.determinePlayerTurnOptions();
+        playerController.determinePlayerTurnOptions();
     }
 
     /**
@@ -80,9 +80,9 @@ public class Gamemaster {
         File boardXML = new File("src/xml/board.xml");
         File cardXML = new File("src/xml/cards.xml");
         try {
-            ArrayList<Room> roomsToAdd = boardParser.parseBoardXML(boardXML);
+            boardParser.parseBoardXML(boardXML);
             ArrayList<SceneCard> scenesToAdd = sceneParser.parseCardXML(cardXML);
-            boardController.getBoardData().addRoomsToBoard(roomsToAdd, scenesToAdd);
+            boardController.getBoardData().addScenesToEachRoom(scenesToAdd);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -99,33 +99,34 @@ public class Gamemaster {
     }
 
     private void runDayOfDeadwood(BoardController boardController) {
-        PlayerController currentPlayerController = PlayerController.getInstance();
+        PlayerController playerController = PlayerController.getInstance();
         int i = 0;
         int sceneCardsLeft = boardController.getBoardData().getSceneCardsLeft();
         while (sceneCardsLeft > 1){
             System.out.println("Scene cards left: " + sceneCardsLeft);
-            PlayerController.getInstance().setPlayer(playersOnBoard.get(i));
+            PlayerController.getInstance().setCurrentPlayer(playersOnBoard.get(i));
             deadwoodPrinter.printCurrentPlayer();
             deadwoodPrinter.printPlayerData();
             deadwoodPrinter.printPlayerOptions();
-            while (!currentPlayerController.wantsToEndTurn()) {
+            while (!playerController.currentPlayer.wantsToEndTurn()) {
                 takeTurn();
             }
             i++;
             if (i == playersOnBoard.size()) {
                 i = 0;
             }
-            PlayerController.getInstance().setPlayer(playersOnBoard.get(i + 1));
+            PlayerController.getInstance().setCurrentPlayer(playersOnBoard.get(i + 1));
             sceneCardsLeft = boardController.getBoardData().getSceneCardsLeft();
         }
     }
 
     private void takeTurn() {
-        PlayerController currentPlayerController = PlayerController.getInstance();
-        currentPlayerController.getPlayerInput().getPlayerOptionInput();
-        currentPlayerController.handleDecision();
-        currentPlayerController.determinePlayerTurnOptions();
-        currentPlayerController.updatePlayer();
+        PlayerController playerController = PlayerController.getInstance();
+        PlayerInput.Decision decision = playerController.getPlayerInput().getPlayerOptionInput();
+        playerController.currentPlayer.setCurrentPlayerDecision(decision);
+        playerController.handleDecision();
+        playerController.determinePlayerTurnOptions();
+        playerController.updatePlayer();
     }
 
     public static ArrayList<Player> getPlayersOnBoard() {
@@ -133,8 +134,8 @@ public class Gamemaster {
     }
 
     private Player getWinner() {
-        PlayerController currentPlayerController = PlayerController.getInstance();
-        Player winner = currentPlayerController.player;
+        PlayerController playerController = PlayerController.getInstance();
+        Player winner = playerController.currentPlayer;
         for (Player player : playersOnBoard) {
             if (player.rank.setScore() > winner.rank.getScore()) {
                 winner = player;
