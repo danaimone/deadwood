@@ -1,10 +1,8 @@
 package deadwood.Player;
 
-import deadwood.*;
 import deadwood.Board.BoardController;
-import deadwood.Board.BoardData;
+import deadwood.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -16,23 +14,30 @@ import java.util.HashMap;
  */
 public class Player {
     private final int ID;
-//    public ArrayList<String> turnOptions;
     public HashMap<String, Boolean> turnOptions;
-    // TODO: Reset back to ArrayList? K/V doesn't really fit, but it is quick.
-    private ArrayList<String> roomOptions;
-    // TODO NOTE @ 12:12Am on 11/29: current train of thought: you need to implement roomOptions to be part of the player
-    // data. ESsentially will act the same. To update the available room options, just check for rooms adjacent to the current
-    public ArrayList<Rank> rankOptions;
+    private ArrayList<Rank> rankOptions;
     public ArrayList<String> currencyOptions;
-
     // Stores information about currency
     public Rank rank;
-
+    // TODO: Reset back to ArrayList? K/V doesn't really fit, but it is quick.
+    private ArrayList<String> roomOptions;
     private int rehearsalTokens;
     private Role role;
     private Room currentRoom;
     private SceneCard currentSceneCard;
-    private PlayerInput.Decision currentPlayerDecision;
+    /*
+        Bools
+     */
+    private boolean canTakeARole; // can I move? can I act?
+    private boolean canMove;
+    private boolean canAct;
+    private boolean canRehearse;
+    private boolean wantsToEndTurn;
+    private boolean isWorking;
+    private boolean hasTakenRole;
+    private boolean canUpgrade;
+    private boolean canUpgradeWithDollars;
+    private boolean canUpgradeWithCredits;
 
     /**
      * Player Constructor
@@ -40,7 +45,7 @@ public class Player {
      * The only variable parameter for the first construction of a Player
      * is the name. A player's current room always starts out in a trailer
      * in the game of Deadwood. A Player always starts out in the Trailer room.
-     *
+     * <p>
      * A player can have at most 5 rank options at any given time.
      *
      * @param numberOfPlayers the number of players playing
@@ -63,20 +68,13 @@ public class Player {
         this.canUpgrade = false;
     }
 
+    public ArrayList<Rank> getRankOptions() {
+        return rankOptions;
+    }
 
-    /*
-        Bools
-     */
-    private boolean canTakeARole; // can I move? can I act?
-    private boolean canMove;
-    private boolean canAct;
-    private boolean canRehearse;
-    private boolean wantsToEndTurn;
-    private boolean isWorking;
-    private boolean hasTakenRole;
-    private boolean canUpgrade;
-    private boolean canUpgradeWithDollars;
-    private boolean canUpgradeWithCredits;
+    public void setRankOptions(ArrayList<Rank> rankOptions) {
+        this.rankOptions = rankOptions;
+    }
 
     public boolean isCanUpgrade() {
         return canUpgrade;
@@ -237,12 +235,6 @@ public class Player {
         this.canRehearse = canRehearse;
     }
 
-
-
-    public void setRank(Rank rank) {
-        this.rank = rank;
-    }
-
     /**
      * Sets a player's initial rank
      * <p>
@@ -257,10 +249,6 @@ public class Player {
         return initialRank;
     }
 
-    /*
-        Getters
-     */
-
     /**
      * getId
      * Retrieves this players ID
@@ -270,6 +258,10 @@ public class Player {
     public int getID() {
         return this.ID;
     }
+
+    /*
+        Getters
+     */
 
     /**
      * getDollars
@@ -299,7 +291,6 @@ public class Player {
         this.rank.setCredits(credits);
     }
 
-
     /**
      * getRank
      * Retrieves this players current rank
@@ -310,10 +301,15 @@ public class Player {
         return this.rank;
     }
 
+    public void setRank(Rank rank) {
+        this.rank = rank;
+    }
+
     /**
      * Can Get Rank
-     *
+     * <p>
      * Checks to see if given Rank is identical in fields to this rank
+     *
      * @param rankToCompare rank to compare
      * @return true if they are identical, false otherwise
      */
@@ -402,25 +398,17 @@ public class Player {
         this.currentSceneCard = currentSceneCard;
     }
 
-    public PlayerInput.Decision getCurrentPlayerDecision() {
-         return currentPlayerDecision;
-    }
-
-    public void setCurrentPlayerDecision(PlayerInput.Decision decision) {
-        this.currentPlayerDecision = decision;
-    }
-
-    public void setRoomOptions(ArrayList<String> rooms) {
-        this.roomOptions = rooms;
-    }
-
     public void updateRoomOptions() {
         ArrayList<String> adjacentRooms = currentRoom.getAdjacentRooms();
         getRoomOptions().addAll(adjacentRooms);
     }
 
-    public ArrayList<String> getRoomOptions () {
+    public ArrayList<String> getRoomOptions() {
         return this.roomOptions;
+    }
+
+    public void setRoomOptions(ArrayList<String> rooms) {
+        this.roomOptions = rooms;
     }
 
 }

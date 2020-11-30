@@ -7,24 +7,22 @@ package deadwood;
  * Rank exists for each rank
  */
 public class Rank {
+    private int rankID;
+    private int dollars;
+    private int credits;
+    private int score;
+    public Rank(int rankID, int dollars, int credits) {
+        this.rankID = rankID;
+        this.dollars = dollars;
+        this.credits = credits;
+    }
+
     public int getRankID() {
         return rankID;
     }
 
     public void setRankID(int rankID) {
         this.rankID = rankID;
-    }
-
-    private int rankID;
-    private int dollars;
-    private int credits;
-    private int score;
-
-
-    public Rank(int rankID, int dollars, int credits) {
-        this.rankID = rankID;
-        this.dollars = dollars;
-        this.credits = credits;
     }
 
     public int getDollars() {

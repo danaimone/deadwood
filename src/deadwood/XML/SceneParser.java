@@ -1,7 +1,5 @@
 package deadwood.XML;
 
-import deadwood.Board.BoardController;
-import deadwood.Card;
 import deadwood.Role;
 import deadwood.SceneCard;
 import org.w3c.dom.Document;
@@ -82,10 +80,10 @@ public class SceneParser extends XMLParser {
                     roles.add(tempRole);
                 }
             }
-//            SceneCard newSceneCard = new SceneCard(cardName, cardImg, Integer.parseInt(cardBudget), sceneNumber, sceneDescription, totalRoles, roles);
             SceneCard newSceneCard = new SceneCard(cardName, sceneDescription, Integer.parseInt(cardBudget), roles);
             allCards.add(newSceneCard);
         }
+
         return allCards;
     }
 }

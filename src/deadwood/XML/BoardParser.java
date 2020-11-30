@@ -2,7 +2,6 @@ package deadwood.XML;
 
 import deadwood.*;
 import deadwood.Board.BoardController;
-import deadwood.Board.BoardData;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -11,14 +10,13 @@ import org.w3c.dom.NodeList;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class BoardParser extends XMLParser {
     /**
      * parseBoardXml
      * <p>
      * Parses the board.xml file
+     *
      * @param XMLFile the board.xml File object
      * @return an Arraylist of Rooms that were in the XML
      * @throws ParserConfigurationException if XML file was not in correct format

@@ -1,5 +1,6 @@
 package deadwood.Board;
-import deadwood.Player.Player;
+
+import deadwood.Deck;
 import deadwood.Room;
 import deadwood.SceneCard;
 
@@ -12,11 +13,30 @@ import java.util.Map;
  */
 public class BoardData {
 
+    private static boolean dayIsOver;
+    private final Deck<SceneCard> sceneCards = new Deck<>(40);
+    private final boolean endOfGame;
     private int daysLeft; //how many days the game lasts
     private int sceneCardsInPlay;
     private int sceneCardsLeft;
     private int currentDay;
     private int numberOfPlayers;
+
+    /* Cards */
+    /*
+        Chose HashMap so "Room name" can correspond to the appropriate Room object.
+     */
+    private HashMap<String, Room> roomsOnBoard;
+
+
+    /* Constructor for BoardData */
+    public BoardData() {
+        this.sceneCardsLeft = 40;
+        this.sceneCardsInPlay = 40;
+        this.currentDay = 0;
+        this.daysLeft = 4;
+        this.endOfGame = false;
+    }
 
     public int getNumberOfPlayers() {
         return numberOfPlayers;
@@ -26,12 +46,9 @@ public class BoardData {
         this.numberOfPlayers = numberOfPlayers;
     }
 
-
-
-    /*
-        Chose HashMap so "Room name" can correspond to the appropriate Room object.
-     */
-    private HashMap<String, Room> roomsOnBoard;
+    public Deck<SceneCard> getSceneCards() {
+        return sceneCards;
+    }
 
     public HashMap<String, Room> getRoomsOnBoard() {
         if (roomsOnBoard == null) {
@@ -42,19 +59,6 @@ public class BoardData {
 
     public void setRoomsOnBoard(HashMap<String, Room> roomsOnBoard) {
         this.roomsOnBoard = roomsOnBoard;
-    }
-
-    private boolean endOfGame;
-    private static boolean dayIsOver;
-
-
-    /* Constructor for BoardData */
-    public BoardData() {
-        this.sceneCardsLeft = 40;
-        this.sceneCardsInPlay = 40;
-        this.currentDay = 0;
-        this.daysLeft = 4;
-        this.endOfGame = false;
     }
 
     public int getDaysLeft() {
@@ -118,12 +122,16 @@ public class BoardData {
      * add Scenes to Each Room
      * Helper function for adding rooms to the board to ensure
      * each room has 4 SceneCards.
+     *
      * @param scenesToAdd an arraylist of all the scene cards
      */
     public void addScenesToEachRoom(ArrayList<SceneCard> scenesToAdd) {
         for (Map.Entry<String, Room> room : this.roomsOnBoard.entrySet()) {
             for (int i = 0; i < 4; i++) {
-                room.getValue().getSceneCardDeck().addCard(scenesToAdd.remove(0));
+                if (!(scenesToAdd.size() == 0)) {
+                    SceneCard card = scenesToAdd.remove(i);
+                    room.getValue().getSceneCardDeck().addCard(card);
+                }
             }
         }
     }
@@ -132,7 +140,6 @@ public class BoardData {
      * Set initial current player in play on board.
      * Arguably, current player could be part of Gamemaster, but a given player active
      * on board has a higher cohesion with the BoardController itself.
-     *
      */
     public void advanceDay() {
         this.currentDay++;

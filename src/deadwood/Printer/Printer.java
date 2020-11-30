@@ -1,9 +1,8 @@
 package deadwood.Printer;
 
-import deadwood.Player.PlayerController;
-
 public abstract class Printer {
     Printer printer = null;
+
     public Printer() {
 
     }

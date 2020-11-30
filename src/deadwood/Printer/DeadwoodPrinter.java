@@ -1,6 +1,5 @@
 package deadwood.Printer;
 
-import deadwood.Board.BoardController;
 import deadwood.Player.Player;
 import deadwood.Player.PlayerController;
 import deadwood.Room;

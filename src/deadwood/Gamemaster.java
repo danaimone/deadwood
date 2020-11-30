@@ -4,32 +4,32 @@ import deadwood.Board.BoardController;
 import deadwood.Board.BoardData;
 import deadwood.Player.Player;
 import deadwood.Player.PlayerController;
-import deadwood.Player.PlayerInput;
 import deadwood.Printer.DeadwoodPrinter;
 import deadwood.XML.BoardParser;
 import deadwood.XML.SceneParser;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Gamemaster {
     /* Board */
     public static ArrayList<Player> playersOnBoard = new ArrayList<>();
     private static BoardController boardController;
+    /* Printers */
+    private final DeadwoodPrinter deadwoodPrinter;
     private BoardData boardData = null;
 
-    /* Printers */
-    private DeadwoodPrinter deadwoodPrinter;
-
-    /* Cards */
-    private final Deck<SceneCard> sceneCards = new Deck<>(40);
 
     /**
      * In the case that a printer is not passed, a new one will be created instead.
      */
     public Gamemaster() {
         this.deadwoodPrinter = DeadwoodPrinter.getInstance();
+    }
+
+    public static ArrayList<Player> getPlayersOnBoard() {
+        return playersOnBoard;
     }
 
     /**
@@ -80,9 +80,7 @@ public class Gamemaster {
         File boardXML = new File("src/xml/board.xml");
         File cardXML = new File("src/xml/cards.xml");
         try {
-            boardParser.parseBoardXML(boardXML);
-            ArrayList<SceneCard> scenesToAdd = sceneParser.parseCardXML(cardXML);
-            boardController.getBoardData().addScenesToEachRoom(scenesToAdd);
+            setupBoard(boardParser, sceneParser, boardXML, cardXML);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -90,6 +88,12 @@ public class Gamemaster {
 
         runGame(boardController);
         return getWinner();
+    }
+
+    private void setupBoard(BoardParser boardParser, SceneParser sceneParser, File boardXML, File cardXML) throws ParserConfigurationException {
+        boardParser.parseBoardXML(boardXML);
+        ArrayList<SceneCard> scenesToAdd = sceneParser.parseCardXML(cardXML);
+        BoardController.getInstance().getBoardData().getSceneCards().fillDeck(scenesToAdd);
     }
 
     private void runGame(BoardController boardController) {
@@ -102,7 +106,7 @@ public class Gamemaster {
         PlayerController playerController = PlayerController.getInstance();
         int i = 0;
         int sceneCardsLeft = boardController.getBoardData().getSceneCardsLeft();
-        while (sceneCardsLeft > 1){
+        while (sceneCardsLeft > 1) {
             System.out.println("Scene cards left: " + sceneCardsLeft);
             PlayerController.getInstance().setCurrentPlayer(playersOnBoard.get(i));
             deadwoodPrinter.printCurrentPlayer();
@@ -122,15 +126,10 @@ public class Gamemaster {
 
     private void takeTurn() {
         PlayerController playerController = PlayerController.getInstance();
-        PlayerInput.Decision decision = playerController.getPlayerInput().getPlayerOptionInput();
-        playerController.currentPlayer.setCurrentPlayerDecision(decision);
+        playerController.getPlayerInput().getPlayerOptionInput();
         playerController.handleDecision();
         playerController.determinePlayerTurnOptions();
         playerController.updatePlayer();
-    }
-
-    public static ArrayList<Player> getPlayersOnBoard() {
-        return playersOnBoard;
     }
 
     private Player getWinner() {

@@ -10,9 +10,17 @@ import java.util.Scanner;
 
 public class PlayerInput {
     private static final Scanner scanner = new Scanner(System.in);
+    private static PlayerInput instance;
     DeadwoodPrinter printer = DeadwoodPrinter.getInstance();
-    private int numberOfPlayers;
     Decision inputDecision;
+    private int numberOfPlayers;
+
+    public static PlayerInput getInstance() {
+        if (instance == null) {
+            instance = new PlayerInput();
+        }
+        return instance;
+    }
 
     /**
      * Gets command line input for the number of players.
@@ -54,6 +62,7 @@ public class PlayerInput {
     /**
      * Get move input
      * Figure out where a player would like to move, and handle accordingly.
+     *
      * @return The Decision the player makes.
      */
     public Decision getMoveInput() {
@@ -67,7 +76,7 @@ public class PlayerInput {
                 DeadwoodLogger.logWarning("Player chose an invalid room.");
                 System.out.println("That was an invalid room. Please try again.");
             }
-       }
+        }
         Decision turnDecision = new Decision(decision);
         setInputDecision(turnDecision);
         return turnDecision;
@@ -81,7 +90,7 @@ public class PlayerInput {
      * This function ensures that a user cannot enter a new decision that is not valid,
      * as turnOptions contains any valid option types.
      */
-    public Decision getPlayerOptionInput() {
+    public void getPlayerOptionInput() {
         PlayerController playerController = PlayerController.getInstance();
         HashMap<String, Boolean> turnOptions = playerController.currentPlayer.turnOptions;
         String decision = scanner.nextLine();
@@ -93,8 +102,7 @@ public class PlayerInput {
         }
 
         Decision turnDecision = new Decision(decision);
-        setInputDecision(turnDecision);
-        return turnDecision;
+        PlayerInput.getInstance().setInputDecision(turnDecision);
     }
 
     public int getDollarInput(PlayerController playerController, DeadwoodPrinter printer) {
@@ -142,18 +150,6 @@ public class PlayerInput {
         return rank;
     }
 
-    /**
-     * Get input decision
-     * <p>
-     * Gets the current player input decision
-     *
-     * @return
-     */
-    Decision getInputDecision() {
-        return this.inputDecision;
-
-    }
-
     public void setInputDecision(Decision decision) {
         inputDecision = decision;
     }
@@ -162,12 +158,12 @@ public class PlayerInput {
         Helper Functions for Player decisions
      */
     public static class Decision {
-        public String decision;
+        private String decision;
+
 
         public Decision() {
             this.decision = "";
         }
-
 
         public Decision(String decision) {
             this.decision = decision.toLowerCase();
@@ -177,7 +173,7 @@ public class PlayerInput {
             return decision;
         }
 
-        public void setDecision(String decision) {
+        public void setDecisionString(String decision) {
             this.decision = decision;
         }
 

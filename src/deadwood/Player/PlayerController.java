@@ -1,8 +1,6 @@
 package deadwood.Player;
 
-import deadwood.Board.BoardController;
 import deadwood.*;
-import deadwood.Board.BoardData;
 import deadwood.Printer.DeadwoodPrinter;
 
 import java.util.ArrayList;
@@ -18,17 +16,25 @@ import java.util.Map;
  * This class makes all manipulation relating to a Player's turn
  */
 public class PlayerController {
-    public Player currentPlayer;
-    private PlayerInput playerInput = new PlayerInput();
     private static PlayerController playerController = null;
-
-
+    public Player currentPlayer;
     RankController rankController = new RankController();
     HashMap<Integer, Rank> availableRanks = rankController.getAvailableRanks();
-
+    private PlayerInput playerInput = PlayerInput.getInstance();
     /* Actions (while my turn has not ended)*/
     private Rank[] rankList;
 
+
+    /*
+     * Constructor 'singleton'
+     *
+     * A Player Controller should really only be made at the beginning of program
+     * operation, thus these should be the assumed rules given that a player
+     * starts out at the Trailers.
+     *
+     */
+    public PlayerController() {
+    }
 
     public static PlayerController getInstance() {
         if (playerController == null) {
@@ -41,16 +47,8 @@ public class PlayerController {
         return playerInput;
     }
 
-
-    /*
-     * Constructor 'singleton'
-     *
-     * A Player Controller should really only be made at the beginning of program
-     * operation, thus these should be the assumed rules given that a player
-     * starts out at the Trailers.
-     *
-     */
-    public PlayerController() {
+    private void setPlayerInput(PlayerInput input) {
+        playerInput = input;
     }
 
     /**
@@ -69,18 +67,12 @@ public class PlayerController {
         currentPlayer.setCanTakeRole();
         currentPlayer.setCanUpgrade();
         currentPlayer.setWantsToEndTurn(false);
-        currentPlayer.setCurrentPlayerDecision(null);
         updateRankOptions();
     }
 
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
-
-    private void setPlayerInput(PlayerInput input) {
-        playerInput = input;
-    }
-
 
     /**
      * Determine Player Turn Options
@@ -126,14 +118,14 @@ public class PlayerController {
         for (Map.Entry<Integer, Rank> entry : availableRanks.entrySet()) {
             Rank rank = entry.getValue();
             if (currentPlayer.canGetRank(currentRank)) {
-                currentPlayer.rankOptions.add(rank);
+                currentPlayer.getRankOptions().add(rank);
             }
         }
     }
 
 
     void determineCurrencyOptions(Player player) {
-        if (player.rankOptions.contains(2)) {
+        if (player.getRankOptions().contains(2)) {
 
         }
     }
@@ -154,7 +146,7 @@ public class PlayerController {
      * to do any move they are not allowed to.
      */
     public void handleDecision() {
-        PlayerInput.Decision playerDecision = currentPlayer.getCurrentPlayerDecision();
+        PlayerInput.Decision playerDecision = PlayerInput.getInstance().inputDecision;
         DeadwoodLogger.logInfo("Handling Player Decision...");
         // TODO: fix this
         while (!playerDecision.decisionsMatch("End Turn")) {
@@ -162,13 +154,13 @@ public class PlayerController {
                 if (playerDecision.decisionsMatch("Upgrade") && currentPlayer.isCanUpgrade()) {
                     upgrade();
                 }
+
                 if (playerDecision.decisionsMatch("Move") && currentPlayer.isCanMove()) {
                     DeadwoodLogger.logInfo("Player wants to move.");
                     currentPlayer.setCanAct(false);
                     currentPlayer.setCanTakeARole(false);
                     currentPlayer.setCanRehearse(false);
-
-                    // TODO: WORKING ON THIS! move()
+                    currentPlayer.setCanMove(false);
                     move();
                 }
 
@@ -182,6 +174,7 @@ public class PlayerController {
                     // rehearse();
                 }
             }
+            PlayerInput.getInstance().getPlayerOptionInput();
 
         }
         System.out.println("Ending turn...");
@@ -192,16 +185,30 @@ public class PlayerController {
         currentPlayer.updateRoomOptions();
         DeadwoodPrinter printer = DeadwoodPrinter.getInstance();
         ArrayList<String> roomOptions = currentPlayer.getRoomOptions();
+
         printer.printRoomOptions();
         printer.printMovePrompt();
-        PlayerInput playerInput = new PlayerInput();
-        PlayerInput.Decision decision = playerInput.getMoveInput();
-        printer.printRoomOptions();
-        while (!roomOptions.contains(decision.getDecision())) {
-            decision = playerInput.getMoveInput();
-            printer.printRoomOptions();
+
+        playerInput.getMoveInput();
+        while (!containsIgnoreCase(playerInput.inputDecision.getDecision(), roomOptions)) {
+            if (!containsIgnoreCase(playerInput.inputDecision.getDecision(), roomOptions)) {
+                System.out.println("You entered an invalid choice. Please try again.");
+                System.out.print("> ");
+                DeadwoodLogger.logInfo(playerInput.inputDecision.getDecision());
+                printer.printRoomOptions();
+            }
+            playerInput.getMoveInput();
         }
-        currentPlayer.setCurrentRoom(decision.getDecision());
+
+        currentPlayer.setCurrentRoom(playerInput.inputDecision.getDecision());
+    }
+
+    public boolean containsIgnoreCase(String str, ArrayList<String> list) {
+        for (String i : list) {
+            if (i.equalsIgnoreCase(str))
+                return true;
+        }
+        return false;
     }
 
     /**

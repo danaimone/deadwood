@@ -1,7 +1,6 @@
 package deadwood;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  *
@@ -24,9 +23,9 @@ public class SceneCard extends Card {
         this.description = sceneDescription;
         this.budget = budget;
         this.rolesOnCard = roles;
-	}
+    }
 
-	/*
+    /*
         Getters and Setters
          */
     public int getDifficulty() {

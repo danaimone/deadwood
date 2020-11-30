@@ -9,11 +9,10 @@ import deadwood.Room;
  */
 public class BoardController {
 
-    private BoardData boardData;
     private static BoardController instance;
-
-
+    private final BoardData boardData;
     private boolean dayIsOver;
+    private boolean gameIsOver;
 
     /**
      * Singleton constructor
@@ -39,9 +38,6 @@ public class BoardController {
     public void setGameIsOver(boolean gameIsOver) {
         this.gameIsOver = gameIsOver;
     }
-
-    private boolean gameIsOver;
-
 
     public BoardData getBoardData() {
         return boardData;
@@ -102,7 +98,6 @@ public class BoardController {
         assert this.boardData != null;
         gameIsOver = this.boardData.getDaysLeft() == 0;
     }
-
 
 
 }

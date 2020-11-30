@@ -10,8 +10,10 @@ public abstract class Card {
     protected String description;
     protected int budget;
     protected Collection<Role> rolesOnCard = new ArrayList<Role>();
+    private int totalRoles;
+    private boolean flipped;
 
-    public Card () {
+    public Card() {
         this.name = null;
         this.description = null;
         this.budget = 0;
@@ -66,12 +68,6 @@ public abstract class Card {
     public void setTotalRoles(int totalRoles) {
         this.totalRoles = totalRoles;
     }
-
-    private int totalRoles;
-
-    private boolean flipped;
-
-
 
     /**
      * Flip the card
