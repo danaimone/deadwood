@@ -1,7 +1,10 @@
 package deadwood.Player;
 
 import deadwood.Board.BoardController;
-import deadwood.*;
+import deadwood.Rank;
+import deadwood.Role;
+import deadwood.Room;
+import deadwood.SceneCard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,10 +17,9 @@ import java.util.HashMap;
  */
 public class Player {
     private final int ID;
-    public HashMap<String, Boolean> turnOptions;
-    private ArrayList<Rank> rankOptions;
+    private final ArrayList<Rank> rankOptions;
+    public ArrayList<String> turnOptions;
     public ArrayList<String> currencyOptions;
-    // Stores information about currency
     public Rank rank;
     // TODO: Reset back to ArrayList? K/V doesn't really fit, but it is quick.
     private ArrayList<String> roomOptions;
@@ -25,19 +27,14 @@ public class Player {
     private Role role;
     private Room currentRoom;
     private SceneCard currentSceneCard;
-    /*
-        Bools
-     */
-    private boolean canTakeARole; // can I move? can I act?
-    private boolean canMove;
-    private boolean canAct;
-    private boolean canRehearse;
-    private boolean wantsToEndTurn;
-    private boolean isWorking;
+
+    private boolean isTurn;
+    private boolean hasUpgraded;
+    private boolean hasMoved;
     private boolean hasTakenRole;
-    private boolean canUpgrade;
-    private boolean canUpgradeWithDollars;
-    private boolean canUpgradeWithCredits;
+    private boolean forceEndTurn;
+    private boolean hasRehearsed;
+    private boolean hasWorked;
 
     /**
      * Player Constructor
@@ -55,184 +52,77 @@ public class Player {
         this.rehearsalTokens = 0;
         this.rank = setInitialRank(numberOfPlayers, availableRanks);
         this.rank.setCredits(setInitialCredits(numberOfPlayers));
-        this.turnOptions = new HashMap<>();
+        this.turnOptions = new ArrayList<>();
         this.rankOptions = new ArrayList<>(5);
         this.roomOptions = new ArrayList<>(8);
         this.currencyOptions = new ArrayList<>(2);
         this.currentRoom = BoardController.getInstance().getRoom("Trailer");
-
-        this.canMove = true;
-        this.canAct = true;
-        this.canTakeARole = true;
-        this.canRehearse = false;
-        this.canUpgrade = false;
     }
+
+    /* Bool Setters and Getters */
+    public boolean isHasUpgraded() {
+        return hasUpgraded;
+    }
+
+    public void setHasUpgraded(boolean hasUpgraded) {
+        this.hasUpgraded = hasUpgraded;
+    }
+
+    public boolean isHasMoved() {
+        return hasMoved;
+    }
+
+    public void setHasMoved(boolean hasMoved) {
+        this.hasMoved = hasMoved;
+    }
+
+    public boolean isHasTakenRole() {
+        return hasTakenRole;
+    }
+
+    public void setHasTakenRole(boolean hasTakenRole) {
+        this.hasTakenRole = hasTakenRole;
+    }
+
+    public boolean isForceEndTurn() {
+        return forceEndTurn;
+    }
+
+    public void setForceEndTurn(boolean forceEndTurn) {
+        this.forceEndTurn = forceEndTurn;
+    }
+
+    public boolean isHasRehearsed() {
+        return hasRehearsed;
+    }
+
+    public void setHasRehearsed(boolean hasRehearsed) {
+        this.hasRehearsed = hasRehearsed;
+    }
+
+    public boolean isHasWorked() {
+        return hasWorked;
+    }
+
+    public void setHasWorked(boolean hasWorked) {
+        this.hasWorked = hasWorked;
+    }
+
+    /* Bool Helper Functions */
+    public void updateBools() {
+        isTurn = !this.isTurn;
+        hasUpgraded = false;
+        hasMoved = false;
+        hasTakenRole = false;
+        forceEndTurn = false;
+        hasRehearsed = false;
+        hasWorked = false;
+    }
+
+    /* Regular Getters and Setters */
 
     public ArrayList<Rank> getRankOptions() {
         return rankOptions;
-    }
-
-    public void setRankOptions(ArrayList<Rank> rankOptions) {
-        this.rankOptions = rankOptions;
-    }
-
-    public boolean isCanUpgrade() {
-        return canUpgrade;
-    }
-
-    public void setCanUpgrade(boolean canUpgrade) {
-        this.canUpgrade = canUpgrade;
-    }
-
-    public boolean canUpgradeWithDollars() {
-        return canUpgradeWithDollars;
-    }
-
-    public void setCanUpgradeWithDollars(boolean canUpgradeWithDollars) {
-        this.canUpgradeWithDollars = canUpgradeWithDollars;
-    }
-
-    public boolean canUpgradeWithCredits() {
-        return canUpgradeWithCredits;
-    }
-
-    public void setCanUpgradeWithCredits(boolean canUpgradeWithCredits) {
-        this.canUpgradeWithCredits = canUpgradeWithCredits;
-    }
-
-    /**
-     * Set can upgrade
-     * Determine whether the player can upgrade, given
-     * their current room. Essentially, this is checking that
-     * their currentRoom is CastingOffice.
-     */
-    public void setCanUpgrade() {
-        this.canUpgrade = currentRoom instanceof CastingOffice;
-    }
-
-
-    /**
-     * Set Can Rehearse
-     * <p>
-     * This function makes the determination of whether a given player can
-     * rehearse in their turn.
-     * <p>
-     * Pre-conditions:
-     * - player has a role, can't rehearse over maximum budget - 1
-     * <p>
-     * Post-conditions:
-     * - player is able to rehearse
-     * - player cannot act
-     */
-    void setCanRehearse() {
-        if (getRole() != null) {
-            this.canRehearse = true;
-            this.canAct = false;
-        } else {
-            this.canRehearse = false;
-            this.canAct = true;
-        }
-    }
-
-    /**
-     * Set Can Move
-     * <p>
-     * This function makes the determination of whether a given player
-     * can move in their turn.
-     * <p>
-     * Pre-conditions: player does not have a role
-     * <p>
-     * Invariant condition: player doesn't have role during turn
-     * <p>
-     * Post-condition: player can no longer move?
-     */
-    void setCanMove() {
-        // doesn't have role
-        this.canMove = !isWorking();
-    }
-
-    /**
-     * Set Can Act
-     * <p>
-     * This function makes the determination of whether a given player
-     * can act in their turn.
-     * <p>
-     * Pre-condition:
-     * - player has a role
-     * <p>
-     * Post-condition:
-     * - player can either act or not act
-     */
-    void setCanAct() {
-        this.canAct = this.getRole() != null;
-    }
-
-    /**
-     * Setter for canTakeRole
-     * <p>
-     * This function makes the determination of whether a given Player
-     * can take a role, as well as whether a player can work on the role
-     * if they take it.
-     * <p>
-     * Pre-condition:
-     * - player does not have a role
-     * - room that they are in is active/roles available
-     * <p>
-     * Post-condition:
-     * - player can either take a role or not take a role
-     */
-    void setCanTakeRole() {
-        canTakeARole = this.getRole() == null &&
-                currentRoom.isActive;
-    }
-
-    public boolean wantsToEndTurn() {
-        return wantsToEndTurn;
-    }
-
-    public boolean isWorking() {
-        return isWorking;
-    }
-
-    public void setWorking(boolean working) {
-        this.isWorking = working;
-    }
-
-    public void setWantsToEndTurn(boolean wantsToEndTurn) {
-        this.wantsToEndTurn = wantsToEndTurn;
-    }
-
-
-    public boolean isCanTakeARole() {
-        return canTakeARole;
-    }
-
-    public void setCanTakeARole(boolean canTakeARole) {
-        this.canTakeARole = canTakeARole;
-    }
-
-    public boolean isCanMove() {
-        return canMove;
-    }
-
-    public void setCanMove(boolean canMove) {
-        this.canMove = canMove;
-    }
-
-    public boolean isCanAct() {
-        return canAct;
-    }
-
-    public void setCanAct(boolean canAct) {
-        this.canAct = canAct;
-    }
-
-    public boolean isCanRehearse() {
-        return canRehearse;
-    }
-
-    public void setCanRehearse(boolean canRehearse) {
-        this.canRehearse = canRehearse;
     }
 
     /**
@@ -258,10 +148,6 @@ public class Player {
     public int getID() {
         return this.ID;
     }
-
-    /*
-        Getters
-     */
 
     /**
      * getDollars
@@ -335,10 +221,6 @@ public class Player {
 
     public void setRole(Role role) {
         this.role = role;
-    }
-
-    public boolean hasRole() {
-        return this.role != null;
     }
 
     /**

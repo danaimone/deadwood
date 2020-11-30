@@ -5,7 +5,6 @@ import deadwood.Printer.DeadwoodPrinter;
 import deadwood.RankController;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Scanner;
 
 public class PlayerInput {
@@ -67,7 +66,7 @@ public class PlayerInput {
      */
     public Decision getMoveInput() {
         PlayerController playerController = PlayerController.getInstance();
-        ArrayList<String> roomOptions = playerController.currentPlayer.getRoomOptions();
+        ArrayList<String> roomOptions = playerController.getCurrentPlayer().getRoomOptions();
         String decision = scanner.nextLine();
 
         while (!roomOptions.contains(decision)) {
@@ -78,7 +77,6 @@ public class PlayerInput {
             }
         }
         Decision turnDecision = new Decision(decision);
-        setInputDecision(turnDecision);
         return turnDecision;
 
     }
@@ -90,25 +88,23 @@ public class PlayerInput {
      * This function ensures that a user cannot enter a new decision that is not valid,
      * as turnOptions contains any valid option types.
      */
-    public void getPlayerOptionInput() {
+    public String getPlayerOptionInput() {
         PlayerController playerController = PlayerController.getInstance();
-        HashMap<String, Boolean> turnOptions = playerController.currentPlayer.turnOptions;
+        ArrayList<String> turnOptions = playerController.getCurrentPlayer().turnOptions;
         String decision = scanner.nextLine();
-        while (!turnOptions.containsKey(decision)) {
+        while (!turnOptions.contains(decision)) {
             decision = scanner.nextLine();
-            if (!turnOptions.containsKey(decision)) {
+            if (!turnOptions.contains(decision)) {
                 System.out.println("That was an invalid option. Please try again.");
             }
         }
-
-        Decision turnDecision = new Decision(decision);
-        PlayerInput.getInstance().setInputDecision(turnDecision);
+        return decision;
     }
 
     public int getDollarInput(PlayerController playerController, DeadwoodPrinter printer) {
         printer.printDollarPrompt();
         int dollar = scanner.nextInt();
-        while (dollar > playerController.currentPlayer.getDollars()) {
+        while (dollar > playerController.getCurrentPlayer().getDollars()) {
             printer.printExcessEnteredError();
             dollar = scanner.nextInt();
         }
@@ -118,7 +114,7 @@ public class PlayerInput {
     public int getCreditInput(PlayerController playerController, DeadwoodPrinter printer) {
         printer.printCreditPrompt();
         int credit = scanner.nextInt();
-        while (credit > playerController.currentPlayer.getCredits()) {
+        while (credit > playerController.getCurrentPlayer().getCredits()) {
             printer.printExcessEnteredError();
             credit = scanner.nextInt();
         }
@@ -150,35 +146,4 @@ public class PlayerInput {
         return rank;
     }
 
-    public void setInputDecision(Decision decision) {
-        inputDecision = decision;
-    }
-
-    /*
-        Helper Functions for Player decisions
-     */
-    public static class Decision {
-        private String decision;
-
-
-        public Decision() {
-            this.decision = "";
-        }
-
-        public Decision(String decision) {
-            this.decision = decision.toLowerCase();
-        }
-
-        String getDecision() {
-            return decision;
-        }
-
-        public void setDecisionString(String decision) {
-            this.decision = decision;
-        }
-
-        public boolean decisionsMatch(String option) {
-            return (decision.toLowerCase().contains(option.toLowerCase()));
-        }
-    }
 }

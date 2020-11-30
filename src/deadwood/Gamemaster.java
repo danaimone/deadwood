@@ -81,12 +81,11 @@ public class Gamemaster {
         File cardXML = new File("src/xml/cards.xml");
         try {
             setupBoard(boardParser, sceneParser, boardXML, cardXML);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        runGame(boardController);
+        runGame();
         return getWinner();
     }
 
@@ -96,23 +95,24 @@ public class Gamemaster {
         BoardController.getInstance().getBoardData().getSceneCards().fillDeck(scenesToAdd);
     }
 
-    private void runGame(BoardController boardController) {
-        while (!boardController.isGameIsOver()) {
-            runDayOfDeadwood(boardController);
+    private void runGame() {
+        while (!BoardController.getInstance().isGameIsOver()) {
+            runDayOfDeadwood();
         }
     }
 
-    private void runDayOfDeadwood(BoardController boardController) {
+    /**
+     * Runs a day of deadwood.
+     */
+    private void runDayOfDeadwood() {
         PlayerController playerController = PlayerController.getInstance();
         int i = 0;
-        int sceneCardsLeft = boardController.getBoardData().getSceneCardsLeft();
-        while (sceneCardsLeft > 1) {
-            System.out.println("Scene cards left: " + sceneCardsLeft);
+        while (BoardController.getInstance().getBoardData().getDaysLeft() > 0) {
             PlayerController.getInstance().setCurrentPlayer(playersOnBoard.get(i));
             deadwoodPrinter.printCurrentPlayer();
             deadwoodPrinter.printPlayerData();
             deadwoodPrinter.printPlayerOptions();
-            while (!playerController.currentPlayer.wantsToEndTurn()) {
+            while (playerController.getCurrentPlayer().turnOptions.size() != 1) {
                 takeTurn();
             }
             i++;
@@ -120,21 +120,43 @@ public class Gamemaster {
                 i = 0;
             }
             PlayerController.getInstance().setCurrentPlayer(playersOnBoard.get(i + 1));
-            sceneCardsLeft = boardController.getBoardData().getSceneCardsLeft();
+            getNextPlayer();
         }
     }
 
+    private void getNextPlayer() {
+        Player currentPlayer = PlayerController.getInstance().getCurrentPlayer();
+        currentPlayer.updateBools();
+        if (currentPlayer.getID() == playersOnBoard.size() - 1) {
+            setCurrentPlayerByIndex(0);
+        } else {
+            setCurrentPlayerByIndex(currentPlayer.getID() + 1);
+        }
+        PlayerController.getInstance().setCurrentPlayer(currentPlayer);
+
+    }
+
+    private void setCurrentPlayerByIndex(int index) {
+        Player newPlayer = playersOnBoard.get(index);
+        newPlayer.updateBools();
+        PlayerController.getInstance().setCurrentPlayer(newPlayer);
+    }
+
+    /**
+     * Take Turn
+     * <p>
+     * Takes a turn for a given player.
+     */
     private void takeTurn() {
         PlayerController playerController = PlayerController.getInstance();
-        playerController.getPlayerInput().getPlayerOptionInput();
-        playerController.handleDecision();
+        String decision = playerController.getPlayerInput().getPlayerOptionInput();
+        playerController.handleDecision(decision);
         playerController.determinePlayerTurnOptions();
-        playerController.updatePlayer();
     }
 
     private Player getWinner() {
         PlayerController playerController = PlayerController.getInstance();
-        Player winner = playerController.currentPlayer;
+        Player winner = playerController.getCurrentPlayer();
         for (Player player : playersOnBoard) {
             if (player.rank.setScore() > winner.rank.getScore()) {
                 winner = player;

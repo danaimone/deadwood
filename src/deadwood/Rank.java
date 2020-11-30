@@ -11,6 +11,7 @@ public class Rank {
     private int dollars;
     private int credits;
     private int score;
+
     public Rank(int rankID, int dollars, int credits) {
         this.rankID = rankID;
         this.dollars = dollars;
