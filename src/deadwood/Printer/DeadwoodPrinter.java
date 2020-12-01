@@ -52,6 +52,7 @@ public class DeadwoodPrinter extends Printer {
      */
     public void printCurrentPlayerOptions() {
         Player currentPlayer = PlayerController.getInstance().getCurrentPlayer();
+        System.out.println();
         System.out.println("Here are your current options:");
         for (String option : currentPlayer.turnOptions) {
             System.out.println(option + "\t");
