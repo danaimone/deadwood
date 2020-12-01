@@ -73,7 +73,6 @@ public class Gamemaster {
      */
     Player playDeadwood() {
         deadwoodPrinter.printWelcome();
-        setupPlayers();
 
         BoardParser boardParser = new BoardParser();
         SceneParser sceneParser = new SceneParser();
@@ -81,6 +80,7 @@ public class Gamemaster {
         File cardXML = new File("src/xml/cards.xml");
         try {
             setupBoard(boardParser, sceneParser, boardXML, cardXML);
+            setupPlayers();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -134,7 +134,7 @@ public class Gamemaster {
      */
     private void takeTurn() {
         PlayerController playerController = PlayerController.getInstance();
-        while (playerController.getCurrentPlayer().turnOptions.size() != 1 && !playerController.getCurrentPlayer().isWantsToEndTurn()) {
+        while (playerController.getCurrentPlayer().getTurnOptions().size() != 1 && !playerController.getCurrentPlayer().isWantsToEndTurn()) {
             deadwoodPrinter.printCurrentPlayerOptions();
             String decision = playerController.getPlayerInput().getPlayerOptionInput();
             playerController.handleDecision(decision); // this is what will go in the GUI

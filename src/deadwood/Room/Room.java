@@ -20,7 +20,6 @@ import java.util.Collection;
  */
 public abstract class Room {
     public boolean isActive;
-    public Collection<Player> playersInRoom = new ArrayList<>();
     public Collection<Role> roles = new ArrayList<>();
     private SceneCard sceneCardInPlay;
     private String name;
@@ -31,20 +30,20 @@ public abstract class Room {
 
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public Collection<Role> getRoles() {
+        return roles;
+    }
+
     public SceneCard getSceneCardInPlay() {
         return sceneCardInPlay;
     }
 
     public void setSceneCardInPlay(SceneCard sceneCardInPlay) {
         this.sceneCardInPlay = sceneCardInPlay;
-    }
-
-    public void addPlayer(Player player) {
-        if (playersInRoom.contains(player)) {
-            System.out.println("Player is already in that room!");
-        } else {
-            this.playersInRoom.add(player);
-        }
     }
 
     public void addRoles(Collection<Role> rolesToAdd) {

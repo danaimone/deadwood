@@ -54,7 +54,7 @@ public class DeadwoodPrinter extends Printer {
         Player currentPlayer = PlayerController.getInstance().getCurrentPlayer();
         System.out.println();
         System.out.println("Here are your current options:");
-        for (String option : currentPlayer.turnOptions) {
+        for (String option : currentPlayer.getTurnOptions()) {
             System.out.println(option + "\t");
         }
         System.out.println("What would you like to do given the options above?");
@@ -102,7 +102,8 @@ public class DeadwoodPrinter extends Printer {
         System.out.println("Try again.");
     }
 
-    protected void invalid() {
+    public void invalidChoice() {
         System.out.println("Invalid entry, try again.");
+        System.out.print("> ");
     }
 }

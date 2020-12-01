@@ -18,16 +18,15 @@ import java.util.HashMap;
 public class Player {
     private final int ID;
     private final ArrayList<Rank> rankOptions;
-    public ArrayList<String> turnOptions;
     public ArrayList<String> currencyOptions;
     public Rank rank;
-    // TODO: Reset back to ArrayList? K/V doesn't really fit, but it is quick.
+    private ArrayList<String> turnOptions;
     private ArrayList<String> roomOptions;
+    // TODO: Reset back to ArrayList? K/V doesn't really fit, but it is quick.
     private int rehearsalTokens;
     private Role role;
     private Room currentRoom;
     private SceneCard currentSceneCard;
-
     private boolean isTurn;
     private boolean hasUpgraded;
     private boolean hasMoved;
@@ -35,7 +34,6 @@ public class Player {
     private boolean wantsToEndTurn;
     private boolean hasRehearsed;
     private boolean hasWorked;
-
     /**
      * Player Constructor
      * Sets up name, dollars, credits, rehearsal tokens, and rank.
@@ -59,6 +57,14 @@ public class Player {
         // TODO: fix race condition? for whatever reason this does not actually set trailer as current room when
         // initializing a player
         this.currentRoom = BoardController.getInstance().getRoom("trailer");
+    }
+
+    public ArrayList<String> getTurnOptions() {
+        return turnOptions;
+    }
+
+    public void setTurnOptions(ArrayList<String> turnOptions) {
+        this.turnOptions = turnOptions;
     }
 
     /* Bool Setters and Getters */
@@ -246,13 +252,13 @@ public class Player {
      * @return Room currentRoom this players current room, NULL if player doesn't have a Room.
      */
     public Room getCurrentRoom() {
-        if (currentRoom == null) {
-            setCurrentRoom("trailer");
-        }
+//        if (this.currentRoom == null) {
+//            setCurrentRoom("trailer");
+//        }
         return this.currentRoom;
     }
 
-    public void setCurrentRoom(String room) {
+    void setCurrentRoom(String room) {
         this.currentRoom = BoardController.getInstance().getRoom(room);
     }
 

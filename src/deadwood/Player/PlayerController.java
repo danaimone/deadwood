@@ -1,14 +1,12 @@
 package deadwood.Player;
 
-import deadwood.DeadwoodLogger;
+import deadwood.*;
 import deadwood.Printer.DeadwoodPrinter;
-import deadwood.Rank;
-import deadwood.RankController;
 import deadwood.Room.CastingOffice;
 import deadwood.Room.Room;
-import deadwood.SceneCard;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -70,23 +68,26 @@ public class PlayerController {
      * they have less Rehearsal Tokens than the budget.
      */
     public void determinePlayerTurnOptions() {
-        currentPlayer.turnOptions.clear();
-        currentPlayer.turnOptions.add("End Turn");
+        currentPlayer.getTurnOptions().clear();
+        currentPlayer.getTurnOptions().add("End Turn");
         Room currentRoom = currentPlayer.getCurrentRoom();
         SceneCard playersCurrentSceneCard = currentPlayer.getCurrentScene();
         if (!currentPlayer.isWantsToEndTurn()) {
             if (currentRoom instanceof CastingOffice) {
-                currentPlayer.turnOptions.add("Upgrade Rank");
+                currentPlayer.getTurnOptions().add("Upgrade Rank");
             }
             if (!currentPlayer.isHasWorked()) {
                 if (!currentPlayer.isHasMoved())
-                    currentPlayer.turnOptions.add("Move");
-                if (!currentPlayer.isHasTakenRole())
-                    currentPlayer.turnOptions.add("Take a role");
+                    currentPlayer.getTurnOptions().add("Move");
+//                if (!currentPlayer.isHasTakenRole())
+//                    if (!(currentRoom instanceof CastingOffice) && !(currentRoom instanceof Trailer))
+//                if (currentRoom.getRoles() != null) {
+//                    currentPlayer.getTurnOptions().add("Take a role");
+//                }
             } else {
-                currentPlayer.turnOptions.add("Act");
+                currentPlayer.getTurnOptions().add("Act");
                 if (currentPlayer.getRehearsalTokens() < playersCurrentSceneCard.getBudget()) {
-                    currentPlayer.turnOptions.add("Rehearse");
+                    currentPlayer.getTurnOptions().add("Rehearse");
                 }
             }
         }
@@ -146,13 +147,13 @@ public class PlayerController {
                 move();
                 break;
             case "Take Role":
-                 takeRole();
-                 break;
+                takeRole();
+                break;
             case "Act":
-                // act();
+                // TODO: act();
                 break;
             case "Rehearse":
-                //rehearse();
+                // TODO: rehearse();
                 break;
             case "End Turn":
                 endTurn();
@@ -161,7 +162,10 @@ public class PlayerController {
     }
 
     private void takeRole() {
+        DeadwoodPrinter printer = DeadwoodPrinter.getInstance();
+        Collection<Role> roomRoles = currentPlayer.getCurrentRoom().getRoles();
     }
+
 
     private void move() {
         currentPlayer.updateRoomOptions();
@@ -174,8 +178,7 @@ public class PlayerController {
         Decision decision = playerInput.getMoveInput();
         while (!containsIgnoreCase(decision.getDecision(), roomOptions)) {
             if (!containsIgnoreCase(playerInput.inputDecision.getDecision(), roomOptions)) {
-                System.out.println("You entered an invalid choice. Please try again.");
-                System.out.print("> ");
+                printer.invalidChoice();
                 DeadwoodLogger.logInfo(decision.getDecision());
                 printer.printRoomOptions();
             }

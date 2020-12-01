@@ -90,7 +90,7 @@ public class PlayerInput {
      */
     public String getPlayerOptionInput() {
         PlayerController playerController = PlayerController.getInstance();
-        ArrayList<String> turnOptions = playerController.getCurrentPlayer().turnOptions;
+        ArrayList<String> turnOptions = playerController.getCurrentPlayer().getTurnOptions();
         String decision = scanner.nextLine();
         while (!turnOptions.contains(decision)) {
             decision = scanner.nextLine();
