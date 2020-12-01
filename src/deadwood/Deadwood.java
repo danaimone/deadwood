@@ -1,8 +1,5 @@
 package deadwood;
 
-import deadwood.Player.Player;
-import deadwood.Printer.DeadwoodPrinter;
-
 /**
  * This is the main driving class for the entire game of Deadwood.
  */

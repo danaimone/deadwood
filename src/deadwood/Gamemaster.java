@@ -1,11 +1,5 @@
 package deadwood;
 
-import deadwood.Board.BoardController;
-import deadwood.Board.BoardData;
-import deadwood.Player.Player;
-import deadwood.Player.PlayerController;
-import deadwood.Printer.DeadwoodPrinter;
-import deadwood.XML.BoardParser;
 import deadwood.XML.SceneParser;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -15,10 +9,9 @@ import java.util.ArrayList;
 public class Gamemaster {
     /* Board */
     public static ArrayList<Player> playersOnBoard = new ArrayList<>();
-    private static BoardController boardController;
+    private static Board board = Board.getInstance();
     /* Printers */
     private final DeadwoodPrinter deadwoodPrinter;
-    private BoardData boardData = null;
 
 
     /**
@@ -37,11 +30,11 @@ public class Gamemaster {
      * <p>
      * Gets all player names and player inputs
      * This takes care of setting up all the player objects
-     * and the players for the BoardController in its entirety, since
+     * and the players for the Board in its entirety, since
      * those are inherently built into their respective classes.
      * <p>
-     * This function also sets up the boardController a bit more.
-     * The boardController setting up could be separated specifically into
+     * This function also sets up the board a bit more.
+     * The board setting up could be separated specifically into
      * class related functions, so this function could use some work.
      */
     void setupPlayers() {
@@ -53,10 +46,9 @@ public class Gamemaster {
                 playersOnBoard.add(player);
             }
             playerController.setCurrentPlayer(playersOnBoard.get(0));
-            boardController = BoardController.getInstance();
-            boardController.getBoardData().setNumberOfPlayers(numberOfPlayers);
-            this.boardData = boardController.getBoardData();
-            boardController.getBoardData().setDaysLeft(numberOfPlayers);
+            board = Board.getInstance();
+            board.setNumberOfPlayers(numberOfPlayers);
+            board.setDaysLeft(numberOfPlayers);
             playerController.determinePlayerTurnOptions();
     }
 
@@ -92,11 +84,11 @@ public class Gamemaster {
     private void setupBoard(BoardParser boardParser, SceneParser sceneParser, File boardXML, File cardXML) throws ParserConfigurationException {
         boardParser.parseBoardXML(boardXML);
         ArrayList<SceneCard> scenesToAdd = sceneParser.parseCardXML(cardXML);
-        BoardController.getInstance().getBoardData().addScenesToEachRoom(scenesToAdd);
+        Board.getInstance().addScenesToEachRoom(scenesToAdd);
     }
 
     private void runGame() {
-        while (!BoardController.getInstance().isGameIsOver()) {
+        while (!Board.getInstance().isGameIsOver()) {
             runDayOfDeadwood();
         }
     }
@@ -107,7 +99,7 @@ public class Gamemaster {
     private void runDayOfDeadwood() {
         PlayerController playerController = PlayerController.getInstance();
         PlayerController.getInstance().setCurrentPlayer(playersOnBoard.get(0));
-        while (BoardController.getInstance().getBoardData().getDaysLeft() > 0) {
+        while (Board.getInstance().getDaysLeft() > 0) {
             deadwoodPrinter.printCurrentPlayer();
             deadwoodPrinter.printPlayerData();
             // VVV this is what keeps the player playing! VVV
