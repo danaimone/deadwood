@@ -181,7 +181,7 @@ public class PlayerController {
         }
 
         moveTo(decision.getDecision());
-        System.out.println("You've been moved to the " + decision.getDecision() + ".");
+        System.out.println("You've been moved to " + decision.getDecision() + ".");
         currentPlayer.setHasMoved(true);
     }
 
