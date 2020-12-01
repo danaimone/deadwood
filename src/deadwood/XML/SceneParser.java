@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class SceneParser extends XMLParser {
     public ArrayList<SceneCard> parseCardXML(File cardData) throws ParserConfigurationException {
         Document doc = getDocFromFile(cardData);
-        ArrayList<SceneCard> allCards = new ArrayList<SceneCard>(); //arraylist of cards to return;
+        ArrayList<SceneCard> allCards = new ArrayList<>(); //arraylist of cards to return;
 
         Element root = doc.getDocumentElement();
         NodeList cards = root.getElementsByTagName("card");
@@ -28,7 +28,7 @@ public class SceneParser extends XMLParser {
             String sceneNumber = "";
             String sceneDescription = "";
             int totalRoles = 0;
-            ArrayList<Role> roles = new ArrayList<Role>();
+            ArrayList<Role> roles = new ArrayList<>();
 
 
             //get the name of the card, budget, and image

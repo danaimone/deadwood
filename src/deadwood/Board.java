@@ -132,12 +132,15 @@ public class Board {
      * add Scenes to Each Room
      * Helper function for adding rooms to the board to ensure
      * each room has 4 SceneCards.
+     * You should only add scene cards to rooms that are not the Trailer or the Casting Office.
      *
      * @param scenesToAdd an arraylist of all the scene cards
      */
-    public void addScenesToEachRoom(ArrayList<SceneCard> scenesToAdd) {
+    public void addRolesToRoom(ArrayList<SceneCard> scenesToAdd) {
         for (Map.Entry<String, Room> room : this.roomsOnBoard.entrySet()) {
-            room.getValue().setSceneCardInPlay(scenesToAdd.remove(0));
+            if (room.getValue() instanceof PlayableRoom) {
+                room.getValue().setSceneCardInPlay(scenesToAdd.remove(0));
+            }
         }
     }
 

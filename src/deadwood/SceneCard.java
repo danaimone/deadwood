@@ -14,7 +14,6 @@ public class SceneCard extends Card {
         player and player data coupled tightly, which is not good. Need model controller separation.
         SceneCard and cards is coupled tightly together right now as well.
      */
-
     private int difficulty;
 
 

@@ -84,7 +84,7 @@ public class Gamemaster {
     private void setupBoard(BoardParser boardParser, SceneParser sceneParser, File boardXML, File cardXML) throws ParserConfigurationException {
         boardParser.parseBoardXML(boardXML);
         ArrayList<SceneCard> scenesToAdd = sceneParser.parseCardXML(cardXML);
-        Board.getInstance().addScenesToEachRoom(scenesToAdd);
+        Board.getInstance().addRolesToRoom(scenesToAdd);
     }
 
     private void runGame() {

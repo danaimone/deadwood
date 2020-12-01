@@ -74,7 +74,7 @@ public class PlayerController {
             if (!currentPlayer.isHasWorked()) {
                 if (!currentPlayer.isHasMoved())
                     currentPlayer.getTurnOptions().add("Move");
-                if (currentPlayer.getCurrentRoom().getRoles() != null) {
+                if (currentRoom instanceof PlayableRoom) {
                     currentPlayer.getTurnOptions().add("Take Role");
                 }
             } else {
