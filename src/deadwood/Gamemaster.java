@@ -110,29 +110,20 @@ public class Gamemaster {
         while (BoardController.getInstance().getBoardData().getDaysLeft() > 0) {
             deadwoodPrinter.printCurrentPlayer();
             deadwoodPrinter.printPlayerData();
-            deadwoodPrinter.printCurrentPlayerOptions();
             // VVV this is what keeps the player playing! VVV
             takeTurn();
-            playerController.determinePlayerTurnOptions();
-            getNextPlayer();
         }
     }
 
     private void getNextPlayer() {
         Player currentPlayer = PlayerController.getInstance().getCurrentPlayer();
-        currentPlayer.updateBools();
-        if (currentPlayer.getID() == playersOnBoard.size() - 1) {
-            setCurrentPlayerByIndex(0);
-        } else {
-            setCurrentPlayerByIndex(currentPlayer.getID() + 1);
-        }
-        PlayerController.getInstance().setCurrentPlayer(currentPlayer);
-
+        PlayerController.getInstance().determinePlayerTurnOptions();
+        int index = currentPlayer.getID() - 1;
+        setCurrentPlayerByIndex(index + 1);
     }
 
     private void setCurrentPlayerByIndex(int index) {
         Player newPlayer = playersOnBoard.get(index);
-        newPlayer.updateBools();
         PlayerController.getInstance().setCurrentPlayer(newPlayer);
     }
 
@@ -143,12 +134,14 @@ public class Gamemaster {
      */
     private void takeTurn() {
         PlayerController playerController = PlayerController.getInstance();
-        while (playerController.getCurrentPlayer().turnOptions.size() != 1) {
+        while (playerController.getCurrentPlayer().turnOptions.size() != 1 && !playerController.getCurrentPlayer().isWantsToEndTurn()) {
+            deadwoodPrinter.printCurrentPlayerOptions();
             String decision = playerController.getPlayerInput().getPlayerOptionInput();
             playerController.handleDecision(decision); // this is what will go in the GUI
             playerController.determinePlayerTurnOptions(); // this will also go in the GUI
-            deadwoodPrinter.printCurrentPlayerOptions();
         }
+        getNextPlayer();
+        // TODO: check if end of day
     }
 
     private Player getWinner() {

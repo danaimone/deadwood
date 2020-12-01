@@ -1,10 +1,12 @@
 package deadwood.Player;
 
-import deadwood.*;
-import deadwood.Board.BoardController;
+import deadwood.DeadwoodLogger;
 import deadwood.Printer.DeadwoodPrinter;
+import deadwood.Rank;
+import deadwood.RankController;
 import deadwood.Room.CastingOffice;
 import deadwood.Room.Room;
+import deadwood.SceneCard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -72,13 +74,15 @@ public class PlayerController {
         currentPlayer.turnOptions.add("End Turn");
         Room currentRoom = currentPlayer.getCurrentRoom();
         SceneCard playersCurrentSceneCard = currentPlayer.getCurrentScene();
-        if (!currentPlayer.isForceEndTurn()) {
+        if (!currentPlayer.isWantsToEndTurn()) {
             if (currentRoom instanceof CastingOffice) {
                 currentPlayer.turnOptions.add("Upgrade Rank");
             }
             if (!currentPlayer.isHasWorked()) {
-                currentPlayer.turnOptions.add("Move");
-                currentPlayer.turnOptions.add("Take a role");
+                if (!currentPlayer.isHasMoved())
+                    currentPlayer.turnOptions.add("Move");
+                if (!currentPlayer.isHasTakenRole())
+                    currentPlayer.turnOptions.add("Take a role");
             } else {
                 currentPlayer.turnOptions.add("Act");
                 if (currentPlayer.getRehearsalTokens() < playersCurrentSceneCard.getBudget()) {
@@ -135,22 +139,28 @@ public class PlayerController {
                 boolean hasUpgraded = false;
                 while (!hasUpgraded) {
                     // GUI upgrade rank
+                    upgrade();
                 }
                 break;
             case "Move":
                 move();
                 break;
             case "Take Role":
-                // takeRole();
+                 takeRole();
+                 break;
             case "Act":
                 // act();
+                break;
             case "Rehearse":
                 //rehearse();
                 break;
             case "End Turn":
-                // endTurn()
+                endTurn();
                 break;
         }
+    }
+
+    private void takeRole() {
     }
 
     private void move() {
@@ -172,9 +182,13 @@ public class PlayerController {
             playerInput.getMoveInput();
         }
 
+        moveTo(decision.getDecision());
         System.out.println("You've been moved to the " + decision.getDecision() + ".");
-        currentPlayer.setCurrentRoom(decision.getDecision());
         currentPlayer.setHasMoved(true);
+    }
+
+    public void endTurn() {
+        currentPlayer.setEndTurn(true);
     }
 
     public boolean containsIgnoreCase(String str, ArrayList<String> list) {
@@ -230,48 +244,8 @@ public class PlayerController {
         currentPlayer.setRank(rank);
     }
 
-    /**
-     * Perform Turn
-     */
-//    void performTurn() {
-//        // here's the deal:
-//        // if you choose you want to move  you're going to be updating other variables
-//        // if you choose to move you can't do acting
-//        // what do we display? can they move? can they act? can they rehearse?
-//        // show player what they can do
-//        // get there input
-//        // do whatever they chose
-//        // prompt again (or end turn!)
-//        // figure out moves they can make
-//
-//        // How do we prompt these choices?
-//        boolean chooseMove = false;
-//        boolean chooseAct = false;
-//        boolean chooseRehearse = false;
-//        boolean chooseTakeARole = false;
-//
-//        getUserInput(); // set all the booleans above, they select an option
-//
-//        while (!player.wantsToEndTurn()) {
-//            if (canMove && chooseMove) {
-//                canTakeARole = true;
-//                canAct = false;
-//                canRehearse = false;
-//                move();
-//            } else if (canAct && chooseAct) {
-//                canAct = true;
-//                canTakeARole = false;
-//
-//            } else if (canRehearse) { // they rehease
-//
-//            } else if (canTakeARole && chooseTakeARole) { // they take a role
-//                this.canTakeARole = false;
-//            } else { // they choose to end turn
-//
-//            }
-//        }
-//    }
-    private void moveTo(Room destRoom) {
+    private void moveTo(String destRoom) {
+        currentPlayer.setCurrentRoom(destRoom);
         /*
         this will need to check for valid rooms user can move into
         will also probably trigger stuff for undiscovered scenes

@@ -41,7 +41,7 @@ public class PlayerInput {
             }
             numberOfPlayersPlaying = numberOfPlayersEntered;
         } catch (NumberFormatException e) {
-            System.out.println("Please enter a valid number.");
+            System.out.println("Please enter a number between 2 and 8.");
         }
         return numberOfPlayersPlaying;
     }

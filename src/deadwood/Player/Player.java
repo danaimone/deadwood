@@ -32,7 +32,7 @@ public class Player {
     private boolean hasUpgraded;
     private boolean hasMoved;
     private boolean hasTakenRole;
-    private boolean forceEndTurn;
+    private boolean wantsToEndTurn;
     private boolean hasRehearsed;
     private boolean hasWorked;
 
@@ -86,12 +86,12 @@ public class Player {
         this.hasTakenRole = hasTakenRole;
     }
 
-    public boolean isForceEndTurn() {
-        return forceEndTurn;
+    public boolean isWantsToEndTurn() {
+        return wantsToEndTurn;
     }
 
-    public void setForceEndTurn(boolean forceEndTurn) {
-        this.forceEndTurn = forceEndTurn;
+    public void setEndTurn(boolean endTurn) {
+        this.wantsToEndTurn = endTurn;
     }
 
     public boolean isHasRehearsed() {
@@ -116,7 +116,7 @@ public class Player {
         hasUpgraded = false;
         hasMoved = false;
         hasTakenRole = false;
-        forceEndTurn = false;
+        wantsToEndTurn = false;
         hasRehearsed = false;
         hasWorked = false;
     }
