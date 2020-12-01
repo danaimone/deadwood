@@ -1,6 +1,5 @@
 package deadwood.Board;
 
-import deadwood.Deck;
 import deadwood.Room.Room;
 import deadwood.SceneCard;
 
@@ -14,7 +13,7 @@ import java.util.Map;
 public class BoardData {
 
     private static boolean dayIsOver;
-    private final Deck<SceneCard> sceneCards = new Deck<>(40);
+    private final ArrayList<SceneCard> sceneCards = new ArrayList<>();
     private final boolean endOfGame;
     private int daysLeft; //how many days the game lasts
     private int sceneCardsInPlay;
@@ -46,7 +45,7 @@ public class BoardData {
         this.numberOfPlayers = numberOfPlayers;
     }
 
-    public Deck<SceneCard> getSceneCards() {
+    public ArrayList<SceneCard> getSceneCards() {
         return sceneCards;
     }
 
@@ -127,12 +126,7 @@ public class BoardData {
      */
     public void addScenesToEachRoom(ArrayList<SceneCard> scenesToAdd) {
         for (Map.Entry<String, Room> room : this.roomsOnBoard.entrySet()) {
-            for (int i = 0; i < 4; i++) {
-                if (!(scenesToAdd.size() == 0)) {
-                    SceneCard card = scenesToAdd.remove(i);
-                    room.getValue().getSceneCardDeck().addCard(card);
-                }
-            }
+            room.getValue().setSceneCardInPlay(scenesToAdd.remove(0));
         }
     }
 

@@ -50,7 +50,7 @@ public class DeadwoodPrinter extends Printer {
      * <p>
      * Prints the player options
      */
-    public void printPlayerOptions() {
+    public void printCurrentPlayerOptions() {
         Player currentPlayer = PlayerController.getInstance().getCurrentPlayer();
         System.out.println("Here are your current options:");
         for (String option : currentPlayer.turnOptions) {
@@ -63,12 +63,14 @@ public class DeadwoodPrinter extends Printer {
     public void printRoomOptions() {
         Player currentPlayer = PlayerController.getInstance().getCurrentPlayer();
         Room currentRoom = currentPlayer.getCurrentRoom();
-        System.out.println("Current Room: " + currentPlayer.getCurrentRoom().getName());
+        System.out.println("You chose to move!");
+        System.out.println("Here is your current room: " + currentPlayer.getCurrentRoom().getName());
         System.out.println("Nearby Rooms: ");
         System.out.println("--------------");
         for (String adjacentRoom : currentRoom.getAdjacentRooms()) {
             System.out.println(adjacentRoom);
         }
+        System.out.println("--------------");
     }
 
     public void askPlayers() {

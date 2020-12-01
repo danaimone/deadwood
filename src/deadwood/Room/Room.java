@@ -1,7 +1,6 @@
 package deadwood.Room;
 
 import deadwood.Area;
-import deadwood.Deck;
 import deadwood.Player.Player;
 import deadwood.Role;
 import deadwood.SceneCard;
@@ -23,7 +22,7 @@ public abstract class Room {
     public boolean isActive;
     public Collection<Player> playersInRoom = new ArrayList<>();
     public Collection<Role> roles = new ArrayList<>();
-    Deck<SceneCard> sceneCardDeck = new Deck<>(4);
+    private SceneCard sceneCardInPlay;
     private String name;
     private Area area;
     private ArrayList<String> adjacentRooms = new ArrayList<>();
@@ -32,8 +31,12 @@ public abstract class Room {
 
     }
 
-    public Deck<SceneCard> getSceneCardDeck() {
-        return sceneCardDeck;
+    public SceneCard getSceneCardInPlay() {
+        return sceneCardInPlay;
+    }
+
+    public void setSceneCardInPlay(SceneCard sceneCardInPlay) {
+        this.sceneCardInPlay = sceneCardInPlay;
     }
 
     public void addPlayer(Player player) {

@@ -44,7 +44,7 @@ public class BoardController {
     }
 
     public Room getRoom(String roomName) {
-        return getBoardData().getRoomsOnBoard().get(roomName);
+        return getBoardData().getRoomsOnBoard().get(roomName.toLowerCase());
     }
 
     /**

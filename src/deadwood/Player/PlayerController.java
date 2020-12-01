@@ -1,6 +1,7 @@
 package deadwood.Player;
 
 import deadwood.*;
+import deadwood.Board.BoardController;
 import deadwood.Printer.DeadwoodPrinter;
 import deadwood.Room.CastingOffice;
 import deadwood.Room.Room;
@@ -67,6 +68,7 @@ public class PlayerController {
      * they have less Rehearsal Tokens than the budget.
      */
     public void determinePlayerTurnOptions() {
+        currentPlayer.turnOptions.clear();
         currentPlayer.turnOptions.add("End Turn");
         Room currentRoom = currentPlayer.getCurrentRoom();
         SceneCard playersCurrentSceneCard = currentPlayer.getCurrentScene();
@@ -159,18 +161,20 @@ public class PlayerController {
         printer.printRoomOptions();
         printer.printMovePrompt();
 
-        playerInput.getMoveInput();
-        while (!containsIgnoreCase(playerInput.inputDecision.getDecision(), roomOptions)) {
+        Decision decision = playerInput.getMoveInput();
+        while (!containsIgnoreCase(decision.getDecision(), roomOptions)) {
             if (!containsIgnoreCase(playerInput.inputDecision.getDecision(), roomOptions)) {
                 System.out.println("You entered an invalid choice. Please try again.");
                 System.out.print("> ");
-                DeadwoodLogger.logInfo(playerInput.inputDecision.getDecision());
+                DeadwoodLogger.logInfo(decision.getDecision());
                 printer.printRoomOptions();
             }
             playerInput.getMoveInput();
         }
 
-        currentPlayer.setCurrentRoom(playerInput.inputDecision.getDecision());
+        System.out.println("You've been moved to the " + decision.getDecision() + ".");
+        currentPlayer.setCurrentRoom(decision.getDecision());
+        currentPlayer.setHasMoved(true);
     }
 
     public boolean containsIgnoreCase(String str, ArrayList<String> list) {

@@ -56,7 +56,9 @@ public class Player {
         this.rankOptions = new ArrayList<>(5);
         this.roomOptions = new ArrayList<>(8);
         this.currencyOptions = new ArrayList<>(2);
-        this.currentRoom = BoardController.getInstance().getRoom("Trailer");
+        // TODO: fix race condition? for whatever reason this does not actually set trailer as current room when
+        // initializing a player
+        this.currentRoom = BoardController.getInstance().getRoom("trailer");
     }
 
     /* Bool Setters and Getters */
@@ -241,11 +243,11 @@ public class Player {
      * getCurrentRoom
      * Retrieves the current Room that player is in
      *
-     * @return Room currentRoom this players current room
+     * @return Room currentRoom this players current room, NULL if player doesn't have a Room.
      */
     public Room getCurrentRoom() {
-        if (this.currentRoom == null) {
-            setCurrentRoom("Trailer");
+        if (currentRoom == null) {
+            setCurrentRoom("trailer");
         }
         return this.currentRoom;
     }

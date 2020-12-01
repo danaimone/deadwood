@@ -38,7 +38,7 @@ public class BoardParser extends XMLParser {
         Area castingOfficeArea = getRoomArea(castingOfficeItem, castingOffice);
         addNeighboringRooms(castingOfficeItem, castingOffice);
         castingOffice.setArea(castingOfficeArea);
-        BoardController.getInstance().getBoardData().getRoomsOnBoard().put("CastingOffice", castingOffice);
+        BoardController.getInstance().getBoardData().getRoomsOnBoard().put("castingoffice", castingOffice);
     }
 
     private void setupPlayableRooms(Document doc) {
@@ -51,7 +51,7 @@ public class BoardParser extends XMLParser {
             room.setArea(area);
             addNeighboringRooms(set, room);
             //add take/Shotcounter data
-            BoardController.getInstance().getBoardData().getRoomsOnBoard().put(setName, room);
+            BoardController.getInstance().getBoardData().getRoomsOnBoard().put(setName.toLowerCase(), room);
         }
     }
 
@@ -61,7 +61,7 @@ public class BoardParser extends XMLParser {
         Area trailerArea = getRoomArea(trailerItem, trailer);
         addNeighboringRooms(trailerItem, trailer);
         trailer.setArea(trailerArea);
-        BoardController.getInstance().getBoardData().getRoomsOnBoard().put("Trailer", trailer);
+        BoardController.getInstance().getBoardData().getRoomsOnBoard().put("trailer", trailer);
     }
 
     private Area getRoomArea(Node set, Room room) {

@@ -45,19 +45,19 @@ public class Gamemaster {
      * class related functions, so this function could use some work.
      */
     void setupPlayers() {
-        PlayerController playerController = PlayerController.getInstance();
-        RankController rankController = new RankController();
-        int numberOfPlayers = playerController.getPlayerInput().getNumberOfPlayers();
-        for (int i = 0; i < numberOfPlayers; i++) {
-            Player player = new Player(i + 1, numberOfPlayers, rankController.getAvailableRanks());
-            playersOnBoard.add(player);
-        }
-        playerController.setCurrentPlayer(playersOnBoard.get(0));
-        boardController = BoardController.getInstance();
-        boardController.getBoardData().setNumberOfPlayers(numberOfPlayers);
-        this.boardData = boardController.getBoardData();
-        boardController.getBoardData().setDaysLeft(numberOfPlayers);
-        playerController.determinePlayerTurnOptions();
+            PlayerController playerController = PlayerController.getInstance();
+            RankController rankController = new RankController();
+            int numberOfPlayers = playerController.getPlayerInput().getNumberOfPlayers();
+            for (int i = 0; i < numberOfPlayers; i++) {
+                Player player = new Player(i + 1, numberOfPlayers, rankController.getAvailableRanks());
+                playersOnBoard.add(player);
+            }
+            playerController.setCurrentPlayer(playersOnBoard.get(0));
+            boardController = BoardController.getInstance();
+            boardController.getBoardData().setNumberOfPlayers(numberOfPlayers);
+            this.boardData = boardController.getBoardData();
+            boardController.getBoardData().setDaysLeft(numberOfPlayers);
+            playerController.determinePlayerTurnOptions();
     }
 
     /**
@@ -92,7 +92,7 @@ public class Gamemaster {
     private void setupBoard(BoardParser boardParser, SceneParser sceneParser, File boardXML, File cardXML) throws ParserConfigurationException {
         boardParser.parseBoardXML(boardXML);
         ArrayList<SceneCard> scenesToAdd = sceneParser.parseCardXML(cardXML);
-        BoardController.getInstance().getBoardData().getSceneCards().fillDeck(scenesToAdd);
+        BoardController.getInstance().getBoardData().addScenesToEachRoom(scenesToAdd);
     }
 
     private void runGame() {
@@ -106,20 +106,14 @@ public class Gamemaster {
      */
     private void runDayOfDeadwood() {
         PlayerController playerController = PlayerController.getInstance();
-        int i = 0;
+        PlayerController.getInstance().setCurrentPlayer(playersOnBoard.get(0));
         while (BoardController.getInstance().getBoardData().getDaysLeft() > 0) {
-            PlayerController.getInstance().setCurrentPlayer(playersOnBoard.get(i));
             deadwoodPrinter.printCurrentPlayer();
             deadwoodPrinter.printPlayerData();
-            deadwoodPrinter.printPlayerOptions();
-            while (playerController.getCurrentPlayer().turnOptions.size() != 1) {
-                takeTurn();
-            }
-            i++;
-            if (i == playersOnBoard.size()) {
-                i = 0;
-            }
-            PlayerController.getInstance().setCurrentPlayer(playersOnBoard.get(i + 1));
+            deadwoodPrinter.printCurrentPlayerOptions();
+            // VVV this is what keeps the player playing! VVV
+            takeTurn();
+            playerController.determinePlayerTurnOptions();
             getNextPlayer();
         }
     }
@@ -149,9 +143,12 @@ public class Gamemaster {
      */
     private void takeTurn() {
         PlayerController playerController = PlayerController.getInstance();
-        String decision = playerController.getPlayerInput().getPlayerOptionInput();
-        playerController.handleDecision(decision);
-        playerController.determinePlayerTurnOptions();
+        while (playerController.getCurrentPlayer().turnOptions.size() != 1) {
+            String decision = playerController.getPlayerInput().getPlayerOptionInput();
+            playerController.handleDecision(decision); // this is what will go in the GUI
+            playerController.determinePlayerTurnOptions(); // this will also go in the GUI
+            deadwoodPrinter.printCurrentPlayerOptions();
+        }
     }
 
     private Player getWinner() {
