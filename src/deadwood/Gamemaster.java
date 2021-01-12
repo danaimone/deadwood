@@ -1,5 +1,6 @@
 package deadwood;
 
+import deadwood.XML.BoardParser;
 import deadwood.XML.SceneParser;
 
 import javax.xml.parsers.ParserConfigurationException;

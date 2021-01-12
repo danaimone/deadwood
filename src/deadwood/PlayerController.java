@@ -146,7 +146,7 @@ public class PlayerController {
                 // TODO: act();
                 break;
             case "Rehearse":
-                // TODO: rehearse();
+                rehearse();
                 break;
             case "End Turn":
                 endTurn();
@@ -156,7 +156,7 @@ public class PlayerController {
 
     private void takeRole() {
         DeadwoodPrinter printer = DeadwoodPrinter.getInstance();
-        Collection<Role> roomRoles = currentPlayer.getCurrentRoom().getRoles();
+        Collection<Role> roomRoles = currentPlayer.getCurrentRoom().getSceneCardInPlay().getRolesOnCard();
 
         printer.displayRoleOptions();
         printer.printRolePrompt();
@@ -183,6 +183,12 @@ public class PlayerController {
         moveTo(decision.getDecision());
         System.out.println("You've been moved to " + decision.getDecision() + ".");
         currentPlayer.setHasMoved(true);
+    }
+
+    private void rehearse(){
+        if(this.currentPlayer.getRole() != null){
+            this.currentPlayer.setRehearsalTokens(this.currentPlayer.getRehearsalTokens() + 1);
+        }
     }
 
     public void endTurn() {

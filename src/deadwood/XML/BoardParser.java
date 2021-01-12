@@ -1,5 +1,6 @@
-package deadwood;
+package deadwood.XML;
 
+import deadwood.*;
 import deadwood.XML.XMLParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

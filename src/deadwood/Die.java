@@ -1,20 +1,21 @@
 package deadwood;
 
+import java.util.Random;
+
 /**
  * Die
  * <p>
  * Represents a single Die
  */
 public class Die {
-    private final int MAX_FACE_VALUE = 6;
-    private int currentFaceValue;
+    private Random random = new Random();
+    private int currentFaceValue = 1;
 
 
     /**
      * Constructor
      */
     public Die() {
-        currentFaceValue = 1;
     }
 
     /**
@@ -23,15 +24,11 @@ public class Die {
      * @param value the value of the die to be set
      */
     public Die(int value) {
-        currentFaceValue = value;
+        this.currentFaceValue = value;
     }
 
     public int getCurrentFaceValue() {
-        return currentFaceValue;
-    }
-
-    public void setCurrentFaceValue(int currentFaceValue) {
-        this.currentFaceValue = currentFaceValue;
+        return this.currentFaceValue;
     }
 
     /**
@@ -41,9 +38,8 @@ public class Die {
      *
      * @return the current face value of the die/the resulting roll value
      */
-    public int roll() {
-        currentFaceValue = (int) (Math.random() * MAX_FACE_VALUE) + 1;
-        return currentFaceValue;
+    public int roll(){
+        return 1 + this.random.nextInt(6);
     }
 
     /**
@@ -54,7 +50,7 @@ public class Die {
      * @return the die value in a String
      */
     public String toString() {
-        return Integer.toString(currentFaceValue);
+        return Integer.toString(this.currentFaceValue);
     }
 
 }

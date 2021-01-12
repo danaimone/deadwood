@@ -9,7 +9,7 @@ public abstract class Card {
     protected String img;
     protected String description;
     protected int budget;
-    protected Collection<Role> rolesOnCard = new ArrayList<Role>();
+    protected Collection<Role> rolesOnCard = new ArrayList<>();
     private int totalRoles;
     private boolean flipped;
 

@@ -20,10 +20,13 @@ import java.util.Collection;
 public abstract class Room {
     public boolean isActive;
     public Collection<Role> roles = new ArrayList<>();
+    private ArrayList<String> offCardRoles = new ArrayList<>();
+    // TODO: add offCardRoles to each room from board.xml
+    // TODO: create a takes array f or each take
+    private ArrayList<String> adjacentRooms = new ArrayList<>();
     private SceneCard sceneCardInPlay;
     private String name;
     private Area area;
-    private ArrayList<String> adjacentRooms = new ArrayList<>();
 
     public Room() {
 
